@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.WeixinWeb\EFFC.Frame.Net.Module.Extend.WeixinWeb.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Sqlite\EFFC.Frame.Net.Resource.Sqlite.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.SQLServer\EFFC.Frame.Net.Resource.SQLServer.csproj" />
+    <ProjectReference Include="..\Wechat.Unit\Wechat.Unit.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,157 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Layout/_layout_frame.cshtml";
+    var isdebug = (bool)ViewData["isDebug"];
+}
+@section js{
+<script src="~/scripts/jquery-treegrid-master/js/jquery.treegrid.min.js"></script>
+<script src="~/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap3.js"></script>
+    @if (!isdebug)
+    {
+        <script src="~/scripts/vuejs@2.4.0/vue.min.js"></script>
+    }
+    else
+    {
+        <script src="~/scripts/vuejs@2.4.0/vue.js"></script>
+    }
+    <script src="~/js/pages/role.js"></script>
+}
+@section css{
+    <link href="~/scripts/jquery-treegrid-master/css/jquery.treegrid.css" rel="stylesheet" />
+}
+
+<div class="container-fluid" id="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="输入角色名称" v-model="filterText" />
+                    &nbsp;<button class="btn btn-primary btn-sm" v-on:click="search">查询</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="result">
+        <div class="col-xs-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>角色</th>
+                        <th>
+                            是否激活
+                        </th>
+                        <th>
+                            操作&nbsp;&nbsp;&nbsp;
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" v-on:click="add">新增</button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in rows" :key="item.roleuid">
+                        <td>{{item["rolename"]}}</td>
+                        <td>{{item.isactive==1?"是":"否"}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" v-on:click="update(item)">修改</button>
+                                <button class="btn btn-danger btn-sm" v-on:click="doDelete(item.roleuid)">删除</button>
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mytree" v-on:click="loadtree(item.roleuid)">功能授权</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="container" v-if="isShowPN">
+        <input type="hidden" v-model="to_page">
+        <input type="hidden" v-model="count_per_page">
+        <ul class="pagination">
+            <li><a href="#" v-if="current_page > 1" v-on:click="toPage(current_page - 1)"> 上一页</a></li>
+            <template v-if="total_page<=16">
+                <li v-for="i in total_page" :class="{active:current_page === i}"><a href="#" v-on:click="toPage(i)">{{i}}</a></li>
+            </template>
+            <template v-else>
+                <li :class="{active:current_page === 1}"><a href="#" v-on:click="toPage(1)">1</a></li>
+                <li v-if="current_page > 4"><a href="#">...</a></li>
+                <li v-for="i in middlePN" :class="{active:current_page === i}"><a href="#" v-on:click="toPage(i)">{{i}}</a></li>
+                <li v-if="current_page < (total_page - 2)"><a href="#">...</a></li>
+                <li :class="{active:current_page === total_page}"><a href="#" v-on:click="toPage(total_page)">{{total_page}}</a></li>
+            </template>
+            <li v-if="current_page < total_page"><a href="#" v-on:click="toPage(current_page + 1)"> 下一页</a></li>
+        </ul>
+    </div>
+    <div class="modal fade in" id="myModal" role="dialog" aria-="true">
+        <input type="hidden" id="op" v-model="op">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">登录账户操作</h4>
+                </div><div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>角色名称：</label>
+                            <input type="text" class="form-control" v-model="roleName">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-inline">
+                        <div>
+                            <input type="checkbox" v-model="isactive">
+                            <label>是否激活</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+                            <input type="text" class="form-control" v-model="remark">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close">关闭</button>
+                    <button type="button" class="btn btn-primary" v-on:click="save">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade in" id="mytree" role="dialog" aria-="true">
+        <input type="hidden" id="op" v-model="op">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">登录账户操作</h4>
+                </div>
+                <div class="modal-body">
+                    <item :model="tree"></item>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close2">关闭</button>
+                    <button type="button" class="btn btn-primary" v-on:click="saveMap">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-template" id="item-template">
+    <table class="table table-striped tree">
+        <thead>
+            <th>功能名称</th>
+            <th>功能编号</th>
+            <th>勾选&nbsp;<input type="checkbox" v-model="checkall"/></th>
+        </thead>
+        <tbody>
+            <tr :class="classObject(index+1,item.parentindex)" v-for="(item,index) in model">
+                <td>{{item.text}}</td>
+                <td>{{item.no}}</td>
+                <td><input type="checkbox" v-model="checkedarr"  v-bind:value="item.no" v-on:click="checkme(item)"/></td>
+            </tr>
+        </tbody>
+    </table>
+</script>

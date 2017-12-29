@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Linq2SQL\CustomTable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
+    <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.MySQL\EFFC.Frame.Net.Resource.MySQL.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Sqlite\EFFC.Frame.Net.Resource.Sqlite.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.SQLServer\EFFC.Frame.Net.Resource.SQLServer.csproj" />
+    <ProjectReference Include="..\Web.Business\Web.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AppData\EFFC_CMS.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

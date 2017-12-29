@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Base.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.2</Version>
+    <Company>EFFC@ItTrending</Company>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <Description>E.F.F.C Frame Base Lib</Description>
+    <Authors>YCH</Authors>
+    <AssemblyVersion>3.5.2.0</AssemblyVersion>
+    <FileVersion>3.5.2.0</FileVersion>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为基础库包含EFFC框架的基础接口和基本资源API
+
+.net core 2.0升级版本</PackageReleaseNotes>
+    <RootNamespace>EFFC.Frame.Net.Base</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\Frame.Net.Base.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\Frame.Net.Base.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="clidriver\**" />
+    <Compile Remove="Interfaces\Unit\**" />
+    <Compile Remove="ResouceManage\DB\**" />
+    <Compile Remove="ResouceManage\Files\**" />
+    <Compile Remove="ResouceManage\FTP\**" />
+    <Compile Remove="ResouceManage\JsEngine\**" />
+    <Compile Remove="x64\**" />
+    <Compile Remove="x86\**" />
+    <EmbeddedResource Remove="clidriver\**" />
+    <EmbeddedResource Remove="Interfaces\Unit\**" />
+    <EmbeddedResource Remove="ResouceManage\DB\**" />
+    <EmbeddedResource Remove="ResouceManage\Files\**" />
+    <EmbeddedResource Remove="ResouceManage\FTP\**" />
+    <EmbeddedResource Remove="ResouceManage\JsEngine\**" />
+    <EmbeddedResource Remove="x64\**" />
+    <EmbeddedResource Remove="x86\**" />
+    <None Remove="clidriver\**" />
+    <None Remove="Interfaces\Unit\**" />
+    <None Remove="ResouceManage\DB\**" />
+    <None Remove="ResouceManage\Files\**" />
+    <None Remove="ResouceManage\FTP\**" />
+    <None Remove="ResouceManage\JsEngine\**" />
+    <None Remove="x64\**" />
+    <None Remove="x86\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Module\Proxy\AssemblyModuleProxy.cs" />
+    <Compile Remove="Module\Proxy\HttpRemoteAsyncProxy.cs" />
+    <Compile Remove="Module\Proxy\HttpRemoteProxy.cs" />
+    <Compile Remove="Module\Proxy\LocalModuleProxy.cs" />
+    <Compile Remove="Parameter\DBAPageP.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ResouceManage\JsEngine\BaseHostJsObject.cs" />
+    <Compile Include="ResouceManage\JsEngine\HostJs.cs" />
+    <Compile Include="ResouceManage\JsEngine\JsSwitcher.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFFC.ChakraCore" Version="1.0.4" />
+    <PackageReference Include="EFFC.VRoomJs" Version="1.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="QRCoder" Version="1.3.2" />
+  </ItemGroup>
+
+</Project>

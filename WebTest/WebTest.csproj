@@ -1,0 +1,601 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="scripts\bootstrap_dialog.js" />
+    <None Remove="scripts\bootstrap_dialog.min.js" />
+    <None Remove="scripts\dialog.js" />
+    <None Remove="scripts\dialog.min.js" />
+    <None Remove="scripts\FrameJs\attrchange.js" />
+    <None Remove="scripts\FrameJs\attrchange.min.js" />
+    <None Remove="scripts\FrameJs\attrchange_ext.js" />
+    <None Remove="scripts\FrameJs\attrchange_ext.min.js" />
+    <None Remove="scripts\FrameJs\configs\ajax.config.js" />
+    <None Remove="scripts\FrameJs\configs\ajax.config.min.js" />
+    <None Remove="scripts\FrameJs\configs\exception.config.js" />
+    <None Remove="scripts\FrameJs\configs\exception.config.min.js" />
+    <None Remove="scripts\FrameJs\configs\message.config.js" />
+    <None Remove="scripts\FrameJs\configs\message.config.min.js" />
+    <None Remove="scripts\FrameJs\frame.exception.js" />
+    <None Remove="scripts\FrameJs\frame.exception.min.js" />
+    <None Remove="scripts\FrameJs\frame.extention.js" />
+    <None Remove="scripts\FrameJs\frame.extention.min.js" />
+    <None Remove="scripts\FrameJs\frame.message.js" />
+    <None Remove="scripts\FrameJs\frame.message.min.js" />
+    <None Remove="scripts\FrameJs\frame.net.js" />
+    <None Remove="scripts\FrameJs\frame.net.min.js" />
+    <None Remove="scripts\FrameJs\frame.promises.js" />
+    <None Remove="scripts\FrameJs\frame.promises.min.js" />
+    <None Remove="scripts\FrameJs\global.js" />
+    <None Remove="scripts\FrameJs\global.min.js" />
+    <None Remove="scripts\FrameJs\jquery.blockUI.js" />
+    <None Remove="scripts\FrameJs\jquery.blockUI.min.js" />
+    <None Remove="scripts\FrameJs\jquery.cookie.js" />
+    <None Remove="scripts\FrameJs\jquery.cookie.min.js" />
+    <None Remove="scripts\FrameJs\jquery.form.js" />
+    <None Remove="scripts\FrameJs\jquery.form.min.js" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_diagonals-thick_50_ffc5c5_40x40.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_diagonals-thick_50_fffcae_40x40.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_flat_0_000000_40x100.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_flat_0_ff5555_40x100.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_flat_20_ff5555_40x100.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_flat_75_ff5555_40x100.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-bg_glass_50_ff5555_1x400.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-icons_0088cc_256x240.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-icons_404040_256x240.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-icons_cd0a0a_256x240.png" />
+    <None Remove="scripts\FrameJs\jqueryui\images\ui-icons_ffffff_256x240.png" />
+    <None Remove="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.css" />
+    <None Remove="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.js" />
+    <None Remove="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.min.css" />
+    <None Remove="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.min.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.events.EventDispatcher.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.events.EventDispatcher.min.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.lang.Class.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.lang.Class.min.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.util.ArrayList.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.util.ArrayList.min.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.util.Dictionary.js" />
+    <None Remove="scripts\FrameJs\js.Util\js.util.Dictionary.min.js" />
+    <None Remove="scripts\FrameJs\js_min.bat" />
+    <None Remove="scripts\FrameJs\ObjTree.js" />
+    <None Remove="scripts\FrameJs\ObjTree.min.js" />
+    <None Remove="scripts\jquery-1.11.3.js" />
+    <None Remove="scripts\jquery-1.11.3.min.js" />
+    <None Remove="scripts\jquery-1.8.2.js" />
+    <None Remove="scripts\jquery-1.8.2.min.js" />
+    <None Remove="scripts\jquery-1.9.1.js" />
+    <None Remove="scripts\jquery-1.9.1.min.js" />
+    <None Remove="scripts\jquery-treegrid-master\css\jquery.treegrid.css" />
+    <None Remove="scripts\jquery-treegrid-master\img\collapse.png" />
+    <None Remove="scripts\jquery-treegrid-master\img\expand.png" />
+    <None Remove="scripts\jquery-treegrid-master\img\file.png" />
+    <None Remove="scripts\jquery-treegrid-master\img\folder.png" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.cookie.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.cookie.min.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap2.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap2.min.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap3.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap3.min.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.js" />
+    <None Remove="scripts\jquery-treegrid-master\js\jquery.treegrid.min.js" />
+    <None Remove="scripts\jquery.tmpl.js" />
+    <None Remove="scripts\jquery.tmpl.min.js" />
+    <None Remove="scripts\js_min.bat" />
+    <None Remove="scripts\lodash%404.17.4\lodash.core.js" />
+    <None Remove="scripts\lodash%404.17.4\lodash.core.min.js" />
+    <None Remove="scripts\lodash%404.17.4\lodash.fp.js" />
+    <None Remove="scripts\lodash%404.17.4\lodash.fp.min.js" />
+    <None Remove="scripts\lodash%404.17.4\lodash.js" />
+    <None Remove="scripts\lodash%404.17.4\lodash.min.js" />
+    <None Remove="scripts\lodash%404.17.4\mapping.fp.js" />
+    <None Remove="scripts\myapp.js" />
+    <None Remove="scripts\myapp.min.js" />
+    <None Remove="scripts\require.js\require.js" />
+    <None Remove="scripts\require.js\require.min.js" />
+    <None Remove="scripts\vuejs%402.4.0\vue.js" />
+    <None Remove="scripts\vuejs%402.4.0\vue.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="scripts\babel\browser-polyfill.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\babel\browser-polyfill.min.js" />
+    <Content Include="scripts\babel\browser.js" />
+    <Content Include="scripts\babel\browser.min.js" />
+    <Content Include="scripts\babel\external-helpers.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\babel\external-helpers.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\css\bootstrap-select.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\css\bootstrap-select.css.map">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\css\bootstrap-select.min.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\.jshintrc" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\bootstrap-select.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\bootstrap-select.js.map">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\bootstrap-select.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ar_AR.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ar_AR.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-bg_BG.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-bg_BG.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-cro_CRO.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-cro_CRO.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-cs_CZ.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-cs_CZ.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-da_DK.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-da_DK.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-de_DE.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-de_DE.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-en_US.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-en_US.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-es_CL.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-es_CL.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-es_ES.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-es_ES.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-et_EE.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-et_EE.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-eu.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-eu.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fa_IR.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fa_IR.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fi_FI.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fi_FI.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fr_FR.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-fr_FR.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-hu_HU.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-hu_HU.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-id_ID.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-id_ID.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-it_IT.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-it_IT.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ja_JP.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ja_JP.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-kh_KM.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-kh_KM.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ko_KR.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ko_KR.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-lt_LT.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-lt_LT.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-nb_NO.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-nb_NO.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-nl_NL.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-nl_NL.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pl_PL.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pl_PL.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pt_BR.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pt_BR.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pt_PT.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-pt_PT.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ro_RO.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ro_RO.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ru_RU.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ru_RU.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sk_SK.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sk_SK.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sl_SI.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sl_SI.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sv_SE.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-sv_SE.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-tr_TR.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-tr_TR.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ua_UA.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-ua_UA.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-vi_VN.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-vi_VN.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_CN.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_CN.min.js" />
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_TW.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap-select-1.12.4\js\i18n\defaults-zh_TW.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap_dialog.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\bootstrap_dialog.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\dialog.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\dialog.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\attrchange.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\attrchange.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\attrchange_ext.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\attrchange_ext.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\ajax.config.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\ajax.config.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\exception.config.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\exception.config.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\message.config.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\configs\message.config.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.exception.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.exception.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.extention.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.extention.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.message.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.message.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.net.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.net.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.promises.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\frame.promises.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\global.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\global.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.blockUI.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.blockUI.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.cookie.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.cookie.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.form.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jquery.form.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_diagonals-thick_50_ffc5c5_40x40.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_diagonals-thick_50_fffcae_40x40.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_flat_0_000000_40x100.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_flat_0_ff5555_40x100.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_flat_20_ff5555_40x100.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_flat_75_ff5555_40x100.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_flat_75_ffffff_40x100.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-bg_glass_50_ff5555_1x400.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-icons_0088cc_256x240.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-icons_404040_256x240.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-icons_cd0a0a_256x240.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\images\ui-icons_ffffff_256x240.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.min.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\jqueryui\jquery-ui-1.11.2.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.events.EventDispatcher.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.events.EventDispatcher.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.lang.Class.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.lang.Class.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.util.ArrayList.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.util.ArrayList.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.util.Dictionary.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js.Util\js.util.Dictionary.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\js_min.bat">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\ObjTree.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\FrameJs\ObjTree.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.11.3.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.11.3.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.8.2.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.8.2.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.9.1.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-1.9.1.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\css\jquery.treegrid.css" />
+    <Content Include="scripts\jquery-treegrid-master\img\collapse.png" />
+    <Content Include="scripts\jquery-treegrid-master\img\expand.png" />
+    <Content Include="scripts\jquery-treegrid-master\img\file.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\img\folder.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.cookie.js" />
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.cookie.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap2.js" />
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap2.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap3.js" />
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.bootstrap3.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery-treegrid-master\js\jquery.treegrid.min.js" />
+    <Content Include="scripts\jquery.tmpl.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\jquery.tmpl.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\js_min.bat">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\lodash@4.17.4\lodash.core.js" />
+    <Content Include="scripts\lodash@4.17.4\lodash.core.min.js" />
+    <Content Include="scripts\lodash@4.17.4\lodash.fp.js" />
+    <Content Include="scripts\lodash@4.17.4\lodash.fp.min.js" />
+    <Content Include="scripts\lodash@4.17.4\lodash.js" />
+    <Content Include="scripts\lodash@4.17.4\lodash.min.js" />
+    <Content Include="scripts\lodash@4.17.4\mapping.fp.js" />
+    <Content Include="scripts\myapp.js" />
+    <Content Include="scripts\myapp.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\require.js\require.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\require.js\require.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\vuejs@2.4.0\vue.js" />
+    <Content Include="scripts\vuejs@2.4.0\vue.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AppData\" />
+    <Folder Include="wwwroot\" />
+    <Folder Include="AppData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
+    <ProjectReference Include="..\Web.Business\Web.Business.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="scripts\lodash%404.17.4\lodash.core.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\lodash.core.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\lodash.fp.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\lodash.fp.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\lodash.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\lodash.min.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\lodash%404.17.4\mapping.fp.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="scripts\vuejs%402.4.0\vue.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
