@@ -1,228 +1,75 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB6B4A1C-0804-4F32-A1A7-839EDCAD7609}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EFFC.Frame.Net.Base</RootNamespace>
-    <AssemblyName>EFFC.Frame.Net.Base</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Base.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <Company>EFFC@ItTrending</Company>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <Description>E.F.F.C Frame Base Lib</Description>
+    <Authors>YCH</Authors>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
+    <FileVersion>3.5.0.0</FileVersion>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包围基础库包含EFFC框架的基础接口和基本资源API</PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Base.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\Frame.Net.Base.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Base.XML</DocumentationFile>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\Frame.Net.Base.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Frame.Net.Base.Key.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="ClearScript, Version=5.4.7.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
-      <HintPath>..\packages\ClearScript.V8.5.4.7\lib\net40\ClearScript.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IBM.Data.DB2, Version=9.0.0.2, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\IBM.Data.DB2.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\ReferenceDLL\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=849df29a07463489, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\CSharpDriver\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f387fc56a2f5c585, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\CSharpDriver\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e80a8c77b6c4c96, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\CSharpDriver\MongoDB.Driver.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data, Version=6.3.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\MySQL\MySql.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MySql.Data.Entity, Version=6.3.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\MySQL\MySql.Data.Entity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MySql.Web, Version=6.3.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\MySQL\MySql.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Noesis.Javascript, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ae36d046c7f89f85, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\Noesis.Javascript\Noesis.Javascript.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.OracleClient" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Json, Version=1.0.2821.20109, Culture=neutral, PublicKeyToken=e0b9c68a59fc9efd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDLL\System.Net.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.QRCode, Version=1.0.5723.28902, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\ReferenceDLL\QRCode\ThoughtWorks.QRCode.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Compile Remove="clidriver\**" />
+    <Compile Remove="x64\**" />
+    <Compile Remove="x86\**" />
+    <EmbeddedResource Remove="clidriver\**" />
+    <EmbeddedResource Remove="x64\**" />
+    <EmbeddedResource Remove="x86\**" />
+    <None Remove="clidriver\**" />
+    <None Remove="x64\**" />
+    <None Remove="x86\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AttributeDefine\CanUse.cs" />
-    <Compile Include="AttributeDefine\ConvertorAttribute.cs" />
-    <Compile Include="AttributeDefine\DescAttribute.cs" />
-    <Compile Include="Common\ComFunc.cs" />
-    <Compile Include="Data\Base\BaseCollection.cs" />
-    <Compile Include="Data\Base\MyDynamicMetaProvider.cs" />
-    <Compile Include="Data\FrameAppCache.cs" />
-    <Compile Include="Data\FrameUploadFile.cs" />
-    <Compile Include="Exceptions\HostJsException.cs" />
-    <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Exceptions\DuplicateException.cs" />
-    <Compile Include="Exceptions\InvalidTypeException.cs" />
-    <Compile Include="Exceptions\SyncException.cs" />
-    <Compile Include="Exceptions\FrameException.cs" />
-    <Compile Include="Exceptions\ItemExistsException.cs" />
-    <Compile Include="Interfaces\Extentions\IHostJsEngine.cs" />
-    <Compile Include="Interfaces\System\IFrameCache.cs" />
-    <Compile Include="Module\HttpRemoteAsyncProxy.cs" />
-    <Compile Include="ResouceManage\DB\DBExpress.cs" />
-    <Compile Include="ResouceManage\DB\IDBAccess.cs" />
-    <Compile Include="ResouceManage\DB\MongoAccess26.cs" />
-    <Compile Include="ResouceManage\DB\MongoExpress.cs" />
-    <Compile Include="ResouceManage\DB\MySQLAccess.cs" />
-    <Compile Include="ResouceManage\DB\OracleExpress.cs" />
-    <Compile Include="ResouceManage\DB\MySQLExpress.cs" />
-    <Compile Include="ResouceManage\DB\SqlServerExpress.cs" />
-    <Compile Include="ResouceManage\FTP\FTPStatusData.cs" />
-    <Compile Include="ResouceManage\JsEngine\BaseHostJsObject.cs" />
-    <Compile Include="ResouceManage\JsEngine\ConsoleObject.cs" />
-    <Compile Include="ResouceManage\JsEngine\HostJs.cs" />
-    <Compile Include="ResouceManage\JsEngine\NoesisJs.cs" />
-    <Compile Include="Common\MyConfig.cs" />
-    <Compile Include="Constants\FrameConstants.cs" />
-    <Compile Include="Constants\FrameEnum.cs" />
-    <Compile Include="Data\Base\DataSetStd.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Data\Base\DataTableStd.cs" />
-    <Compile Include="Data\Base\DateTimeStd.cs" />
-    <Compile Include="Data\Base\DecimalStd.cs" />
-    <Compile Include="Data\Base\DoubleStd.cs" />
-    <Compile Include="Data\Base\FloatStd.cs" />
-    <Compile Include="Data\Base\FrameDLRObject.cs" />
-    <Compile Include="Data\Base\IntStd.cs" />
-    <Compile Include="Data\Base\RegexStd.cs" />
-    <Compile Include="Data\Base\StandardData.cs" />
-    <Compile Include="Data\Base\StringStd.cs" />
-    <Compile Include="Data\DataCollection.cs" />
-    <Compile Include="Exceptions\DuplicateLogicException.cs" />
-    <Compile Include="Exceptions\TypeRequiredException.cs" />
-    <Compile Include="Interfaces\Core\IDistributeTransaction.cs" />
-    <Compile Include="Interfaces\Core\IDriver.cs" />
-    <Compile Include="Interfaces\Core\IModular.cs" />
-    <Compile Include="Interfaces\Core\IModularProxy.cs" />
-    <Compile Include="Interfaces\Core\IResourceEntity.cs" />
-    <Compile Include="Interfaces\Core\ITransaction.cs" />
-    <Compile Include="Interfaces\Core\IUnit.cs" />
-    <Compile Include="Interfaces\DataConvert\IDataConvert.cs" />
-    <Compile Include="Interfaces\DataConvert\IJSONable.cs" />
-    <Compile Include="Interfaces\System\IExceptionProcess.cs" />
-    <Compile Include="Interfaces\System\ILogger.cs" />
-    <Compile Include="Interfaces\Unit\IDBUnit.cs" />
-    <Compile Include="Interfaces\Unit\INonQueryUnit.cs" />
-    <Compile Include="Interfaces\Unit\IQueryByPageUnit.cs" />
-    <Compile Include="Interfaces\Unit\IQueryUnit.cs" />
-    <Compile Include="Interfaces\Unit\IStoreProcedureUnit.cs" />
-    <Compile Include="Module\AssemblyModuleProxy.cs" />
-    <Compile Include="Module\BaseModule.cs" />
-    <Compile Include="Module\HttpRemoteProxy.cs" />
-    <Compile Include="Module\LocalModuleProxy.cs" />
-    <Compile Include="Module\ModuleProxyManager.cs" />
-    <Compile Include="Parameter\ColumnP.cs" />
-    <Compile Include="Parameter\DBAPageP.cs" />
-    <Compile Include="Parameter\ParameterStd.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResouceManage\DB\ADBAccess.cs" />
-    <Compile Include="ResouceManage\DB\CmdParameter.cs" />
-    <Compile Include="ResouceManage\DB\DB2Access.cs" />
-    <Compile Include="ResouceManage\DB\DBDataCollection.cs" />
-    <Compile Include="ResouceManage\DB\DBOParameterCollection.cs" />
-    <Compile Include="ResouceManage\DB\OracleAccess.cs" />
-    <Compile Include="ResouceManage\DB\SQLServerAccess.cs" />
-    <Compile Include="ResouceManage\DB\SQLServerAccess2000.cs" />
-    <Compile Include="ResouceManage\Files\ZipFile.cs" />
-    <Compile Include="ResouceManage\Files\ZipParameter.cs" />
-    <Compile Include="ResouceManage\FTP\FTPAccess.cs" />
-    <Compile Include="ResouceManage\FTP\FtpParameter.cs" />
-    <Compile Include="ResouceManage\JsEngine\JsDocument.cs" />
-    <Compile Include="ResouceManage\ResourceManage.cs" />
-    <Compile Include="ResouceManage\JsEngine\HostJsLockObejctEntity.cs" />
-    <Compile Include="Token\TransactionToken.cs" />
-    <Compile Include="Token\TransactionTokenCollection.cs" />
-    <Compile Include="Unit\UnitProxy.cs" />
+    <Compile Remove="ResouceManage\DB\DB2Access.cs" />
+    <Compile Remove="ResouceManage\DB\MongoAccess26.cs" />
+    <Compile Remove="ResouceManage\DB\MongoExpress.cs" />
+    <Compile Remove="ResouceManage\DB\MySQLAccess.cs" />
+    <Compile Remove="ResouceManage\DB\MySQLExpress.cs" />
+    <Compile Remove="ResouceManage\DB\OracleAccess.cs" />
+    <Compile Remove="ResouceManage\DB\OracleExpress.cs" />
+    <Compile Remove="ResouceManage\FTP\FTPAccess.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="Frame.Net.Base.Key.snk" />
-    <None Include="Licenses\ClearScript.main.license" />
-    <None Include="Licenses\v8.main.license" />
-    <None Include="Licenses\v8.strongtalk.license" />
-    <None Include="Licenses\v8.v8.license" />
-    <None Include="Licenses\v8.valgrind.license" />
-    <None Include="packages.config" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.debian-x64" Version="2.3.1" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64" Version="2.3.1" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x64" Version="2.3.1" />
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore.Native.win-x86" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.FileVersionInfo" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.6.12" />
+    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-if not exist "$(TargetDir)" md "$(TargetDir)"
-xcopy /s /y "$(SolutionDir)packages\ClearScript.V8.5.4.7\tools\native\x86\*.*" "$(TargetDir)"
-if not exist "$(TargetDir)" md "$(TargetDir)"
-xcopy /s /y "$(SolutionDir)packages\ClearScript.V8.5.4.7\tools\native\amd64\*.*" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\JavaScriptEngineSwitcher\src\JavaScriptEngineSwitcher.ChakraCore\JavaScriptEngineSwitcher.ChakraCore.csproj" />
+    <ProjectReference Include="..\..\JavaScriptEngineSwitcher\src\JavaScriptEngineSwitcher.Core\JavaScriptEngineSwitcher.Core.csproj" />
+    <ProjectReference Include="..\..\JavaScriptEngineSwitcher\src\JavaScriptEngineSwitcher.Msie\JavaScriptEngineSwitcher.Msie.csproj" />
+    <ProjectReference Include="..\..\JavaScriptEngineSwitcher\src\JavaScriptEngineSwitcher.Vroom\JavaScriptEngineSwitcher.Vroom.csproj" />
+  </ItemGroup>
+
 </Project>

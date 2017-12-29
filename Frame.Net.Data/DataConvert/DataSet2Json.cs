@@ -1,15 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net.Json;
-using System.Text;
-using System.Threading.Tasks;
-using EFFC.Frame.Net.Base.Common;
+﻿using System;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
+using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.Constants;
+using System.Collections.Generic;
 
 namespace EFFC.Frame.Net.Data.DataConvert
 {
@@ -23,8 +17,8 @@ namespace EFFC.Frame.Net.Data.DataConvert
             if (obj == null)
                 return "";
 
-            DataSet ds = null;
-            if (obj is DataSet)
+            DataSetStd ds = null;
+            if (obj is DataSetStd)
             {
                 ds = (DataSetStd)obj;
             }
@@ -32,33 +26,26 @@ namespace EFFC.Frame.Net.Data.DataConvert
             {
                 throw new Exception("DataSet2Json无法转化" + obj.GetType().FullName + "类型数据!");
             }
-
-            JsonObjectCollection jsonrtn = new JsonObjectCollection();
-            for (int i = 0; i < ds.Tables.Count; i++)
+            FrameDLRObject data = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            
+            for (int i = 0; i < ds.TableCount; i++)
             {
-                DataTableStd dts = DataTableStd.ParseStd(ds.Tables[i]);
-                JsonArrayCollection jsonobj = new JsonArrayCollection("TableData" + i);
+                var list = new List<FrameDLRObject>();
+                DataTableStd dts = ds[i];
+                data.SetValue("TableData" + i, list);
                 for (int j = 0; j < dts.RowLength; j++)
                 {
-                    JsonObjectCollection jac = new JsonObjectCollection();
+                    FrameDLRObject item = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
                     foreach (string colname in dts.ColumnNames)
                     {
-                        if (dts.ColumnDateType(colname).FullName == typeof(DateTime).FullName)
-                        {
-                            DateTimeStd dtime = DateTimeStd.ParseStd(dts[j, colname]);
-                            jac.Add(new JsonStringValue(colname, dtime != null ? dtime.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""));
-                        }
-                        else
-                        {
-                            jac.Add(new JsonStringValue(colname, ComFunc.nvl(dts[j, colname])));
-                        }
+                        
+                        item.SetValue(colname, dts[j, colname]);
                     }
-                    jsonobj.Add(jac);
+                    list.Add(item);
                 }
-                jsonrtn.Add(jsonobj);
             }
 
-            rtn = "{" + jsonrtn.ToString() + "}";
+            rtn = data.ToJSONString(); ;
             return rtn;
         }
     }

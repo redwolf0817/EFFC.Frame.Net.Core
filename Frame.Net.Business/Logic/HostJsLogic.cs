@@ -1,15 +1,8 @@
 ﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Business.Engine;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.WebData;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Logic
 {

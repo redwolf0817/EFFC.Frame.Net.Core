@@ -16,7 +16,7 @@ namespace EFFC.Frame.Net.Data.DataConvert
             //创建序列化对象
             XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
-            XmlSerializer xml = new XmlSerializer(typeof(List<T>), new XmlRootAttribute("root"));
+            System.Xml.Serialization.XmlSerializer xml = new XmlSerializer(typeof(List<T>), new XmlRootAttribute("root"));
             try
             {
                 //序列化对象

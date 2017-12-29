@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EFFC.Frame.Net.Base.Data;
-using EFFC.Frame.Net.Base.Interfaces;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Parameter;
-using System.Web;
-using System.Web.Caching;
 
 namespace EFFC.Frame.Net.Base.Module
 {

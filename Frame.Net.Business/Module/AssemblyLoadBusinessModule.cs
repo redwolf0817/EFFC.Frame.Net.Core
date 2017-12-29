@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Web;
 using EFFC.Frame.Net.Base.Exceptions;
-using EFFC.Frame.Net.Base.Interfaces;
-using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Business.Logic;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Parameter;
+using EFFC.Frame.Net.Global;
 
 namespace EFFC.Frame.Net.Business.Module
 {
@@ -55,19 +51,20 @@ namespace EFFC.Frame.Net.Business.Module
             {
                 if (_logics == null)
                 {
-                    if (HttpRuntime.Cache[this.GetType().FullName + ".LogicList"] != null)
+                    if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicList") != null)
                     {
-                        _logics = (Dictionary<string, Type>)HttpRuntime.Cache[this.GetType().FullName + ".LogicList"];
+                        _logics = (Dictionary<string, Type>)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicList");
                     }
                     else
                     {
 
                         _logics = new Dictionary<string, Type>();
-                        Assembly asm = Assembly.Load(LogicAssemblyPath);
+                        Assembly asm = Assembly.Load(new AssemblyName(LogicAssemblyPath));
+                        
                         Type[] ts = asm.GetTypes();
                         foreach (Type t in ts)
                         {
-                            if (t.IsSubclassOf(typeof(L)) && !t.IsAbstract && !t.IsInterface)
+                            if (t.GetTypeInfo().IsSubclassOf(typeof(L)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                             {
                                 ILogic l = (ILogic)Activator.CreateInstance(t, true);
                                 if (!_logics.ContainsKey(l.Name.ToUpper()))
@@ -81,7 +78,7 @@ namespace EFFC.Frame.Net.Business.Module
                             }
                         }
                         //写入缓存
-                        HttpRuntime.Cache.Insert(this.GetType().FullName + ".LogicList", _logics);
+                        GlobalCommon.ApplicationCache.Set(this.GetType().FullName + ".LogicList", _logics, DateTime.MaxValue);
                     }
                 }
             }

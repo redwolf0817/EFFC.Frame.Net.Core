@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Json;
 using System.Text;
 using System.Threading.Tasks;
 using EFFC.Frame.Net.Base.Data;
@@ -67,10 +66,10 @@ namespace EFFC.Frame.Net.Data.UnitData
         /// 查询的数据转化成json数据格式
         /// </summary>
         /// <returns></returns>
-        public JsonCollection QueryData2Json()
+        public string QueryData2Json()
         {
             DataTable2Json c = new DataTable2Json();
-            JsonCollection rtn = c.ConvertTo(QueryTable);
+            var rtn = c.ConvertTo(QueryTable);
             return rtn;
         }
         /// <summary>

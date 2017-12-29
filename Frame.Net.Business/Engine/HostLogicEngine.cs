@@ -1,5 +1,4 @@
-﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Constants;
+﻿using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Module;
@@ -10,13 +9,11 @@ using EFFC.Frame.Net.Data.WebData;
 using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Tag.Core;
 using EFFC.Frame.Net.Tag.Tags.Base;
-using Noesis.Javascript;
-using System;
+using Frame.Net.Base.ResouceManage.JsEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Engine
 {

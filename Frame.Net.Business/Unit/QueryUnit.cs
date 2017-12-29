@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using EFFC.Frame.Net.Base.Interfaces;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Interfaces.Unit;
 using EFFC.Frame.Net.Base.ResouceManage.DB;
@@ -40,14 +34,7 @@ namespace EFFC.Frame.Net.Business.Unit
                 if (!string.IsNullOrEmpty(sql))
                 {
                     string regstr = "";
-                    if (dba is OracleAccess)
-                    {
-                        regstr = @"(?<=:)[a-zA-Z0-9_]*\d*";
-                    }
-                    else
-                    {
-                        regstr = @"(?<=@)[A-Za-z0-9_]+\d*";
-                    }
+                    regstr = @"(?<=" + dba.ParameterFlagChar + @")[A-Za-z0-9_]+\d*";
                     string regexpress = @"(?isx)
                                 (')                                                           #开始标记“<tag...>”
                                 (?>                                                                  #分组构造，用来限定量词“*”修饰范围
@@ -92,7 +79,7 @@ namespace EFFC.Frame.Net.Business.Unit
                 }
 
                 rtn.QueryDatas = dba.Query(sql, dbc);
-                if (rtn.QueryDatas != null && rtn.QueryDatas.Tables.Count > 0)
+                if (rtn.QueryDatas != null && rtn.QueryDatas.TableCount > 0)
                 {
                     rtn.QueryTable = rtn.QueryDatas[0];
                 }

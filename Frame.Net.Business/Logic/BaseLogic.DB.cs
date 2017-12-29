@@ -12,7 +12,6 @@ using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.UnitData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace EFFC.Frame.Net.Business.Logic
@@ -160,14 +159,7 @@ namespace EFFC.Frame.Net.Business.Logic
                             NonQuery<JsonExpressUnit>(p, "");
                         }
                     }
-                    else if (p.Dao is MongoAccess26)
-                    {
-                        var result = ((MongoAccess26)p.Dao).Excute(express);
-                        if(express.CurrentAct == DBExpress.ActType.Query)
-                        {
-                            rtn.MongoListData = (List<FrameDLRObject>)result;
-                        }
-                    }
+                    
                 }
                 return rtn;
             }
@@ -180,23 +172,12 @@ namespace EFFC.Frame.Net.Business.Logic
             public virtual UnitDataCollection Excute(UnitParameter p, FrameDLRObject json)
             {
                 DBExpress express = null;
-                if (p.Dao is OracleAccess)
+                if (p.Dao is ADBAccess)
                 {
-                    express = DBExpress.Create<OracleExpress>(json);
+                    express = ((ADBAccess)p.Dao).MyDBExpress;
+                    DBExpress.Load(express, json);
                 }
-                else if (p.Dao is SQLServerAccess
-                    || p.Dao is SQLServerAccess2000)
-                {
-                    express = DBExpress.Create<SqlServerExpress>(json);
-                }
-                else if (p.Dao is MySQLAccess)
-                {
-                    express = DBExpress.Create<MySQLExpress>(json);
-                }
-                else if (p.Dao is MongoAccess26)
-                {
-                    express = DBExpress.Create<MongoExpress>(json);
-                }
+                
                 return Excute(p, express);
             }
             /// <summary>
@@ -256,209 +237,6 @@ namespace EFFC.Frame.Net.Business.Logic
             {
                 p.SetValue("_unit_action_flag_", actionflag);
                 return (UnitDataCollection)UnitProxy.Call<SPUnit<T>>(p);
-            }
-             public virtual void InsertIntoSqlServer(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("insert into " + tablename + "(");
-                var values = "";
-                var columns = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                    dpc.SetValue(pkey, obj.GetValue(s));
-                    columns += columns.Length > 0 ? "," + s : s;
-                    values += values.Length > 0 ? ",@" + pkey : "@" + pkey;
-                }
-                sbsql.Append(columns + ")values(");
-                sbsql.Append(values);
-                sbsql.Append(");");
-
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<SQLServerAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
-                
-            }
-            public virtual void InsertIntoOracle(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("insert into " + tablename + "(");
-                var values = "";
-                var columns = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                    dpc.SetValue(pkey, obj.GetValue(s));
-                    columns += columns.Length > 0 ? "," + s : s;
-                    values += values.Length > 0 ? ",:" + pkey : ":" + pkey;
-                }
-                sbsql.Append(columns + ")values(");
-                sbsql.Append(values);
-                sbsql.Append(");");
-
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<OracleAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
-            }            
-            public virtual void DeleteFromSQLServer(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("delete from " + tablename + " where 1=1 ");
-                var values = "";
-                var columns = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                    dpc.SetValue(pkey, obj.GetValue(s));
-                    sbsql.Append(string.Format(" and {0}=@{0}", pkey));
-                }
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<SQLServerAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
-            }
-            public virtual void DeleteFromOracle(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("delete from " + tablename + " where 1=1 ");
-                var values = "";
-                var columns = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                    dpc.SetValue(pkey, obj.GetValue(s));
-                    sbsql.Append(string.Format(" and {0}=:{0}", pkey));
-                }
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<OracleAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
-            }
-            /// <summary>
-            /// 根据obj的定义更新单表，obj定义格式如下
-            /// {
-            /// col1:value,
-            /// coln:value,
-            /// where:{
-            /// c1:{$op:value}
-            /// cn:{$op:value}
-            /// }
-            /// }
-            /// </summary>
-            /// <param name="p"></param>
-            /// <param name="table"></param>
-            /// <param name="obj"></param>
-            public virtual void UpdateOracle(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("update " + tablename + " set ");
-                StringBuilder columns = new StringBuilder();
-                string where = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    if (s.ToLower() != "where")
-                    {
-                        var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                        dpc.SetValue(pkey, obj.GetValue(s));
-                        columns.Append(columns.Length > 0 ? "," : "");
-                        columns.AppendLine(string.Format("{0}=:{0}", s));
-                    }
-                    else
-                    {
-                        where = ParseWhereExpress(DBType.Oracle, obj.GetValue(s), ref dpc);
-                    }
-                }
-                sbsql.Append(columns);
-                sbsql.Append(where + ";");
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<OracleAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
-            }
-            /// <summary>
-            /// 根据obj的定义更新单表，obj定义格式如下
-            /// {
-            /// col1:value,
-            /// coln:value,
-            /// where:{
-            /// c1:{$op:value}
-            /// cn:{$op:value}
-            /// }
-            /// }
-            /// </summary>
-            /// <param name="p"></param>
-            /// <param name="table"></param>
-            /// <param name="obj"></param>
-            public virtual void UpdateSQLServer(UnitParameter p, string tablename, FrameDLRObject obj)
-            {
-                StringBuilder sbsql = new StringBuilder();
-                sbsql.Append("update " + tablename + " set ");
-                StringBuilder columns = new StringBuilder();
-                string where = "";
-                DBOParameterCollection dpc = new DBOParameterCollection();
-                foreach (var s in obj.Keys)
-                {
-                    if (s.ToLower() != "where")
-                    {
-                        var pkey = s.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "");
-                        dpc.SetValue(pkey, obj.GetValue(s));
-                        columns.Append(columns.Length > 0 ? "," : "");
-                        columns.AppendLine(string.Format("{0}=@{0}", s));
-                    }
-                    else
-                    {
-                        where = ParseWhereExpress(DBType.SqlServer, obj.GetValue(s), ref dpc);
-                    }
-                }
-                sbsql.Append(columns);
-                sbsql.Append(where);
-                if (p.Dao == null)
-                {
-                    p.Dao = _logic.CallContext_ResourceManage.CreateInstance<SQLServerAccess>(p.CurrentTransToken);
-                    p.Dao.Open(ComFunc.nvl(_logic.Configs[ParameterKey.DBCONNECT_STRING]));
-                }
-                //目前只支持关系型数据库
-                if (p.Dao is ADBAccess)
-                {
-                    ((ADBAccess)p.Dao).ExecuteNoQuery(sbsql.ToString(), dpc);
-                }
             }
             protected enum DBType
             {

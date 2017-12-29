@@ -1,6 +1,7 @@
 ﻿using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Data.Base;
+using Frame.Net.Base.Interfaces.DataConvert;
 using System;
 using System.Collections.Generic;
 using System.Linq;

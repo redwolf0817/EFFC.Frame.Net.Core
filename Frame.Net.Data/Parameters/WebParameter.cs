@@ -8,29 +8,50 @@ using EFFC.Frame.Net.Base.Parameter;
 using EFFC.Frame.Net.Base.ResouceManage;
 using EFFC.Frame.Net.Base.Token;
 using EFFC.Frame.Net.Base.Constants;
-using System.Web;
+using EFFC.Frame.Net.Base.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace EFFC.Frame.Net.Data.Parameters
 {
     public class WebParameter:ParameterStd
     {
         List<string> _forbiddenname = null;
+        /// <summary>
+        /// Web模块的参数结构集
+        /// </summary>
         public WebParameter()
         {  
 
+        }
+        /// <summary>
+        /// 获取当前HttpContext
+        /// </summary>
+        public HttpContext CurrentHttpContext
+        {
+            get
+            {
+                if (GetValue("__HTTP_CONTEXT__") != null)
+                    return (HttpContext)GetValue("__HTTP_CONTEXT__");
+                else
+                    return null;
+            }
+            set
+            {
+                SetValue("__HTTP_CONTEXT__", value);
+            }
         }
         /// <summary>
         /// 获取上传的文件对象，如果没有则返回null
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public HttpPostedFile UploadFile(string name)
+        public FrameUploadFile UploadFile(string name)
         {
             object obj = this[DomainKey.UPDATE_FILE, name];
 
-            if (obj != null && obj is HttpPostedFile)
+            if (obj != null && obj is FrameUploadFile)
             {
-                return (HttpPostedFile)obj;
+                return (FrameUploadFile)obj;
             }
             else
             {
@@ -279,6 +300,20 @@ namespace EFFC.Frame.Net.Data.Parameters
             set
             {
                 SetValue(ParameterKey.REQUEST_CONTENT, value);
+            }
+        }
+        /// <summary>
+        /// Http请求的Method
+        /// </summary>
+        public string RequestMethod
+        {
+            get
+            {
+                return ComFunc.nvl(this[ParameterKey.REQUEST_METHOD]);
+            }
+            set
+            {
+                SetValue(ParameterKey.REQUEST_METHOD, value);
             }
         }
         /// <summary>

@@ -6,16 +6,14 @@ using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
-using Noesis.Javascript;
+using Frame.Net.Base.Interfaces.DataConvert;
+using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Json;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace EFFC.Frame.Net.Base.Data.Base
@@ -96,6 +94,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
             }
         }
         protected Dictionary<string, object> _d = new Dictionary<string, object>();
+
         /// <summary>
         /// 根据json创建数组对象
         /// </summary>
@@ -106,7 +105,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         {
             if (!string.IsNullOrEmpty(arrjsonstring))
             {
-                HostJs jse = HostJs.NewInstance();
+                var jse = HostJs.NewInstance();
                 try
                 {
 
@@ -286,6 +285,9 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <returns></returns>
         public static dynamic CreateInstance()
         {
+            dynamic d = new ExpandoObject();
+            d.userid = "ych";
+            string a = d.userid;
             return CreateInstance(FrameDLRFlags.None);
         }
         /// <summary>
@@ -342,7 +344,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
                      else
                      {
                          string js = "var out=" + jsonstring;
-                         if (context != null)
+                        if (context != null)
                          {
                              jse.Evaluate(js, context);
                          }
@@ -350,8 +352,8 @@ namespace EFFC.Frame.Net.Base.Data.Base
                          {
                              jse.Evaluate(js);
                          }
-                         var d = (Dictionary<string, object>)jse.GetOutObject("out");
-                         rtn = BuildLoopDics(d, flags);
+                        var d = (Dictionary<string, object>)jse.GetOutObject("out");
+                        rtn = BuildLoopDics(d, flags);
                      }
                 }
                 finally
@@ -386,22 +388,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
         {
             return CreateInstance(model, FrameDLRFlags.None);
         }
-
-        /// <summary>
-        /// 创建动态对象，通过反射将model的property转成动态对象,添加 成功失败参数 和 消息参数
-        /// </summary>
-        /// <param name="issuccess">是否成功失败</param>
-        /// <param name="msg">消息</param>
-        /// <param name="model">其他需要扩展的model</param>
-        /// <returns></returns>
-        public static dynamic CreateInstance(bool issuccess,string msg, object model = null)
-        {
-            var rtn = CreateInstance(model, FrameDLRFlags.None);
-            rtn.issuccess = issuccess;
-            rtn.msg = msg;
-            return rtn;
-        }
-
         /// <summary>
         /// 创建动态对象，通过反射将model的property转成动态对象。
         /// </summary>
@@ -543,6 +529,18 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     }
                     rtn.SetValue(item.Key, list.ToArray());
                 }
+                else if (item.Value is DateTime)
+                {
+                    var dt = (DateTime)item.Value;
+                    if(dt == DateTime.MinValue.ToLocalTime())
+                    {
+                        rtn.SetValue(item.Key, DateTime.MinValue);
+                    }
+                    else
+                    {
+                        rtn.SetValue(item.Key, item.Value);
+                    }
+                }
                 else
                 {
                     rtn.SetValue(item.Key, item.Value);
@@ -666,6 +664,14 @@ namespace EFFC.Frame.Net.Base.Data.Base
             else if (methodInfo.ToLower() == "getvalue")
             {
                 return this.GetValue(ComFunc.nvl(args[0]));
+            }
+            else if (methodInfo.ToLower() == "tojsonstring")
+            {
+                return this.ToJSONString();
+            }
+            else if (methodInfo.ToLower() == "tojsonobject")
+            {
+                return this.ToJSONObject();
             }
             else
             {
@@ -1005,10 +1011,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 {
                     rtn.AppendLine(string.Format(template, item.Key, ToJSON((Dictionary<string, object>)item.Value, level + 1)));
                 }
-                else if (item.Value is Noesis.Javascript.JavascriptFunction)
-                {
-                    rtn.AppendLine(string.Format(template, item.Key, "\"" + ((Noesis.Javascript.JavascriptFunction)item.Value).FunctionString + "\""));
-                }
                 else if (item.Value is object[])
                 {
                     rtn.AppendLine(string.Format(template, item.Key, ToJSON((object[])item.Value, level + 1)));
@@ -1036,7 +1038,15 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 {
                     //rtn.AppendLine(string.Format(template, item.Key, "\"" + ((DateTime)item.Value).ToString("yyyy/MM/dd HH:mm:ss fff") + "\""));
                     var dt = ((DateTime)item.Value);
-                    rtn.AppendLine(string.Format(template, item.Key, string.Format("new Date({0},{1},{2},{3},{4},{5})", dt.Year, dt.Month - 1, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                    if (dt == DateTime.MinValue)
+                    {
+                        rtn.AppendLine(string.Format(template, item.Key, string.Format("new Date('0001-01-01')")));
+                    }
+                    else
+                    {
+                        rtn.AppendLine(string.Format(template, item.Key, string.Format("new Date({0},{1},{2},{3},{4},{5})", dt.Year, dt.Month - 1, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                    }
+                    
                 }
                 else if (item.Value is bool)
                 {
@@ -1087,10 +1097,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 {
                     rtn.AppendLine(string.Format(template, ToJSON((Dictionary<string, object>)obj, level + 1)));
                 }
-                else if (obj is Noesis.Javascript.JavascriptFunction)
-                {
-                    rtn.AppendLine(((Noesis.Javascript.JavascriptFunction)obj).FunctionString);
-                }
                 else if (obj is object[])
                 {
                     rtn.AppendLine(string.Format(template, ToJSON((object[])obj, level + 1)));
@@ -1110,7 +1116,15 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 {
                     //rtn.AppendLine(string.Format(template, "\"" + ((DateTime)obj).ToString("yyyy/MM/dd HH:mm:ss fff") + "\""));
                     var dt = ((DateTime)obj);
-                    rtn.AppendLine(string.Format(template, string.Format("new Date({0},{1},{2},{3},{4},{5},{6})", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                    if(dt== DateTime.MinValue)
+                    {
+                        rtn.AppendLine(string.Format(template, string.Format("new Date('0001-01-01')")));
+                    }
+                    else
+                    {
+                        rtn.AppendLine(string.Format(template, string.Format("new Date({0},{1},{2},{3},{4},{5},{6})", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                    }
+                    
                 }
                 else if (obj is bool)
                 {
@@ -1138,6 +1152,23 @@ namespace EFFC.Frame.Net.Base.Data.Base
             foreach (var p in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 p.SetValue(t, this.GetValue(p.Name));
+            }
+            return t;
+        }
+        /// <summary>
+        /// 采用反射方式转化为强类型的对象,对效能有影响，不建议使用
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public object ToModel(Type t)
+        {
+            object rtn = Activator.CreateInstance(t);
+            foreach (var p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (this.IgnoreCase)
+                    p.SetValue(rtn, this.GetValue(p.Name.ToLower()));
+                else
+                    p.SetValue(rtn, this.GetValue(p.Name));
             }
             return t;
         }
@@ -1246,24 +1277,19 @@ namespace EFFC.Frame.Net.Base.Data.Base
 
         public void Dispose()
         {
-            if (_d != null)
+            foreach (var item in _d)
             {
-                foreach (var item in _d)
+                if (item.Value is IDisposable)
                 {
-                    if (item.Value is IDisposable)
-                    {
-                        ((IDisposable)item.Value).Dispose();
-                    }
+                    ((IDisposable)item.Value).Dispose();
                 }
-                _d.Clear();
-                _d = null;
             }
-            if (_valuelist != null)
-            {
-                _valuelist.Clear();
-                _valuelist = null;
-            }
+
+            _valuelist.Clear();
+            _valuelist = null;
             _cuid = "";
+            _d.Clear();
+            _d = null;
             _duid = "";
             tabflag = "";
         }

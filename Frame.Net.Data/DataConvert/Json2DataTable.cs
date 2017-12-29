@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Json;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.Common;
 using Newtonsoft.Json;
 using System.IO;
-using EFFC.Frame.Net.Base.Parameter;
 
 namespace EFFC.Frame.Net.Data.DataConvert
 {
@@ -71,7 +64,7 @@ namespace EFFC.Frame.Net.Data.DataConvert
                     {
                         if (index == 0)
                         {
-                            rtn.AddColumn(ColumnP.CreatInstanse(ComFunc.nvl(reader.Value)));
+                            rtn.AddColumn(DataColumn.CreatInstanse(ComFunc.nvl(reader.Value)));
                         }
                         currentColumn = ComFunc.nvl(reader.Value);
                     }

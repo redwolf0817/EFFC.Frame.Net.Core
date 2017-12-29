@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.Data.Base;

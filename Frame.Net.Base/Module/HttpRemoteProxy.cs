@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Net;
-using EFFC.Frame.Net.Base.Interfaces;
 using System.IO;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Parameter;
@@ -11,8 +8,8 @@ using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
-using System.Web;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Base.Module
 {
@@ -125,29 +122,36 @@ namespace EFFC.Frame.Net.Base.Module
                     if (_contenttype.ToLower().IndexOf("/json") > 0)
                     {
                         //提交请求
-                        var streamWriter = new StreamWriter(hr.GetRequestStream());
+                        var t = hr.GetRequestStreamAsync();
+                        Task.WaitAll(t);
+                        var streamWriter = new StreamWriter(t.Result);
                         streamWriter.Write(postdatastr);
                         streamWriter.Flush();
-                        streamWriter.Close();
+                        streamWriter.Dispose();
                     }
                     else if (_contenttype.ToLower().IndexOf("multipart/form-data") >= 0)
                     {
                         byte[] postdata = (byte[])postdatastr;
-                        hr.ContentLength = postdata.Length;
+                        hr.Headers["Content-Length"] = ComFunc.nvl(postdata.Length);
                         //提交请求
-                        var streamWriter = hr.GetRequestStream();
+                        var t = hr.GetRequestStreamAsync();
+                        Task.WaitAll(t);
+                        var streamWriter = t.Result;
                         streamWriter.Write(postdata, 0, postdata.Length);
-                        streamWriter.Close();
+                        streamWriter.Dispose();
                     }
                     else
                     {
-                        byte[] postdatabyte = _encoding.GetBytes(postdatastr.ToString());
-                        hr.ContentLength = postdatabyte.Length;
+                        byte[] postdata = (byte[])postdatastr;
+                        hr.Headers["Content-Length"] = ComFunc.nvl(postdata.Length);
                         //提交请求
+                        var t = hr.GetRequestStreamAsync();
+                        Task.WaitAll(t);
                         Stream stream;
-                        stream = hr.GetRequestStream();
-                        stream.Write(postdatabyte, 0, postdatabyte.Length);
-                        stream.Close();
+                        stream = t.Result;
+                        //提交请求
+                        stream.Write(postdata, 0, postdata.Length);
+                        stream.Dispose();
                     }
                 }
                 else if (hr.Method.ToLower() == "put")
@@ -156,10 +160,12 @@ namespace EFFC.Frame.Net.Base.Module
                     {
                         var postdatabyte = (byte[])postdatastr;
                         Stream stream;
-                        stream = hr.GetRequestStream();
+                        var t = hr.GetRequestStreamAsync();
+                        Task.WaitAll(t);
+                        stream = t.Result;
                         stream.Write(postdatabyte, 0, postdatabyte.Length);
                         stream.Flush();
-                        stream.Close();
+                        stream.Dispose();
                     }
                 }
 
@@ -169,7 +175,9 @@ namespace EFFC.Frame.Net.Base.Module
             HttpWebResponse re = null;
             try
             {
-                re = hr.GetResponse() as HttpWebResponse;
+                var rt = hr.GetResponseAsync();
+                Task.WaitAll(rt);
+                re = rt.Result as HttpWebResponse;
             }
             catch (WebException ex)
             {
@@ -199,7 +207,7 @@ namespace EFFC.Frame.Net.Base.Module
                         || contenttype == ResponseHeader_ContentType.xlsx
                         || contenttype == ResponseHeader_ContentType.pdf)
                     {
-                        var cd = HttpUtility.UrlDecode(ComFunc.nvl(re.Headers.Get("Content-Disposition")), Encoding.UTF8);
+                        var cd = ComFunc.UrlDecode(ComFunc.nvl(re.Headers["Content-Disposition"]));
                         var filename = cd.ToLower().Replace("attachment;", "").Replace("filename=", "").Replace("\"", "").Trim();
                         responseobj.contenttype = re.ContentType;
                         responseobj.filename = filename;
@@ -226,7 +234,7 @@ namespace EFFC.Frame.Net.Base.Module
             }
             //Head处理
             FrameDLRObject header = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            foreach (string key in re.Headers.Keys)
+            foreach (string key in re.Headers.AllKeys)
             {
                 header.SetValue(key, re.Headers[key]);
             }
@@ -256,37 +264,30 @@ namespace EFFC.Frame.Net.Base.Module
             hr.CookieContainer.SetCookies(new Uri(_url), cookieheader);
             hr.Method = _requestmethod;
             hr.Proxy = _proxy;
-            if (_cert != null)
-            {
-                hr.ClientCertificates.Add(_cert);
-            }
+            //if (_cert != null)
+            //{
+            //    hr.ClientCertificates.Add(_cert);
+            //}
             //添加header
             foreach (var k in _header.Keys)
             {
                 if (k.ToLower() == "date")
                 {
-                    hr.Date = DateTimeStd.IsDateTime(_header.GetValue(k)) ? DateTimeStd.ParseStd(ComFunc.nvl(_header.GetValue(k))).Value : DateTime.Now;
+                    hr.Headers["Date"] = DateTimeStd.IsDateTime(_header.GetValue(k)) ? DateTimeStd.ParseStd(ComFunc.nvl(_header.GetValue(k))).Value.ToUniversalTime().ToString("r") : DateTime.Now.ToString("r");
                 }
                 else if (k.ToLower() == "content-length")
                 {
-                    hr.ContentLength = long.Parse(ComFunc.nvl(_header.GetValue(k)));
+                    hr.Headers["Content-Length"] = ComFunc.nvl(_header.GetValue(k));
                 }
                 else if (k.ToLower() == "user-agent")
                 {
-                    hr.UserAgent = ComFunc.nvl(_header.GetValue(k));
+                    hr.Headers["User-Agent"] = ComFunc.nvl(_header.GetValue(k));
                 }
                 else
                 {
-                    if (ComFunc.nvl(hr.Headers[k]) != "")
-                    {
-                        hr.Headers[k] = ComFunc.nvl(_header.GetValue(k));
-                    }
-                    else
-                    {
-                        hr.Headers.Add(k, ComFunc.nvl(_header.GetValue(k)));
-                    }
+                    hr.Headers[k] = ComFunc.nvl(_header.GetValue(k));
                 }
-                
+
             }
 
             return hr;
@@ -376,7 +377,7 @@ Content-Type: multipart/form-data; boundary=AaB03x
                 formDataStream.Position = 0;
                 byte[] formData = new byte[formDataStream.Length];
                 formDataStream.Read(formData, 0, formData.Length);
-                formDataStream.Close();
+                formDataStream.Dispose();
 
                 return formData;
             }//以put的方式发送文件内容

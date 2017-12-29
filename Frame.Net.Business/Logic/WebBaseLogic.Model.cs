@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using EFFC.Frame.Net.Base.AttributeDefine;
 using EFFC.Frame.Net.Base.Data;
-using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.Interfaces.Unit;
-using EFFC.Frame.Net.Base.Unit;
-using EFFC.Frame.Net.Business.Unit;
-using EFFC.Frame.Net.Data.Parameters;
-using EFFC.Frame.Net.Data.UnitData;
 using EFFC.Frame.Net.Base.Constants;
+using System.Linq;
 
 
 namespace EFFC.Frame.Net.Business.Logic
@@ -58,9 +50,10 @@ namespace EFFC.Frame.Net.Business.Logic
             if (fi.PropertyType.FullName == typeof(DateTime).FullName)
             {
                 fi.SetValue(m, DateTimeStd.ParseStd(value).Value, null);
-            } else if(fi.GetCustomAttributes(typeof(ConvertorAttribute),false).Length > 0)
+            } else if(fi.GetCustomAttributes(typeof(ConvertorAttribute),false).Count() > 0)
             {
-                ConvertorAttribute ca = (ConvertorAttribute)Attribute.GetCustomAttribute(fi, typeof(ConvertorAttribute), false);
+                
+                ConvertorAttribute ca = typeof(ConvertorAttribute).GetTypeInfo().GetCustomAttribute<ConvertorAttribute>(false);
                 fi.SetValue(m, ca.Convertor.ConvertTo(value), null);
             }
             else

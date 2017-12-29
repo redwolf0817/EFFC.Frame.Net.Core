@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Configuration;
-using System.Web;
 using System.Collections.Generic;
 using System.Collections;
 using System.Diagnostics;
@@ -11,15 +9,13 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
-using System.Management;
 using System.Reflection;
-using EFFC.Frame.Net.Base.Data.Base;
-using EFFC.Frame.Net.Base.Constants;
 using System.Linq;
 using System.Collections.Specialized;
-using ThoughtWorks.QRCode.Codec;
-using ThoughtWorks.QRCode.Codec.Data;
-using System.Drawing;
+using System.Security.Cryptography;
+using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.Constants;
+using Frame.Net.Base.Interfaces.DataConvert;
 
 namespace EFFC.Frame.Net.Base.Common
 {
@@ -28,17 +24,6 @@ namespace EFFC.Frame.Net.Base.Common
     /// </summary>
     public class ComFunc
     {
-        /// <summary>
-        /// SetProcessWorkingSetSize
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="minimumWorkingSetSize"></param>
-        /// <param name="maximumWorkingSetSize"></param>
-        /// <returns></returns>
-        [DllImport("kernel32.dll")]
-        public static extern bool SetProcessWorkingSetSize(IntPtr handle,
-                     int minimumWorkingSetSize, int maximumWorkingSetSize);
-
         /// <summary>
         /// 字符串的Null處理，并作Trim處理
         /// </summary>
@@ -90,9 +75,9 @@ namespace EFFC.Frame.Net.Base.Common
         /// </summary>
         /// <param name="strs"></param>
         /// <returns></returns>
-        public static ArrayList StringArrayToArrayList(string[] strs)
+        public static List<string> StringArrayToArrayList(string[] strs)
         {
-            ArrayList rtn = new ArrayList();
+            List<string> rtn = new List<string>();
             for (int i = 0; strs != null && i < strs.Length; i++)
             {
                 rtn.Add(strs[i]);
@@ -148,7 +133,7 @@ namespace EFFC.Frame.Net.Base.Common
 
                     proc.WaitForExit();
                     skd = proc.StandardOutput.ReadToEnd();
-                    proc.Close();
+                    proc.Dispose();
                     return true;
                 }
                 else
@@ -217,17 +202,7 @@ namespace EFFC.Frame.Net.Base.Common
             }
             return value;
         }
-        /// <summary>
-        ///強制清理內存，慎用，適用於win32NT平臺
-        /// </summary>
-        public static void MemoryCollect()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
-            }
-        }
-
+        
         /// <summary>
         ///判斷是否為中文
         /// </summary>
@@ -248,22 +223,6 @@ namespace EFFC.Frame.Net.Base.Common
         {
             return to.GetString(from.GetBytes(str));
         }
-
-        /// <summary>
-        ///  將文件進行md5加密 , md5 值保存在filename.md5 文件中
-        /// </summary>
-        /// <param name="path">需要加密的文件路徑</param>
-        /// <returns>加密的MD5碼</returns>
-        public static string getMD5(string path)
-        {
-            MD5CryptoServiceProvider get_md5 = new MD5CryptoServiceProvider();
-            FileStream get_file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            byte[] hash_byte = get_md5.ComputeHash(get_file);
-            string result = BitConverter.ToString(hash_byte);
-            result = result.Replace("-", "");
-            get_file.Close();
-            return result;
-        }
         /// <summary>
         /// 將字串進行md5加密
         /// </summary>
@@ -272,11 +231,12 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string getMD5_String(string data, Encoding encoding)
         {
-            byte[] btdata = encoding.GetBytes(data);
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] btout = md5.ComputeHash(btdata, 0, btdata.Length);
-            string strout = BitConverter.ToString(btout).Replace("-", "");
-            return strout;
+            using (var md5 = MD5.Create())
+            {
+                var result = md5.ComputeHash(encoding.GetBytes(data));
+                var strResult = BitConverter.ToString(result);
+                return strResult.Replace("-", "");
+            }
         }
         /// <summary>
         /// 用Base64进行加密,默认编码UTF8
@@ -326,14 +286,14 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string DES3Encrypt(string strString, string strKey)
         {
-            TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider();
-            MD5CryptoServiceProvider hashMD5 = new MD5CryptoServiceProvider();
+            TripleDES DES = TripleDES.Create();
+            MD5 hashMD5 = MD5.Create();
 
-            DES.Key = hashMD5.ComputeHash(Encoding.Default.GetBytes(strKey));
+            DES.Key = hashMD5.ComputeHash(Encoding.UTF8.GetBytes(strKey));
             DES.Mode = CipherMode.ECB;
 
             ICryptoTransform DESEncrypt = DES.CreateEncryptor();
-            byte[] Buffer = Encoding.Default.GetBytes(strString);
+            byte[] Buffer = Encoding.UTF8.GetBytes(strString);
             return Convert.ToBase64String(DESEncrypt.TransformFinalBlock(Buffer, 0, Buffer.Length));
         }
 
@@ -346,10 +306,10 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string DES3Decrypt(string strString, string strKey)
         {
-            TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider();
-            MD5CryptoServiceProvider hashMD5 = new MD5CryptoServiceProvider();
+            TripleDES DES = TripleDES.Create();
+            MD5 hashMD5 = MD5.Create();
 
-            DES.Key = hashMD5.ComputeHash(Encoding.Default.GetBytes(strKey));
+            DES.Key = hashMD5.ComputeHash(Encoding.UTF8.GetBytes(strKey));
             DES.Mode = CipherMode.ECB;
             ICryptoTransform DESDecrypt = DES.CreateDecryptor();
 
@@ -357,7 +317,7 @@ namespace EFFC.Frame.Net.Base.Common
             try
             {
                 byte[] Buffer = Convert.FromBase64String(strString);
-                result = Encoding.Default.GetString(DESDecrypt.TransformFinalBlock(Buffer, 0, Buffer.Length));
+                result = Encoding.UTF8.GetString(DESDecrypt.TransformFinalBlock(Buffer, 0, Buffer.Length));
             }
             catch (System.Exception e)
             {
@@ -379,7 +339,7 @@ namespace EFFC.Frame.Net.Base.Common
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
             byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
 
-            RijndaelManaged rDel = new RijndaelManaged();
+            Aes rDel = Aes.Create();
             rDel.Key = keyArray;
             rDel.Mode = CipherMode.ECB;
             rDel.Padding = PaddingMode.PKCS7;
@@ -410,7 +370,7 @@ namespace EFFC.Frame.Net.Base.Common
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
             byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
 
-            RijndaelManaged rDel = new RijndaelManaged();
+            Aes rDel = Aes.Create();
             rDel.Key = keyArray;
             rDel.Mode = CipherMode.ECB;
             rDel.Padding = PaddingMode.PKCS7;
@@ -437,7 +397,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string HTMLEncode(object str)
         {
-            return HttpUtility.HtmlEncode(nvlNotrim(str));
+            return WebUtility.HtmlEncode(nvlNotrim(str));
         }
         /// <summary>
         /// 对字串进行html解码
@@ -446,7 +406,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string HTMLDecode(object str)
         {
-            return HttpUtility.HtmlDecode(nvlNotrim(str));
+            return WebUtility.HtmlDecode(nvlNotrim(str));
         }
         /// <summary>
         /// 对字串进行url转码
@@ -455,7 +415,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string UrlEncode(object str)
         {
-            return HttpUtility.UrlEncode(nvl(str), Encoding.UTF8);
+            return WebUtility.UrlEncode(nvl(str));
         }
         /// <summary>
         /// 对字串进行url解码
@@ -464,7 +424,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string UrlDecode(object str)
         {
-            return HttpUtility.UrlDecode(nvl(str), Encoding.UTF8);
+            return WebUtility.UrlDecode(nvl(str));
         }
         /// <summary>
         /// 将流转化为二进制数据
@@ -480,7 +440,7 @@ namespace EFFC.Frame.Net.Base.Common
             }
             catch (Exception ex)
             {
-                s.Close();
+                s.Dispose();
                 throw ex;
             }
             return rtn;
@@ -500,7 +460,7 @@ namespace EFFC.Frame.Net.Base.Common
             }
             finally
             {
-                s.Close();
+                s.Dispose();
             }
             return rtn;
         }
@@ -513,21 +473,20 @@ namespace EFFC.Frame.Net.Base.Common
         {
             // 把 Stream 转换成 byte[] 
             byte[] bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
             // 设置当前流的位置为流的开始 
             stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(bytes, 0, bytes.Length);
             var filename = Path.GetFileName(savepath);
             var directorypath = savepath.Replace(filename, "");
             if (!Directory.Exists(directorypath))
             {
                 Directory.CreateDirectory(directorypath);
             }
-            // 把 byte[] 写入文件 
-            FileStream fs = new FileStream(savepath, FileMode.Create);
-            BinaryWriter bw = new BinaryWriter(fs);
-            bw.Write(bytes);
-            bw.Close();
-            fs.Close(); 
+            // 把 byte[] 写入文件,using等效try finally
+            using (FileStream fs = new FileStream(savepath, FileMode.Create))
+            {
+                fs.Write(bytes, 0, bytes.Length);
+            }
         }
         /// <summary>
         /// 将二进制数据存为文件
@@ -549,7 +508,7 @@ namespace EFFC.Frame.Net.Base.Common
             }
             finally
             {
-                fs.Close();
+                fs.Dispose();
             }
         }
         /// <summary>
@@ -584,70 +543,39 @@ namespace EFFC.Frame.Net.Base.Common
             }
         }
         /// <summary>
-        /// 获取呼叫者的type
-        /// </summary>
-        /// <param name="offset">偏移量</param>
-        /// <returns></returns>
-        public static Type GetCaller(int offset)
-        {
-            StackTrace trace = new StackTrace();
-            StackFrame frame = trace.GetFrame(offset);
-            return frame.GetMethod().DeclaringType;
-        }
-        /// <summary>
-        /// 判断呼叫者的类型是否为指定类型
-        /// </summary>
-        /// <param name="t">待判定类型</param>
-        /// <param name="offset">偏移量</param>
-        /// <returns></returns>
-        public static bool IsCaller(Type t, int offset)
-        {
-            Type mt = GetCaller(offset);
-            return mt.FullName == t.FullName || mt.IsSubclassOf(t);
-        }
-        /// <summary>
-        /// 判断当前呼叫者是否为指定类型
-        /// </summary>
-        /// <param name="t">待判定类型</param>
-        /// <returns></returns>
-        public static bool IsCaller(Type t)
-        {
-            return IsCaller(t, 2);
-        }
-        /// <summary>
         ///格式化json格式
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static FrameDLRObject FormatJSON(FrameDLRObject json)
-        {
-            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            rtn.ErrorCode = "";
-            rtn.ErrorMessage = "";
-            if (json != null)
-            {
-                rtn.Content = json;
-            }
+        //public static FrameDLRObject FormatJSON(FrameDLRObject json)
+        //{
+        //    var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+        //    rtn.ErrorCode = "";
+        //    rtn.ErrorMessage = "";
+        //    if (json != null)
+        //    {
+        //        rtn.Content = json;
+        //    }
 
-            return rtn;
-        }
+        //    return rtn;
+        //}
         /// <summary>
         /// 格式化json格式
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static FrameDLRObject FormatJSON(string json)
-        {
-            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            rtn.ErrorCode = "";
-            rtn.ErrorMessage = "";
-            if (json != null)
-            {
-                rtn.Content = json;
-            }
+        //public static FrameDLRObject FormatJSON(string json)
+        //{
+        //    var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+        //    rtn.ErrorCode = "";
+        //    rtn.ErrorMessage = "";
+        //    if (json != null)
+        //    {
+        //        rtn.Content = json;
+        //    }
 
-            return rtn;
-        }
+        //    return rtn;
+        //}
         /// <summary>
         /// 格式化json格式
         /// </summary>
@@ -655,18 +583,18 @@ namespace EFFC.Frame.Net.Base.Common
         /// <param name="errormessage"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static FrameDLRObject FormatJSON(string errorcode, string errormessage, FrameDLRObject content)
-        {
-            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            rtn.ErrorCode = errorcode;
-            rtn.ErrorMessage = errormessage;
-            if (content != null)
-            {
-                rtn.Content = content;
-            }
+        //public static FrameDLRObject FormatJSON(string errorcode, string errormessage, FrameDLRObject content)
+        //{
+        //    var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+        //    rtn.ErrorCode = errorcode;
+        //    rtn.ErrorMessage = errormessage;
+        //    if (content != null)
+        //    {
+        //        rtn.Content = content;
+        //    }
 
-            return rtn;
-        }
+        //    return rtn;
+        //}
         /// <summary>
         /// 格式化json格式
         /// </summary>
@@ -674,18 +602,18 @@ namespace EFFC.Frame.Net.Base.Common
         /// <param name="errormessage"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static FrameDLRObject FormatJSON(string errorcode, string errormessage, string content)
-        {
-            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            rtn.ErrorCode = errorcode;
-            rtn.ErrorMessage = errormessage;
-            if (content != null)
-            {
-                rtn.Content = content;
-            }
+        //public static FrameDLRObject FormatJSON(string errorcode, string errormessage, string content)
+        //{
+        //    var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+        //    rtn.ErrorCode = errorcode;
+        //    rtn.ErrorMessage = errormessage;
+        //    if (content != null)
+        //    {
+        //        rtn.Content = content;
+        //    }
 
-            return rtn;
-        }
+        //    return rtn;
+        //}
 
         /// <summary>
         /// 拷贝整个目录
@@ -735,20 +663,20 @@ namespace EFFC.Frame.Net.Base.Common
         /// </summary>
         /// <param name="qr"></param>
         /// <returns></returns>
-        public static FrameDLRObject ParseQueryString(string qr)
-        {
-            FrameDLRObject rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            if (qr != "")
-            {
-                var nvc = HttpUtility.ParseQueryString(qr);
-                foreach (var key in nvc.AllKeys)
-                {
-                    rtn.SetValue(key, nvc[key]);
-                }
-            }
+        //public static FrameDLRObject ParseQueryString(string qr)
+        //{
+        //    FrameDLRObject rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+        //    if (qr != "")
+        //    {
+        //        var nvc = HttpUtility.ParseQueryString(qr);
+        //        foreach (var key in nvc.AllKeys)
+        //        {
+        //            rtn.SetValue(key, nvc[key]);
+        //        }
+        //    }
 
-            return rtn;
-        }
+        //    return rtn;
+        //}
         /// <summary>
         /// 时间转为时间戳
         /// </summary>
@@ -781,12 +709,10 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static byte[] StreamToBytes(Stream stream)
         {
-            stream.Seek(0, SeekOrigin.Begin);
-            byte[] bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            // 设置当前流的位置为流的开始
-            stream.Seek(0, SeekOrigin.Begin);
-            return bytes;
+            MemoryStream ms = new MemoryStream();
+            stream.CopyTo(ms);
+
+            return ms.ToArray();
         }
         /// <summary>
         /// Base64串转化成stream
@@ -911,31 +837,31 @@ namespace EFFC.Frame.Net.Base.Common
         /// 文字转二维码
         /// </summary>
         /// <param name="nr"></param>
-        public static byte[] QRCode(string nr)
-        {
-            QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
-            qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
-            qrCodeEncoder.QRCodeScale = 4;
-            qrCodeEncoder.QRCodeVersion = 8;
-            qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
-            var by = qrCodeEncoder.EncodeToByte(nr, Encoding.UTF8);
-            return by;
-        }
+        //public static byte[] QRCode(string nr)
+        //{
+        //    QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
+        //    qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+        //    qrCodeEncoder.QRCodeScale = 4;
+        //    qrCodeEncoder.QRCodeVersion = 8;
+        //    qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
+        //    var by = qrCodeEncoder.EncodeToByte(nr, Encoding.UTF8);
+        //    return by;
+        //}
 
         /// <summary>
         /// 二维码解码
         /// </summary>
         /// <param name="filePath">图片路径</param>
         /// <returns></returns>
-        public static string QRDecode(Stream file)
-        {
-            if (file == null)
-                return null;
-            QRCodeDecoder decoder = new QRCodeDecoder();
-            Bitmap myBitmap = new Bitmap(Image.FromStream(file));
-            string decodedString = decoder.decode(new QRCodeBitmapImage(myBitmap));
-            return decodedString;
-        }
+        //public static string QRDecode(Stream file)
+        //{
+        //    if (file == null)
+        //        return null;
+        //    QRCodeDecoder decoder = new QRCodeDecoder();
+        //    Bitmap myBitmap = new Bitmap(Image.FromStream(file));
+        //    string decodedString = decoder.decode(new QRCodeBitmapImage(myBitmap));
+        //    return decodedString;
+        //}
         /// <summary>
         /// 从byte[]中搜索相符的字节流，并返回起始位置
         /// </summary>
@@ -1037,6 +963,78 @@ namespace EFFC.Frame.Net.Base.Common
             return usedMemory;
         }
         /// <summary>
+        ///格式化json格式
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static FrameDLRObject FormatJSON(FrameDLRObject json)
+        {
+            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            rtn.ErrorCode = "";
+            rtn.ErrorMessage = "";
+            if (json != null)
+            {
+                rtn.Content = json;
+            }
+
+            return rtn;
+        }
+        /// <summary>
+        /// 格式化json格式
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static FrameDLRObject FormatJSON(string json)
+        {
+            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            rtn.ErrorCode = "";
+            rtn.ErrorMessage = "";
+            if (json != null)
+            {
+                rtn.Content = json;
+            }
+
+            return rtn;
+        }
+        /// <summary>
+        /// 格式化json格式
+        /// </summary>
+        /// <param name="errorcode"></param>
+        /// <param name="errormessage"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static FrameDLRObject FormatJSON(string errorcode, string errormessage, FrameDLRObject content)
+        {
+            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            rtn.ErrorCode = errorcode;
+            rtn.ErrorMessage = errormessage;
+            if (content != null)
+            {
+                rtn.Content = content;
+            }
+
+            return rtn;
+        }
+        /// <summary>
+        /// 格式化json格式
+        /// </summary>
+        /// <param name="errorcode"></param>
+        /// <param name="errormessage"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static FrameDLRObject FormatJSON(string errorcode, string errormessage, string content)
+        {
+            var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            rtn.ErrorCode = errorcode;
+            rtn.ErrorMessage = errormessage;
+            if (content != null)
+            {
+                rtn.Content = content;
+            }
+
+            return rtn;
+        }
+        /// <summary>
         /// 复制一个对象，如果对象为ICloneable则返回一个对象的深度副本
         /// 如果为List和dictionary会做深度复制，否则返回原对象
         /// </summary>
@@ -1044,7 +1042,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static object CloneObject(object obj)
         {
-            if(obj is ICloneable)
+            if (obj is ICloneable)
             {
                 return ((ICloneable)obj).Clone();
             }

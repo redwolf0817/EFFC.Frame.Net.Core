@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Json;
 using System.Text;
 using System.Threading.Tasks;
 using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Data.UnitData;
+using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.Constants;
 
 namespace EFFC.Frame.Net.Data.DataConvert
 {
@@ -21,7 +22,6 @@ namespace EFFC.Frame.Net.Data.DataConvert
             if (obj == null)
                 return "";
 
-            string rtn = "";
             UnitDataCollection udc = null;
             if (obj is UnitDataCollection)
             {
@@ -31,42 +31,28 @@ namespace EFFC.Frame.Net.Data.DataConvert
             {
                 throw new Exception("QueryByPage2Json无法转化" + obj.GetType().FullName + "类型数据!");
             }
-
+            FrameDLRObject rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
             if (udc.QueryTable != null)
             {
-                JsonObjectCollection jsonrtn = new JsonObjectCollection();
-                //jsonrtn.Add(new JsonStringValue("Count_Of_OnePage", udc.Count_Of_OnePage + ""));
-                jsonrtn.Add(new JsonStringValue("page", udc.CurrentPage + ""));
-                //jsonrtn.Add(new JsonStringValue("total", udc.TotalPage + ""));
-                jsonrtn.Add(new JsonStringValue("total", udc.TotalRow + ""));
+                rtn.SetValue("page", udc.CurrentPage + "");
+                rtn.SetValue("total", udc.TotalRow + "");
 
                 DataTableStd dts = udc.QueryTable;
-                JsonArrayCollection jsonobj = new JsonArrayCollection("rows");
+                var list = new List<FrameDLRObject>();
+                rtn.SetValue("rows", list);
                 for (int j = 0; j < dts.RowLength; j++)
                 {
-                    JsonObjectCollection jac = new JsonObjectCollection();
+                    FrameDLRObject item = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
                     foreach (string colname in dts.ColumnNames)
                     {
-                        if (dts.ColumnDateType(colname).FullName == typeof(DateTime).FullName)
-                        {
-                            DateTimeStd dtime = DateTimeStd.ParseStd(dts[j, colname]);
-                            jac.Add(new JsonStringValue(colname, dtime != null ? dtime.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""));
-                        }
-                        else
-                        {
-                            jac.Add(new JsonStringValue(colname, ComFunc.nvl(dts[j, colname])));
-                        }
+                        item.SetValue(colname, dts[j, colname]);
+
                     }
-                    jsonobj.Add(jac);
+                    list.Add(item);
                 }
-                jsonrtn.Add(jsonobj);
-
-                
-
-                rtn = jsonrtn.ToString();
             }
 
-            return rtn;
+            return rtn.ToJSONString();
         }
     }
 }

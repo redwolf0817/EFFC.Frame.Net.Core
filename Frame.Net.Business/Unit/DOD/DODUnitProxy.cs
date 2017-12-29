@@ -1,13 +1,9 @@
 ﻿using EFFC.Frame.Net.Base.Exceptions;
 using EFFC.Frame.Net.Data.Parameters;
-using EFFC.Frame.Net.Data.UnitData;
 using EFFC.Frame.Net.Global;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Unit.DOD
 {
@@ -43,17 +39,17 @@ namespace EFFC.Frame.Net.Business.Unit.DOD
                     else
                     {
                         rtn = (DODBaseUnit)Activator.CreateInstance(d[key]);
-                        var prop = d[key].BaseType.GetField("_p", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.IgnoreCase | BindingFlags.NonPublic);
+                        var prop = d[key].GetTypeInfo().GetField("_p", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.IgnoreCase | BindingFlags.NonPublic);
                         prop.SetValue(rtn, p);
                     }
                 }
                 else
                 {
-                    var ass = Assembly.Load(GlobalCommon.UnitCommon.UnitAssemblyPath);
+                    var ass = Assembly.Load(new AssemblyName(GlobalCommon.UnitCommon.UnitAssemblyPath));
 
                     foreach (var t in ass.GetTypes())
                     {
-                        if (t.IsSubclassOf(typeof(DODBaseUnit)) && !t.IsAbstract && !t.IsInterface)
+                        if (t.GetTypeInfo().IsSubclassOf(typeof(DODBaseUnit)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                         {
                             var tkey = t.Name.ToLower().Replace("dod", "").Replace("dodunit", "").Replace("dounit", "").Replace("unit", "");
                             d.Add(tkey, t);
@@ -67,7 +63,7 @@ namespace EFFC.Frame.Net.Business.Unit.DOD
                                 else
                                 {
                                     rtn = (DODBaseUnit)Activator.CreateInstance(d[key]);
-                                    var prop = d[key].BaseType.GetField("_p", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.IgnoreCase | BindingFlags.NonPublic);
+                                    var prop = d[key].GetTypeInfo().BaseType.GetField("_p", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.IgnoreCase | BindingFlags.NonPublic);
                                     prop.SetValue(rtn, p);
                                 }
                             }

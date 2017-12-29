@@ -5,11 +5,7 @@ using EFFC.Frame.Net.Base.Parameter;
 using EFFC.Frame.Net.Base.ResouceManage;
 using EFFC.Frame.Net.Base.Token;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace EFFC.Frame.Net.Business.Logic
 {
@@ -17,14 +13,10 @@ namespace EFFC.Frame.Net.Business.Logic
         where P:ParameterStd
         where D:DataCollection
     {
-        //protected P _wp = null;
-        //protected D _wd = null;
-        //protected ResourceManage _rm = null;
-        //protected TransactionToken _token = null;
-        protected const string CALL_CONTEXT_PARAMETER = "__parameter__";
-        protected const string CALL_CONTEXT_DATACOLLECTION = "__datacollection__";
-        protected const string CALL_CONTEXT_RESOURCEMANAGER = "__resource_manager__";
-        protected const string CALL_CONTEXT_TRANSTOKEN = "__trans_token__";
+        AsyncLocal<ParameterStd> _asynp = new AsyncLocal<ParameterStd>();
+        AsyncLocal<DataCollection> _asynd = new AsyncLocal<DataCollection>();
+        AsyncLocal<ResourceManage> _asynrm = new AsyncLocal<ResourceManage>();
+        AsyncLocal<TransactionToken> _asyntt = new AsyncLocal<TransactionToken>();
 
         public abstract string Name
         {
@@ -39,10 +31,10 @@ namespace EFFC.Frame.Net.Business.Logic
             var _token = p.GetValue<TransactionToken>(ParameterKey.TOKEN);
             try
             {
-                CallContext.SetData(Name + CALL_CONTEXT_PARAMETER, p);
-                CallContext.SetData(Name + CALL_CONTEXT_DATACOLLECTION, d);
-                CallContext.SetData(Name + CALL_CONTEXT_RESOURCEMANAGER, _rm);
-                CallContext.SetData(Name + CALL_CONTEXT_TRANSTOKEN, _token);
+                _asynp.Value = p;
+                _asynd.Value = d;
+                _asynrm.Value = _rm;
+                _asyntt.Value = _token;
 
                 DoProcess((P)p, (D)d);
 
@@ -68,7 +60,11 @@ namespace EFFC.Frame.Net.Business.Logic
         {
             get
             {
-                return (P)CallContext.GetData(Name + CALL_CONTEXT_PARAMETER);
+                return (P)_asynp.Value;
+            }
+            set
+            {
+                _asynp.Value = value;
             }
         }
         /// <summary>
@@ -78,7 +74,11 @@ namespace EFFC.Frame.Net.Business.Logic
         {
             get
             {
-                return (D)CallContext.GetData(Name + CALL_CONTEXT_DATACOLLECTION);
+                return (D)_asynd.Value;
+            }
+            set
+            {
+                _asynd.Value = value;
             }
         }
         /// <summary>
@@ -88,7 +88,11 @@ namespace EFFC.Frame.Net.Business.Logic
         {
             get
             {
-                return (TransactionToken)CallContext.GetData(Name + CALL_CONTEXT_TRANSTOKEN);
+                return (TransactionToken)_asyntt.Value;
+            }
+            set
+            {
+                _asyntt.Value = value;
             }
         }
         /// <summary>
@@ -98,7 +102,11 @@ namespace EFFC.Frame.Net.Business.Logic
         {
             get
             {
-                return (ResourceManage)CallContext.GetData(Name + CALL_CONTEXT_RESOURCEMANAGER);
+                return (ResourceManage)_asynrm.Value;
+            }
+            set
+            {
+                _asynrm.Value = value;
             }
         }
 

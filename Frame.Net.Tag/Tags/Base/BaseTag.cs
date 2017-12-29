@@ -1,12 +1,7 @@
 ﻿using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Tag.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace EFFC.Frame.Net.Tag.Tags.Base
 {
@@ -121,10 +116,10 @@ namespace EFFC.Frame.Net.Tag.Tags.Base
         }
 
         protected abstract string DoProcess(dynamic args, string content);
-
+        AsyncLocal<TagData> tagdata = new AsyncLocal<TagData>();
         public void DoParse(TagParameter p, TagData d)
         {
-            CallContext.SetData("_basetag_tagdata_", d);
+            tagdata.Value = d;
 
             Regex re = null;
             Regex rearg = new Regex(regArgs);
@@ -180,9 +175,9 @@ namespace EFFC.Frame.Net.Tag.Tags.Base
         {
             get
             {
-                if (CallContext.GetData("_basetag_tagdata_") != null)
+                if (tagdata.Value != null)
                 {
-                    return ((TagData)CallContext.GetData("_basetag_tagdata_")).Context;
+                    return tagdata.Value.Context;
                 }
                 else
                 {

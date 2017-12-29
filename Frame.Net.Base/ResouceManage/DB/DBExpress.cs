@@ -30,7 +30,39 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 return acttype;
             }
         }
-        public static T Create<T>(FrameDLRObject json) where T : DBExpress
+        /// <summary>
+        /// 给Express加载对应的参数
+        /// </summary>
+        /// <param name="express"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static void Load(DBExpress express, FrameDLRObject json)
+        {
+            var rtn = express;
+            var acttypekey = json.IgnoreCase ? "$acttype" : "$ActType";
+            if (ComFunc.nvl(json.GetValue(acttypekey)) != "")
+            {
+                rtn.acttype = ComFunc.EnumParse<ActType>(ComFunc.nvl(json.GetValue(acttypekey)));
+                json.Remove(acttypekey);
+            }
+            else
+            {
+                rtn.acttype = ActType.Query;
+            }
+
+            rtn.express = json;
+        }
+        /// <summary>
+        ///  给Express加载对应的参数
+        /// </summary>
+        /// <param name="express"></param>
+        /// <param name="json"></param>
+        public static void Load(DBExpress express, string json)
+        {
+            FrameDLRObject obj = FrameDLRObject.CreateInstance(json);
+            Load(express,obj);
+        }
+            public static T Create<T>(FrameDLRObject json) where T : DBExpress
         {
             T rtn = (T)Activator.CreateInstance(typeof(T), true);
             var acttypekey = json.IgnoreCase ? "$acttype" : "$ActType";

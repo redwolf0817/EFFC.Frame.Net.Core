@@ -8,15 +8,9 @@ using EFFC.Frame.Net.Base.Token;
 using EFFC.Frame.Net.Data.DataConvert;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.UnitData;
+using EFFC.Frame.Net.Global;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Caching;
 
 namespace EFFC.Frame.Net.Business.Unit.DOD
 {
@@ -122,7 +116,15 @@ namespace EFFC.Frame.Net.Business.Unit.DOD
         /// <param name="sliding_expiration"></param>
         public virtual void SetCache(string propertyname, DOCollection value, DateTime expiration, TimeSpan sliding_expiration)
         {
-            HttpRuntime.Cache.Insert(this.GetType().FullName + "." + propertyname + "." + InstanceID, value, null, expiration, sliding_expiration);
+            if (expiration != null && expiration != DateTime.MinValue)
+            {
+                GlobalCommon.ApplicationCache.Set(this.GetType().FullName + "." + propertyname + "." + InstanceID, value, expiration);
+            }
+            else if (sliding_expiration != null && sliding_expiration != TimeSpan.Zero)
+            {
+                GlobalCommon.ApplicationCache.Set(this.GetType().FullName + "." + propertyname + "." + InstanceID, value, sliding_expiration);
+            }
+           
         }
         /// <summary>
         /// 获取缓存的属性数据
@@ -131,9 +133,9 @@ namespace EFFC.Frame.Net.Business.Unit.DOD
         /// <returns></returns>
         public virtual DOCollection GetCache(string propertyname)
         {
-            if (HttpRuntime.Cache[this.GetType().FullName + "." + propertyname + "." + InstanceID] != null)
+            if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + "." + propertyname + "." + InstanceID) != null)
             {
-                return (DOCollection)HttpRuntime.Cache[this.GetType().FullName + "." + propertyname + "." + InstanceID];
+                return (DOCollection)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + "." + propertyname + "." + InstanceID);
             }
             else
             {
@@ -146,13 +148,13 @@ namespace EFFC.Frame.Net.Business.Unit.DOD
         /// <param name="propert"></param>
         protected virtual void RemoveCache(string propertyname)
         {
-            HttpRuntime.Cache.Remove(this.GetType().FullName + "." + propertyname);
+            GlobalCommon.ApplicationCache.Remove(this.GetType().FullName + "." + propertyname);
         }
 
         public class CacheSetting
         {
             bool _iscache = true;
-            DateTime _expiration = Cache.NoAbsoluteExpiration;
+            DateTime _expiration = DateTime.MaxValue;
             TimeSpan _sliding_expiration = TimeSpan.FromMinutes(30);
             string _extentionkey = "";
             /// <summary>

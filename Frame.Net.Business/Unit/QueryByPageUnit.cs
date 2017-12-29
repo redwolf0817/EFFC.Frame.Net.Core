@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using EFFC.Frame.Net.Base.Interfaces;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Interfaces.Unit;
 using EFFC.Frame.Net.Base.Parameter;
@@ -12,7 +7,6 @@ using EFFC.Frame.Net.Base.ResouceManage.DB;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.UnitData;
 using EFFC.Frame.Net.Base.Data;
-using EFFC.Frame.Net.Base.Parameter;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Exceptions;
 
@@ -43,14 +37,8 @@ namespace EFFC.Frame.Net.Business.Unit
                                 \1                                                                #结束标记“</tag>”
                      ";
                 string tmpsql = "";
-                if (dba is OracleAccess)
-                {
-                    regstr = @"(?<=:)[a-zA-Z0-9_]*\d*";
-                }
-                else
-                {
-                    regstr = @"(?<=@)[A-Za-z0-9_]+\d*";
-                }
+                regstr = @"(?<=" + dba.ParameterFlagChar + @")[A-Za-z0-9_]+\d*";
+
                 Regex re = new Regex(regstr);
                 Regex re2 = new Regex(regexpress);
                 try

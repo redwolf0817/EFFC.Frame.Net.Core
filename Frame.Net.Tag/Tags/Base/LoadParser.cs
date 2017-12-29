@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using EFFC.Frame.Net.Tag.Core;
-using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Constants;
 

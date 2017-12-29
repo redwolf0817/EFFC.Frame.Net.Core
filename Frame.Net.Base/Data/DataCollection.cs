@@ -13,10 +13,10 @@ using EFFC.Frame.Net.Base.Exceptions;
 
 namespace EFFC.Frame.Net.Base.Data
 {
+    [Serializable]
     /// <summary>
     /// 数据集合用于架构中各个层次间的数据交换-提供线程安全处理
     /// </summary>
-    [Serializable]
     public class DataCollection : BaseCollection
     {
         protected ConcurrentDictionary<string, object> _d = new ConcurrentDictionary<string, object>();

@@ -1,41 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using EFFC.Frame.Net.Base.Constants;
+﻿using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Interfaces.System;
+using log4net;
+using log4net.Config;
+using log4net.Repository;
+using System.IO;
 
 namespace EFFC.Frame.Net.Web.Log
 {
+    /// <summary>
+    /// Log4Net为框架提供一个基础的log实现
+    /// </summary>
     public class Log4Net : ILogger
     {
-        log4net.ILog logInfo = log4net.LogManager.GetLogger("InfoLog");
-        log4net.ILog logDebug = log4net.LogManager.GetLogger("DebugLog");
-        log4net.ILog logError = log4net.LogManager.GetLogger("ErrorLog");
-        log4net.ILog logFatal = log4net.LogManager.GetLogger("FatalLog");
-        log4net.ILog logWarn = log4net.LogManager.GetLogger("WarnLog");
+        ILoggerRepository repository = null;
+        log4net.ILog logInfo = null;
+        log4net.ILog logDebug = null;
+        log4net.ILog logError = null;
+        log4net.ILog logFatal = null;
+        log4net.ILog logWarn = null;
 
-        public Log4Net()
+        public Log4Net():this("log4net.config")
         {
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(HttpContext.Current.Server.MapPath("Log4Net.config")));
         }
 
         public Log4Net(string configpath)
         {
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(configpath));
+            repository = LogManager.CreateRepository("NETCoreRepository");
+            XmlConfigurator.Configure(repository, new FileInfo(configpath));
         }
 
         private void Init()
         {
-            logInfo = log4net.LogManager.GetLogger("InfoLog");
-            logDebug = log4net.LogManager.GetLogger("DebugLog");
-            logError = log4net.LogManager.GetLogger("ErrorLog");
-            logFatal = log4net.LogManager.GetLogger("FatalLog");
-            logWarn = log4net.LogManager.GetLogger("WarnLog");
+            logInfo = log4net.LogManager.GetLogger(repository.Name,"InfoLog");
+            logDebug = log4net.LogManager.GetLogger(repository.Name, "DebugLog");
+            logError = log4net.LogManager.GetLogger(repository.Name, "ErrorLog");
+            logFatal = log4net.LogManager.GetLogger(repository.Name, "FatalLog");
+            logWarn = log4net.LogManager.GetLogger(repository.Name, "WarnLog");
         }
         /// <summary>
-        /// ?庹
+        /// 写入Log
         /// </summary>
         /// <param name="msg"></param>
         public void WriteLog(string msg)

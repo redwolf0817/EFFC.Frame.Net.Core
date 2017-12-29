@@ -12,7 +12,6 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace EFFC.Frame.Net.Base.Module
 {
@@ -108,7 +107,7 @@ namespace EFFC.Frame.Net.Base.Module
             {
                 this.ProcessBeforeRequest(p, d);
                 //尝试解决速度慢的问题
-                System.Net.ServicePointManager.DefaultConnectionLimit = 100;
+                //System.Net.ServicePointManager.DefaultConnectionLimit = 100;
                 HttpWebRequest hr = GetRequestInstance();
 
                 if (_contenttype.ToLower().StartsWith("put/"))
@@ -207,7 +206,7 @@ namespace EFFC.Frame.Net.Base.Module
             {
                 if (postStream != null)
                 {
-                    postStream.Close();
+                    postStream.Dispose();
                 }
 
                 p.Resources.ReleaseAll();
@@ -260,7 +259,7 @@ namespace EFFC.Frame.Net.Base.Module
                             || contenttype == ResponseHeader_ContentType.xlsx
                             || contenttype == ResponseHeader_ContentType.pdf)
                         {
-                            var cd = HttpUtility.UrlDecode(ComFunc.nvl(re.Headers.Get("Content-Disposition")), Encoding.UTF8);
+                            var cd = ComFunc.UrlDecode(ComFunc.nvl(re.Headers["Content-Disposition"]));
                             var filename = cd.ToLower().Replace("attachment;", "").Replace("filename=", "").Replace("\"","").Trim();
                             responseobj.contenttype = re.ContentType;
                             responseobj.filename = filename;
@@ -287,7 +286,7 @@ namespace EFFC.Frame.Net.Base.Module
                 }
                 //Head处理
                 FrameDLRObject header = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                foreach (string key in re.Headers.Keys)
+                foreach (string key in re.Headers.AllKeys)
                 {
                     header.SetValue(key, re.Headers[key]);
                 }
@@ -302,15 +301,15 @@ namespace EFFC.Frame.Net.Base.Module
             {
                 if (streamResponse != null)
                 {
-                    streamResponse.Close();
+                    streamResponse.Dispose();
                 }
                 if (streamRead != null)
                 {
-                    streamRead.Close();
+                    streamRead.Dispose();
                 }
                 if (re != null)
                 {
-                    re.Close();
+                    re.Dispose();
                 }
 
                 p.Resources.ReleaseAll();
@@ -340,38 +339,31 @@ namespace EFFC.Frame.Net.Base.Module
             hr.CookieContainer = cookieCon;
             hr.CookieContainer.SetCookies(new Uri(_url), cookieheader);
 
-            hr.KeepAlive = false;
+            
             hr.Method = _requestmethod;
             hr.Proxy = _proxy;
-            if (_cert != null)
-            {
-                hr.ClientCertificates.Add(_cert);
-            }
+            //if (_cert != null)
+            //{
+            //    hr.ClientCertificates.Add(_cert);
+            //}
             //添加header
             foreach (var k in _header.Keys)
             {
                 if (k.ToLower() == "date")
                 {
-                    hr.Date = DateTimeStd.IsDateTime(_header.GetValue(k)) ? DateTimeStd.ParseStd(ComFunc.nvl(_header.GetValue(k))).Value : DateTime.Now;
+                    hr.Headers["Date"] = DateTimeStd.IsDateTime(_header.GetValue(k)) ? DateTimeStd.ParseStd(ComFunc.nvl(_header.GetValue(k))).Value.ToUniversalTime().ToString("r") : DateTime.Now.ToString("r");
                 }
                 else if (k.ToLower() == "content-length")
                 {
-                    hr.ContentLength = long.Parse(ComFunc.nvl(_header.GetValue(k)));
+                    hr.Headers["Content-Length"] = ComFunc.nvl(_header.GetValue(k));
                 }
                 else if (k.ToLower() == "user-agent")
                 {
-                    hr.UserAgent = ComFunc.nvl(_header.GetValue(k));
+                    hr.Headers["User-Agent"] = ComFunc.nvl(_header.GetValue(k));
                 }
                 else
                 {
-                    if (ComFunc.nvl(hr.Headers[k]) != "")
-                    {
-                        hr.Headers[k] = ComFunc.nvl(_header.GetValue(k));
-                    }
-                    else
-                    {
-                        hr.Headers.Add(k, ComFunc.nvl(_header.GetValue(k)));
-                    }
+                    hr.Headers[k] = ComFunc.nvl(_header.GetValue(k));
                 }
 
             }
@@ -461,7 +453,7 @@ Content-Type: multipart/form-data; boundary=AaB03x
                 formDataStream.Position = 0;
                 byte[] formData = new byte[formDataStream.Length];
                 formDataStream.Read(formData, 0, formData.Length);
-                formDataStream.Close();
+                formDataStream.Dispose();
 
                 return formData;
             }//以put的方式发送文件内容

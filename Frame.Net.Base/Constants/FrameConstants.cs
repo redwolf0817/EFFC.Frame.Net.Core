@@ -1,8 +1,7 @@
 ﻿using EFFC.Frame.Net.Base.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 
 namespace EFFC.Frame.Net.Base.Constants
 {
@@ -678,6 +677,10 @@ namespace EFFC.Frame.Net.Base.Constants
         /// 请求的内容类型
         /// </summary>
         public const string REQUEST_CONTENT = "__request_content__";
+        /// <summary>
+        /// 请求的Method
+        /// </summary>
+        public const string REQUEST_METHOD = "__request_method__";
     }
     /// <summary>
     /// 系统会用到的公共域名，提供全局共享使用，自身独有的则不在此列

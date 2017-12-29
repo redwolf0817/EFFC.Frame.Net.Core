@@ -1,21 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Caching;
-using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Interfaces;
-using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.ResouceManage;
-using EFFC.Frame.Net.Base.ResouceManage.DB;
-using EFFC.Frame.Net.Base.Token;
-using EFFC.Frame.Net.Base.Unit;
-using EFFC.Frame.Net.Data;
-using EFFC.Frame.Net.Data.LogicData;
-using EFFC.Frame.Net.Data.Parameters;
-using EFFC.Frame.Net.Data.UnitData;
-using EFFC.Frame.Net.Data.WebData;
+﻿using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 
 namespace EFFC.Frame.Net.Business.Logic
@@ -24,6 +7,7 @@ namespace EFFC.Frame.Net.Business.Logic
     {
         private ClientInfoProperty _ci;
         private ServerInfoProperty _si;
+        private EFFCFrameInfoProperty _fi;
 
         /// <summary>
         /// 客户端信息集
@@ -51,6 +35,20 @@ namespace EFFC.Frame.Net.Business.Logic
                     _si = new ServerInfoProperty(this);
                 }
                 return _si;
+            }
+        }
+        /// <summary>
+        /// EFFC框架信息
+        /// </summary>
+        public EFFCFrameInfoProperty EFFCFrameInfo
+        {
+            get
+            {
+                if (_fi == null)
+                {
+                    _fi = new EFFCFrameInfoProperty(this);
+                }
+                return _fi;
             }
         }
         public class ServerInfoProperty
@@ -135,6 +133,23 @@ namespace EFFC.Frame.Net.Business.Logic
             /// Client端操作平台名称
             /// </summary>
             public string Platform { get { return ComFunc.nvl(_logic.CallContext_Parameter[DomainKey.APPLICATION_ENVIRONMENT, "clientinfo_platform"]); } }
+        }
+
+        public class EFFCFrameInfoProperty
+        {
+            WebBaseLogic<P, D> _logic;
+            public EFFCFrameInfoProperty(WebBaseLogic<P, D> logic)
+            {
+                _logic = logic;
+            }
+            /// <summary>
+            /// EFFC.Base程式版本号
+            /// </summary>
+            public string Base_Version { get { return ComFunc.nvl(_logic.CallContext_Parameter[DomainKey.APPLICATION_ENVIRONMENT, "effcinfo_base_version"]); } }
+            /// <summary>
+            /// EFFC.Base产品版本号
+            /// </summary>
+            public string Base_Product_Version { get { return ComFunc.nvl(_logic.CallContext_Parameter[DomainKey.APPLICATION_ENVIRONMENT, "effcinfo_base_product_version"]); } }
         }
     }
 }

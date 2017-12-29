@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using EFFC.Frame.Net.Base.Data.Base;
-using EFFC.Frame.Net.Base.Interfaces;
 using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.Parameter;
+using Chilkat;
 
 namespace EFFC.Frame.Net.Base.ResouceManage.FTP
 {
@@ -16,11 +15,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.FTP
     /// </summary>
     public class FTPAccess : IResourceEntity, IDisposable
     {
-        FtpWebRequest ftpRequest;
-        Stream stream = null;
-        FileStream fileStream = null;
-        StreamReader reader = null;
-        FtpWebResponse ftpResponse = null;
+        Ftp2 ftpRequest;
         string _id = "";
         Encoding encoding = null;
 
@@ -67,12 +62,9 @@ namespace EFFC.Frame.Net.Base.ResouceManage.FTP
 
         private void InitByParameters(FtpParameter p)
         {
-            ftpRequest = (FtpWebRequest)WebRequest.Create(p.FTP_URL);
+            ftpRequest = new Ftp2();
 
-            if (p.Login_UserId != "")
-            {
-                ftpRequest.Credentials = new NetworkCredential(p.Login_UserId, p.Login_Password);
-            }
+            
             ftpRequest.UseBinary = p.UseBinary;
             ftpRequest.KeepAlive = p.KeepAlive;
             ftpRequest.UsePassive = p.UsePassive;

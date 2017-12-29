@@ -5,11 +5,7 @@ using EFFC.Frame.Net.Base.Unit;
 using EFFC.Frame.Net.Business.Unit.DOD;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.UnitData;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Logic
 {

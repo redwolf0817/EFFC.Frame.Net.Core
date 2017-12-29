@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Interfaces.Unit;
 using EFFC.Frame.Net.Base.ResouceManage.DB;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.UnitData;
-using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Parameter;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Exceptions;

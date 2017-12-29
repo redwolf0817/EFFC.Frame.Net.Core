@@ -172,14 +172,43 @@ namespace EFFC.Frame.Net.Base.Data.Base
 
         public class MyDynamicMetaObject : DynamicMetaObject
         {
-            internal MyDynamicMetaObject(Expression parameter, MyDynamicMetaProvider dynamicDictionary)
+            public MyDynamicMetaObject(Expression parameter, MyDynamicMetaProvider dynamicDictionary)
                 : base(parameter, BindingRestrictions.Empty, dynamicDictionary)
             {
 
             }
             public override DynamicMetaObject BindConvert(ConvertBinder binder)
             {
-                return base.BindConvert(binder);
+                // setup the binding restrictions.
+                BindingRestrictions restrictions = BindingRestrictions.GetTypeRestriction(Expression, LimitType);
+                // setup the parameters:
+                Expression[] args = new Expression[1];
+                // First parameter is the name of the property to Set
+                args[0] = Expression.Parameter(binder.ReturnType);
+                // Setup the 'this' reference
+                Expression methodCall = Expression.Convert(Expression, LimitType);
+                // Create a meta object to invoke Set later:
+                DynamicMetaObject setDictionaryEntry = new DynamicMetaObject(methodCall, restrictions);
+                // return that dynamic object
+                return setDictionaryEntry;
+
+                //return base.BindConvert(binder);
+            }
+            public override DynamicMetaObject BindBinaryOperation(BinaryOperationBinder binder, DynamicMetaObject arg)
+            {
+                return base.BindBinaryOperation(binder, arg);
+            }
+            public override DynamicMetaObject BindCreateInstance(CreateInstanceBinder binder, DynamicMetaObject[] args)
+            {
+                return base.BindCreateInstance(binder, args);
+            }
+            public override DynamicMetaObject BindInvoke(InvokeBinder binder, DynamicMetaObject[] args)
+            {
+                return base.BindInvoke(binder, args);
+            }
+            public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder)
+            {
+                return base.BindUnaryOperation(binder);
             }
             public override DynamicMetaObject BindSetIndex(SetIndexBinder binder, DynamicMetaObject[] indexes, DynamicMetaObject value)
             {

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Json;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.Common;
@@ -59,7 +53,7 @@ namespace EFFC.Frame.Net.Data.DataConvert
                     if (reader.TokenType == JsonToken.EndArray)
                     {
                         isStartArray = false;
-                        rtn.Tables.Add(currentdts);
+                        rtn.AddTable(currentdts);
                     }
                     //一行资料结束
                     if (reader.TokenType == JsonToken.EndObject)
@@ -73,7 +67,7 @@ namespace EFFC.Frame.Net.Data.DataConvert
                     {
                         if (index == 0)
                         {
-                            currentdts.AddColumn(ColumnP.CreatInstanse(ComFunc.nvl(reader.Value)));
+                            currentdts.AddColumn(DataColumn.CreatInstanse(ComFunc.nvl(reader.Value)));
                         }
                         currentColumn = ComFunc.nvl(reader.Value);
                     }

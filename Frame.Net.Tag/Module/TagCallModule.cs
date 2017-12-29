@@ -1,14 +1,9 @@
-﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.Module;
+﻿using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Tag.Core;
 using EFFC.Frame.Net.Tag.Tags.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace EFFC.Frame.Net.Tag.Module
 {
@@ -66,11 +61,11 @@ namespace EFFC.Frame.Net.Tag.Module
             ModuleData.Context.AddTagParser(new CopyParser());
             if (!string.IsNullOrEmpty(GlobalCommon.TagCommon.TagAssemblyPath))
             {
-                Assembly asm = Assembly.Load(GlobalCommon.TagCommon.TagAssemblyPath);
+                Assembly asm = Assembly.Load(new AssemblyName(GlobalCommon.TagCommon.TagAssemblyPath));
                 Type[] ts = asm.GetTypes();
                 foreach (Type t in ts)
                 {
-                    if (t.IsSubclassOf(typeof(ITagParser)) && !t.IsAbstract && !t.IsInterface)
+                    if (t.GetTypeInfo().IsSubclassOf(typeof(ITagParser)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                     {
                         ITagParser l = (ITagParser)Activator.CreateInstance(t, true);
                         ModuleData.Context.AddTagParser(l);

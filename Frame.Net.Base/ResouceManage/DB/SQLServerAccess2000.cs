@@ -96,7 +96,10 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 return _id;
             }
         }
+        public override string ParameterFlagChar => "@";
 
+        SqlServerExpress _express = new SqlServerExpress();
+        public override DBExpress MyDBExpress => _express;
         /// <summary>
         /// 釋放連接資源
         /// </summary>
@@ -135,48 +138,8 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 {
                     FillParametersToCommand(sqlcomm, dbp);
                 }
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(this.sqlcomm);
-                sqlAdapter.Fill(ds);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                sqlcomm.Cancel();
-                sqlcomm = null;
-            }
-            return ds;
-        }
-
-        public DataSetStd QueryWithKey(string sql, DBOParameterCollection dbp)
-        {
-            if (sqlcomm == null)
-            {
-                sqlcomm = new SqlCommand(sql, this.sqlconn);
-                sqlcomm.CommandTimeout = 90;
-            }
-            else
-            {
-                sqlcomm.CommandText = sql;
-            }
-            //如果事務開啟，則使用事務的方式
-            if (this._s == DBStatus.Begin_Trans)
-                sqlcomm.Transaction = this.trans;
-
-
-            DataSetStd ds = new DataSetStd();
-            try
-            {
-                //如果有參數
-                if (dbp != null)
-                {
-                    FillParametersToCommand(sqlcomm, dbp);
-                }
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(this.sqlcomm);
-                sqlAdapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-                sqlAdapter.Fill(ds);
+                var ddr = sqlcomm.ExecuteReader();
+                ds = DataSetStd.FillData(ddr);
             }
             catch (Exception ex)
             {
@@ -290,41 +253,24 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 sqlcomm = null;
             }
         }
-
-        public override void Update(DataTable data, string selectsql)
+        /// <summary>
+        /// （未实现）
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="selectsql"></param>
+        public override void Update(object data, string selectsql)
         {
-            if (sqlcomm == null)
-            {
-                this.sqlcomm = new SqlCommand(selectsql, this.sqlconn);
-                this.sqlcomm.CommandTimeout = 90;
-            }
-            else
-            {
-                sqlcomm.CommandText = selectsql;
-            }
-
-            if (this._s == DBStatus.Begin_Trans)
-            {
-                sqlcomm.Transaction = this.trans;
-            }
-
-            SqlDataAdapter adt = new SqlDataAdapter(this.sqlcomm);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adt);
-
-            try
-            {
-                adt.UpdateCommand = builder.GetUpdateCommand();
-                adt.Update(data);
-            }
-            finally
-            {
-                sqlcomm.Cancel();
-                sqlcomm = null;
-            }
+            //
         }
 
-        public override void Insert(DataTable data, string toTable)
+        public override void Insert(object data, string toTable)
         {
+            if (data == null) return;
+            if (!(data is DataTableStd))
+            {
+                return;
+            }
+
             if (this.sqlconn.State == ConnectionState.Closed)
             {
                 this.sqlconn.Open();
@@ -338,8 +284,9 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
             try
             {
+
                 sbc.DestinationTableName = toTable;
-                sbc.WriteToServer(data);
+                sbc.WriteToServer((DataTableStd)data);
             }
             finally
             {
@@ -349,7 +296,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
         public override DBDataCollection ExcuteProcedure(string sp_name, bool isReturnDataSet, ref DBOParameterCollection dbp)
         {
-            DBDataCollection rtn =new DBDataCollection();
+            DBDataCollection rtn = new DBDataCollection();
             rtn.IsSuccess = false;
 
             DataSetStd ds = new DataSetStd();
@@ -370,10 +317,9 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
                 if (isReturnDataSet)
                 {
-                    SqlDataAdapter sqlDa = new SqlDataAdapter();
-                    sqlDa.SelectCommand = dc;
-                    sqlDa.Fill(ds);
-                    rtn.ReturnDataSet= ds;
+                    var dr = dc.ExecuteReader();
+                    ds = DataSetStd.FillData(dr);
+                    rtn.ReturnDataSet = ds;
                 }
                 else
                 {
@@ -387,7 +333,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 }
 
                 rtn.IsSuccess = true;
-                
+
             }
             finally
             {
@@ -426,97 +372,13 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
         }
 
         /// <summary>
-        /// 根据数据集批量删除对应table中的数据
+        /// 根据数据集批量删除对应table中的数据（未实现）
         /// </summary>
         /// <param name="data"></param>
         /// <param name="toTable"></param>
-        public override void Delete(DataTable data, string toTable)
+        public override void Delete(object data, string toTable)
         {
-            if (data == null) return;
-            string[] keycols = DataTableStd.GetPKName(data);
-            string sql = "delete from " + toTable;
-            string where = "";
-            if (keycols.Length <= 0)
-            {
-                keycols = DataTableStd.GetColumnName(data);
-            }
-
-            foreach (string key in keycols)
-            {
-                if (where == "")
-                {
-                    where += " where " + key + "=@" + key;
-                }
-                else
-                {
-                    where += " and " + key + "=@" + key;
-                }
-            }
-
-            sql = sql + where;
-
-            SqlCommand tsqlcomm = new SqlCommand("select * from " + toTable + " where 1=0 ", this.sqlconn);
-            tsqlcomm.CommandTimeout = 90;
-
-
-            if (this._s == DBStatus.Begin_Trans)
-                tsqlcomm.Transaction = this.trans;
-
-            SqlDataAdapter sda = new SqlDataAdapter(tsqlcomm);
-            DataSetStd ds = new DataSetStd();
-            sda.FillSchema(ds, SchemaType.Source);
-            tsqlcomm.CommandText = "SET NOCOUNT ON " + sql;
-            sda.DeleteCommand = tsqlcomm;
-            sda.DeleteCommand.Parameters.Clear();
-            foreach (string key in keycols)
-            {
-                DataColumn dc = data.Columns[key];
-                sda.DeleteCommand.Parameters.Add("@" + key, ConvertBy(dc.DataType), dc.MaxLength, key);
-            }
-            sda.DeleteCommand.UpdatedRowSource = UpdateRowSource.None;
-            sda.UpdateBatchSize = 0;
-            SqlCommandBuilder scb = new SqlCommandBuilder();
-            scb.ConflictOption = ConflictOption.OverwriteChanges;
-            scb.SetAllValues = false;
-            scb.DataAdapter = sda;
-
-            DataTableStd dtsdata = DataTableStd.ParseStd(data);
-
-            try
-            {
-                for (int count = 0; count < dtsdata.RowLength; count++)
-                {
-
-                    foreach (string colname in ds[0].ColumnNames)
-                    {
-                        ds[0].SetNewRowValue(dtsdata[count, colname], colname);
-                    }
-                    ds[0].AddNewRow();
-                    if (((count + 1) % 200 == 0) || ((count + 1) == dtsdata.RowLength))
-                    {
-                        ds.AcceptChanges();
-
-                        for (int i = 0; i < 200; i++)
-                        {
-                            if (i >= ds[0].Value.Rows.Count) break;
-
-                            ds[0].Value.Rows[i].BeginEdit();
-                            ds[0].Value.Rows[i].Delete();
-                            ds[0].Value.Rows[i].EndEdit();
-
-                        }
-                        sda.Update(ds[0].Value);
-                        ds[0].ClearData();
-                    }
-                }
-            }
-            finally
-            {
-                tsqlcomm.Cancel();
-                tsqlcomm.Dispose();
-                sda.Dispose();
-                ds.Dispose();
-            }
+            //
         }
         private string[] columnsName4PageOrder = null;
         private string sql4PageOrder = "";

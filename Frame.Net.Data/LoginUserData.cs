@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data;
-using EFFC.Frame.Net.Base.Data.Base;
+using Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
+using EFFC.Frame.Net.Base.Data.Base;
+using System.Dynamic;
 
 namespace EFFC.Frame.Net.Data
 {
-    [Serializable]
-    public class LoginUserData : DataCollection, IJSONable, ISerializable
+    
+    public class LoginUserData:DataCollection,IJSONable,IJSONParsable
     {
         public enum SexType
         {
@@ -22,6 +21,8 @@ namespace EFFC.Frame.Net.Data
 
         public LoginUserData()
         {
+           
+
             SetValue("UserID", "");
             SetValue("UserName", "");
             SetValue("RoleID", "");
@@ -71,7 +72,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string UserName
         {
-            get { return ComFunc.nvl(GetValue("UserName")); }
+            get { return  ComFunc.nvl(GetValue("UserName")); }
             set { SetValue("UserName", value); }
         }
         /// <summary>
@@ -79,7 +80,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string RoleID
         {
-            get { return ComFunc.nvl(GetValue("RoleID")); }
+            get { return  ComFunc.nvl(GetValue("RoleID")); }
             set { SetValue("RoleID", value); }
         }
         /// <summary>
@@ -87,7 +88,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string RoleName
         {
-            get { return ComFunc.nvl(GetValue("RoleName")); }
+            get { return  ComFunc.nvl(GetValue("RoleName")); }
             set { SetValue("RoleName", value); }
         }
         /// <summary>
@@ -95,7 +96,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string GroupID
         {
-            get { return ComFunc.nvl(GetValue("GroupID")); }
+            get { return  ComFunc.nvl(GetValue("GroupID")); }
             set { SetValue("GroupID", value); }
         }
         /// <summary>
@@ -103,7 +104,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string GroupName
         {
-            get { return ComFunc.nvl(GetValue("GroupName")); }
+            get { return  ComFunc.nvl(GetValue("GroupName")); }
             set { SetValue("GroupName", value); }
         }
 
@@ -112,7 +113,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string TeamID
         {
-            get { return ComFunc.nvl(GetValue("TeamID")); }
+            get { return  ComFunc.nvl(GetValue("TeamID")); }
             set { SetValue("TeamID", value); }
         }
 
@@ -121,7 +122,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string TeamName
         {
-            get { return ComFunc.nvl(GetValue("TeamName")); }
+            get { return  ComFunc.nvl(GetValue("TeamName")); }
             set { SetValue("TeamName", value); }
         }
 
@@ -130,7 +131,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string AgentID
         {
-            get { return ComFunc.nvl(GetValue("AgentID")); }
+            get { return  ComFunc.nvl(GetValue("AgentID")); }
             set { SetValue("AgentID", value); }
         }
         /// <summary>
@@ -138,7 +139,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string AgentName
         {
-            get { return ComFunc.nvl(GetValue("AgentName")); }
+            get { return  ComFunc.nvl(GetValue("AgentName")); }
             set { SetValue("AgentName", value); }
         }
 
@@ -171,7 +172,7 @@ namespace EFFC.Frame.Net.Data
         /// </summary>
         public string LoginIPAddress
         {
-            get { return ComFunc.nvl(GetValue("LoginIPAddress")); }
+            get { return  ComFunc.nvl(GetValue("LoginIPAddress")); }
             set { SetValue("LoginIPAddress", value); }
         }
         /// <summary>
@@ -187,38 +188,38 @@ namespace EFFC.Frame.Net.Data
         {
             get { return (ActionCollection)GetValue("Actions"); }
         }
-        private LoginUserData(SerializationInfo info, StreamingContext context)
-        {
-            _info = info;
-            _context = context;
-            DeSerialization(SerializableType.Binary);
-        }
+        //private LoginUserData(SerializationInfo info, StreamingContext context)
+        //{
+        //    _info = info;
+        //    _context = context;
+        //    DeSerialization(SerializableType.Binary);
+        //}
 
-        public override void DeSerialization(SerializableType st)
-        {
-            if (st == SerializableType.Binary)
-            {
-                string keys = _info.GetString("DatatdKeys#");
-                string[] keyarray = keys.Split(';');
-                foreach (string key in keyarray)
-                {
-                    string typename = _info.GetString(key + "_Type#");
-                    if (!string.IsNullOrEmpty(typename))
-                    {
-                        Type t = Type.GetType(_info.GetString(key + "_Type#"));
-                        SetValue(key, _info.GetValue(key, t));
-                    }
-                    else
-                    {
-                        SetValue(key, null);
-                    }
-                }
-            }
-            else
-            {
+        //public override void DeSerialization(SerializableType st)
+        //{
+        //    if (st == SerializableType.Binary)
+        //    {
+        //        string keys = _info.GetString("DatatdKeys#");
+        //        string[] keyarray = keys.Split(';');
+        //        foreach (string key in keyarray)
+        //        {
+        //            string typename = _info.GetString(key + "_Type#");
+        //            if (!string.IsNullOrEmpty(typename))
+        //            {
+        //                Type t = Type.GetType(_info.GetString(key + "_Type#"));
+        //                SetValue(key, _info.GetValue(key, t));
+        //            }
+        //            else
+        //            {
+        //                SetValue(key, null);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         public dynamic ToJSONObject()
         {
@@ -237,23 +238,71 @@ namespace EFFC.Frame.Net.Data
             rtn.LoginTime = LoginTime;
             rtn.ForceLogoutTimeOut = ForceLogoutTimeOut;
             rtn.LoginIPAddress = LoginIPAddress;
-            rtn.UserSex = UserSex;
+            rtn.UserSex = ComFunc.Enum2String<SexType>(UserSex);
             return rtn;
         }
 
         public string ToJSONString()
         {
-            var f = (FrameDLRObject)ToJSONObject();
-            return f.ToJSONString();
+            string rtn = ((FrameDLRObject)ToJSONObject()).ToJSONString();
+            return rtn;
         }
+
+        public bool TryParseJSON(object obj)
+        {
+            
+
+            if (obj == null) return false;
+
+            dynamic dobj = null;
+            if (obj is string)
+            {
+                FrameDLRObject.TryParse(ComFunc.nvlNotrim(obj), FrameDLRFlags.SensitiveCase, dobj);
+                if (dobj == null) return false;
+            }
+            else if (obj is FrameDLRObject)
+            {
+                dobj = (FrameDLRObject)obj;
+            }
+            else
+            {
+                return false;
+            }
+            
+
+            UserID = dobj.UserID;
+            UserName = dobj.UserName;
+            RoleID = dobj.RoleID;
+            RoleName = dobj.RoleName;
+            GroupID = dobj.GroupID;
+            GroupName = dobj.GroupName;
+            TeamID = dobj.TeamID;
+            TeamName = dobj.TeamName;
+            AgentID = dobj.AgentID;
+            AgentName = dobj.AgentName;
+            if(dobj.Actions is FrameDLRObject)
+            {
+                var actions = new ActionCollection();
+                if (actions.TryParseJSON(dobj.Actions))
+                {
+                    SetValue("Actions", actions);
+                }
+            }
+            LoginTime = dobj.LoginTime;
+            ForceLogoutTimeOut = dobj.ForceLogoutTimeOut;
+            LoginIPAddress = dobj.LoginIPAddress;
+            UserSex = dobj.UserSex == null ? SexType.Male : ComFunc.EnumParse<SexType>(ComFunc.nvl(dobj.UserSex)) ;
+
+            return true;
+        }
+
     }
 
     /// <summary>
     /// 本权限模型基于FunctionID：页面=1：多。
     /// 每个FunctionID会针对权限进行ActionID的设定，FunctionID：ActionID=1：多
     /// </summary>
-    [Serializable]
-    public sealed class ActionCollection : IJSONable, ISerializable, IConvertible, IEnumerable<KeyValuePair<string, ActionEntity>>, ICloneable
+    public sealed class ActionCollection :IJSONable,IConvertible,IEnumerable<KeyValuePair<string,ActionEntity>>,ICloneable,IDisposable,IJSONParsable
     {
         /// <summary>
         /// functionid-action映射表
@@ -274,7 +323,7 @@ namespace EFFC.Frame.Net.Data
         public object Clone()
         {
             var rtn = new ActionCollection();
-            foreach (var item in this._d)
+            foreach(var item in this._d)
             {
                 rtn._d.Add(item.Key, (ActionEntity)item.Value.Clone());
             }
@@ -290,21 +339,21 @@ namespace EFFC.Frame.Net.Data
             return rtn;
         }
 
-        private ActionCollection(SerializationInfo info, StreamingContext context)
-        {
+        //private ActionCollection(SerializationInfo info, StreamingContext context)
+        //{
 
-            string pre = "ActionCollection_";
-            this._d = (Dictionary<string, ActionEntity>)info.GetValue(pre + "content", typeof(Dictionary<string, ActionEntity>));
-            this._dbyurl = (Dictionary<string, ActionEntity>)info.GetValue(pre + "content_by_url", typeof(Dictionary<string, ActionEntity>));
-            this._wildcardsmap = (Dictionary<string, string>)info.GetValue(pre + "content_wildcardsmap", typeof(Dictionary<string, string>));
-        }
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            string pre = "ActionCollection_";
-            info.AddValue(pre + "content", _d);
-            info.AddValue(pre + "content_by_url", _dbyurl);
-            info.AddValue(pre + "content_wildcardsmap", _wildcardsmap);
-        }
+        //    string pre = "ActionCollection_";
+        //    this._d = (Dictionary<string, ActionEntity>)info.GetValue(pre + "content", typeof(Dictionary<string, ActionEntity>));
+        //    this._dbyurl = (Dictionary<string, ActionEntity>)info.GetValue(pre + "content_by_url", typeof(Dictionary<string, ActionEntity>));
+        //    this._wildcardsmap = (Dictionary<string, string>)info.GetValue(pre + "content_wildcardsmap", typeof(Dictionary<string, string>));
+        //}
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    string pre = "ActionCollection_";
+        //    info.AddValue(pre + "content", _d);
+        //    info.AddValue(pre + "content_by_url", _dbyurl);
+        //    info.AddValue(pre + "content_wildcardsmap", _wildcardsmap);
+        //}
         /// <summary>
         /// 采用通配符搜索action
         /// </summary>
@@ -410,7 +459,7 @@ namespace EFFC.Frame.Net.Data
                     rtn += rtn == "" ? s : "," + s;
                 }
             }
-
+            
             return rtn;
         }
         /// <summary>
@@ -479,7 +528,7 @@ namespace EFFC.Frame.Net.Data
             return ComFunc.nvl(this.GetActionByPageUrlUsingWideCards(pageUrl).Fileds);
         }
 
-
+ 
 
         /// <summary>
         /// 新增一个Action设定
@@ -569,7 +618,7 @@ namespace EFFC.Frame.Net.Data
                 }
             }
         }
-
+ 
 
         /// <summary>
         /// 根据FunctionID写入新的actionID
@@ -724,7 +773,7 @@ namespace EFFC.Frame.Net.Data
             return 0;
         }
 
-        public IEnumerator<KeyValuePair<string, ActionEntity>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string,ActionEntity>> GetEnumerator()
         {
             return _d.GetEnumerator();
         }
@@ -737,9 +786,24 @@ namespace EFFC.Frame.Net.Data
         public dynamic ToJSONObject()
         {
             var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            rtn.content = _d;
-            rtn.content_by_url = _dbyurl;
-            rtn.wild_cards_map = _wildcardsmap;
+            Dictionary<string, object> d = new Dictionary<string, object>();
+            foreach(var item in _d)
+            {
+                d.Add(item.Key, item.Value.Clone());
+            }
+            rtn.content = d;
+            Dictionary<string, object> dbyurl = new Dictionary<string, object>();
+            foreach (var item in _dbyurl)
+            {
+                dbyurl.Add(item.Key, item.Value.Clone());
+            }
+            rtn.content_by_url = dbyurl;
+            Dictionary<string, object> wildcardsmap = new Dictionary<string, object>();
+            foreach (var item in _wildcardsmap)
+            {
+                wildcardsmap.Add(item.Key, item.Value);
+            }
+            rtn.wild_cards_map = wildcardsmap;
             return rtn;
         }
 
@@ -747,10 +811,85 @@ namespace EFFC.Frame.Net.Data
         {
             return ((FrameDLRObject)ToJSONObject()).ToJSONString();
         }
+
+        public bool TryParseJSON(object obj)
+        {
+            dynamic dobj = null;
+            if (obj is string)
+            {
+                dobj = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+                FrameDLRObject.TryParse(ComFunc.nvlNotrim(obj), FrameDLRFlags.SensitiveCase, dobj);
+                if (dobj == null) return false;
+            }
+            else if (obj is FrameDLRObject)
+            {
+                dobj = (FrameDLRObject)obj;
+            }
+            else
+            {
+                return false;
+            }
+
+            if (dobj.content == null
+                || dobj.content_by_url == null
+                || dobj.wild_cards_map == null)
+            {
+                return false;
+            }
+
+            if (dobj.content is FrameDLRObject)
+            {
+                var content = (FrameDLRObject)dobj.content;
+                foreach (var k in content.Keys)
+                {
+                    var entity = new ActionEntity();
+                    if (entity.TryParseJSON(content.GetValue(k)))
+                    {
+                        _d.Add(k, entity);
+                    }
+                }
+            }
+            if (dobj.content_by_url is FrameDLRObject)
+            {
+                var content_by_url = (FrameDLRObject)dobj.content_by_url;
+                foreach (var k in content_by_url.Keys)
+                {
+                    var entity = new ActionEntity();
+                    if (entity.TryParseJSON(content_by_url.GetValue(k)))
+                    {
+                        _dbyurl.Add(k, entity);
+                    }
+                }
+            }
+            if (dobj.wild_cards_map is FrameDLRObject)
+            {
+                var wild_cards_map = (FrameDLRObject)dobj.wild_cards_map;
+                foreach (var k in wild_cards_map.Keys)
+                {
+                    _wildcardsmap.Add(k, ComFunc.nvl(wild_cards_map.GetValue(k)));
+                }
+            }
+
+            return true;
+        }
+
+        public void Dispose()
+        {
+            foreach (var item in _d)
+            {
+                item.Value.Dispose();
+            }
+            foreach (var item in _dbyurl)
+            {
+                item.Value.Dispose();
+            }
+            _d.Clear();
+            _dbyurl.Clear();
+            _wildcardsmap.Clear();
+        }
     }
 
-    [Serializable]
-    public sealed class ActionEntity : ISerializable, IConvertible, ICloneable, IJSONable
+    public sealed class ActionEntity :IConvertible,ICloneable,IJSONable,IDisposable,IJSONParsable
     {
         private string _functionid = "";
         private string _pageurl = "";
@@ -765,7 +904,7 @@ namespace EFFC.Frame.Net.Data
             rtn.PageUrl = this.PageUrl;
             rtn.ParentFunctionID = this.ParentFunctionID;
             rtn.Fileds = this.Fileds;
-            foreach (var item in this.Actions)
+            foreach(var item in this.Actions)
             {
                 rtn.Actions.Add(item);
             }
@@ -825,28 +964,28 @@ namespace EFFC.Frame.Net.Data
             }
         }
 
-        private ActionEntity(SerializationInfo info, StreamingContext context)
-        {
-            string pre = "ActionEntity_";
-            this.FunctionID = ComFunc.nvl(info.GetValue(pre + "#functionid", typeof(string)));
-            this.PageUrl = ComFunc.nvl(info.GetValue(pre + "#PageUrl", typeof(string)));
-            this.ParentFunctionID = ComFunc.nvl(info.GetValue(pre + "#ParentFunctionID", typeof(string)));
-            this._actions = (List<string>)info.GetValue(pre + "#functionid", typeof(List<string>));
-        }
+        //private ActionEntity(SerializationInfo info, StreamingContext context)
+        //{
+        //    string pre = "ActionEntity_";
+        //    this.FunctionID = ComFunc.nvl(info.GetValue(pre + "#functionid", typeof(string)));
+        //    this.PageUrl = ComFunc.nvl(info.GetValue(pre + "#PageUrl", typeof(string)));
+        //    this.ParentFunctionID = ComFunc.nvl(info.GetValue(pre + "#ParentFunctionID", typeof(string)));
+        //    this._actions = (List<string>)info.GetValue(pre + "#functionid", typeof(List<string>));
+        //}
 
         public ActionEntity()
         {
 
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            string pre = "ActionEntity_";
-            info.AddValue(pre + "#functionid", this.FunctionID);
-            info.AddValue(pre + "#PageUrl", this.PageUrl);
-            info.AddValue(pre + "#ParentFunctionID", this.ParentFunctionID);
-            info.AddValue(pre + "#Actions", this.Actions);
-        }
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    string pre = "ActionEntity_";
+        //    info.AddValue(pre + "#functionid", this.FunctionID);
+        //    info.AddValue(pre + "#PageUrl", this.PageUrl);
+        //    info.AddValue(pre + "#ParentFunctionID", this.ParentFunctionID);
+        //    info.AddValue(pre + "#Actions", this.Actions);
+        //}
 
         public TypeCode GetTypeCode()
         {
@@ -955,6 +1094,71 @@ namespace EFFC.Frame.Net.Data
         {
             return ((FrameDLRObject)ToJSONObject()).ToJSONString();
         }
+
+        public void Dispose()
+        {
+            _actions.Clear();
+            _fileds = null;
+            _functionid = null;
+            _pageurl = null;
+            _parentfunctionid = null;
+        }
+
+        public bool TryParseJSON(object obj)
+        {
+            dynamic dobj = null;
+            if (obj is string)
+            {
+                dobj = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+                FrameDLRObject.TryParse(ComFunc.nvlNotrim(obj), FrameDLRFlags.SensitiveCase, dobj);
+                if (dobj == null) return false;
+            }
+            else if (obj is FrameDLRObject)
+            {
+                dobj = (FrameDLRObject)obj;
+            }
+            else
+            {
+                return false;
+            }
+
+            if (dobj.functionid == null
+                || dobj.pageurl == null
+                || dobj.actions == null)
+            {
+                return false;
+            }
+
+            this._fileds = ComFunc.nvl(dobj.fields);
+            this._functionid = ComFunc.nvl(dobj.functionid);
+            this._pageurl = ComFunc.nvl(dobj.pageurl);
+            this._parentfunctionid = ComFunc.nvl(dobj.parentid);
+            if (dobj.actions is string[])
+            {
+                this.Actions.AddRange((string[])dobj.actions);
+            }
+            else if (dobj.actions is object[])
+            {
+                var arr = (object[])dobj.actions;
+
+                foreach (var item in arr)
+                {
+                    Actions.Add(ComFunc.nvl(item));
+                }
+            }
+            else if (dobj.actions is List<object>)
+            {
+                var arr = (List<object>)dobj.actions;
+
+                foreach (var item in arr)
+                {
+                    Actions.Add(ComFunc.nvl(item));
+                }
+            }
+
+            return true;
+        }
     }
 
+   
 }

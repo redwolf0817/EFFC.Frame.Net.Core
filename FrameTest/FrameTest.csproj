@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Frame.Net.Base\Frame.Net.Base.csproj" />
+    <ProjectReference Include="..\Frame.Net.Business\Frame.Net.Business.csproj" />
+    <ProjectReference Include="..\Frame.Net.Data\Frame.Net.Data.csproj" />
+    <ProjectReference Include="..\Frame.Net.Global\Frame.Net.Global.csproj" />
+    <ProjectReference Include="..\Frame.Net.Tag\Frame.Net.Tag.csproj" />
+  </ItemGroup>
+
+</Project>

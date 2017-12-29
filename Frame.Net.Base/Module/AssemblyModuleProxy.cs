@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using EFFC.Frame.Net.Base.Interfaces;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Parameter;
@@ -47,16 +43,16 @@ namespace EFFC.Frame.Net.Base.Module
 
         private void LoadModule()
         {
-            Assembly asm = Assembly.Load(AssemblyPath);
+            Assembly asm = Assembly.Load(new AssemblyName(AssemblyPath));
             Type[] ts = asm.GetTypes();
             foreach (Type c in ts)
             {
-                if (c.IsInterface || c.IsAbstract)
+                if (c.GetTypeInfo().IsInterface || c.GetTypeInfo().IsAbstract)
                 {
                     continue;
                 }
                 //判断是否为IModular的实现
-                if (c.GetInterface(typeof(IModular).FullName) != null)
+                if (c.GetTypeInfo().GetInterface(typeof(IModular).FullName) != null)
                 {
                     IModular m = (IModular)Activator.CreateInstance(c, true);
                     if (m.Name == CalledModuleName && m.Version == CalledModuleVersion)

@@ -6,18 +6,16 @@ using EFFC.Frame.Net.Base.ResouceManage.DB;
 using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
 using EFFC.Frame.Net.Business.Logic;
 using EFFC.Frame.Net.Business.Unit.HostUnit;
-using EFFC.Frame.Net.Data;
 using EFFC.Frame.Net.Data.LogicData;
 using EFFC.Frame.Net.Data.Parameters;
 using EFFC.Frame.Net.Data.WebData;
 using EFFC.Frame.Net.Global;
+using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Engine
@@ -55,7 +53,7 @@ namespace EFFC.Frame.Net.Business.Engine
             {
                 var rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
                 rtn.EFFCVersion = "EFFC 3.0";
-                rtn.HostCoreVersion = Environment.Version.ToString();
+                rtn.HostCoreVersion = PlatformServices.Default.Application.RuntimeFramework.Version;
                 return rtn;
             }
         }
@@ -564,15 +562,15 @@ namespace EFFC.Frame.Net.Business.Engine
             Close();
             switch (dbtype.ToLower())
             {
-                case "oracle":
-                    _up = _logic.DB.NewDBUnitParameter<OracleAccess>();
-                    break;
+                //case "oracle":
+                //    _up = _logic.DB.NewDBUnitParameter<OracleAccess>();
+                //    break;
                 case "sqlserver2000":
                     _up = _logic.DB.NewDBUnitParameter<SQLServerAccess2000>();
                     break;
-                case "mongo":
-                    _up = _logic.DB.NewDBUnitParameter<MongoAccess26>();
-                    break;
+                //case "mongo":
+                //    _up = _logic.DB.NewDBUnitParameter<MongoAccess26>();
+                //    break;
                 default:
                     _up = _logic.DB.NewDBUnitParameter<SQLServerAccess>();
                     break;
@@ -788,12 +786,12 @@ namespace EFFC.Frame.Net.Business.Engine
         [Desc("对字符串进行url encode处理")]
         public string UrlEncode(string str)
         {
-            return System.Web.HttpUtility.UrlEncode(str, Encoding.UTF8);
+            return ComFunc.UrlEncode(str);
         }
         [Desc("对字符串进行url decode处理")]
         public string UrlDecode(string str)
         {
-            return System.Web.HttpUtility.UrlDecode(str, Encoding.UTF8);
+            return ComFunc.UrlDecode(str);
         }
         [Desc("对字符串进行base64 encode处理")]
         public string Base64Encode(string str)
@@ -907,11 +905,13 @@ namespace EFFC.Frame.Net.Business.Engine
             //以http的方式读取文件
             if (rpath.ToLower().StartsWith("http"))
             {
-                WebClient client = new WebClient();
-                client.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                client.Headers.Add("UserAgent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                client.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                return client.DownloadData("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQES8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0ZFejJzcDNseTkyeWFkRUZaMkp1AAIEYyPgVQMECAcAAA==");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                client.DefaultRequestHeaders.Add("UserAgent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                client.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
+                var t = client.GetStreamAsync(rpath);
+                Task.WaitAll(t);
+                return ComFunc.StreamToBytes(t.Result);
             }
             else
             {

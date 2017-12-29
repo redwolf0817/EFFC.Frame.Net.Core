@@ -4,13 +4,11 @@ using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Base.Parameter;
 using EFFC.Frame.Net.Business.Logic;
 using EFFC.Frame.Net.Data.Parameters;
+using EFFC.Frame.Net.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace EFFC.Frame.Net.Business.Module
 {
@@ -59,19 +57,19 @@ namespace EFFC.Frame.Net.Business.Module
             {
                 if (_logics == null)
                 {
-                    if (HttpRuntime.Cache[this.GetType().FullName + ".LogicList"] != null)
+                    if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicList") != null)
                     {
-                        _logics = (Dictionary<string, Type>)HttpRuntime.Cache[this.GetType().FullName + ".LogicList"];
+                        _logics = (Dictionary<string, Type>)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicList");
                     }
                     else
                     {
 
                         _logics = new Dictionary<string, Type>();
-                        Assembly asm = Assembly.Load(LogicAssemblyPath);
+                        Assembly asm = Assembly.Load(new AssemblyName(LogicAssemblyPath));
                         Type[] ts = asm.GetTypes();
                         foreach (Type t in ts)
                         {
-                            if (t.IsSubclassOf(typeof(L)) && !t.IsAbstract && !t.IsInterface)
+                            if (t.GetTypeInfo().IsSubclassOf(typeof(L)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                             {
                                 L l = (L)Activator.CreateInstance(t, true);
                                 var lkey = (l.Name).ToUpper();
@@ -89,33 +87,33 @@ namespace EFFC.Frame.Net.Business.Module
                             }
                         }
                         //写入缓存
-                        HttpRuntime.Cache.Insert(this.GetType().FullName + ".LogicList", _logics);
+                        GlobalCommon.ApplicationCache.Set(this.GetType().FullName + ".LogicList", _logics,DateTime.MaxValue);
                     }
                 }
 
                 if (_instance == null)
                 {
-                    if (HttpRuntime.Cache[this.GetType().FullName + ".LogicInstanceList"] != null)
+                    if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicInstanceList") != null)
                     {
-                        _instance = (Dictionary<string, L>)HttpRuntime.Cache[this.GetType().FullName + ".LogicInstanceList"];
+                        _instance = (Dictionary<string, L>)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicInstanceList");
                     }
                     else
                     {
                         _instance = new Dictionary<string, L>();
                         //写入缓存
-                        HttpRuntime.Cache.Insert(this.GetType().FullName + ".LogicInstanceList", _instance);
+                        GlobalCommon.ApplicationCache.Set(this.GetType().FullName + ".LogicInstanceList", _instance, DateTime.MaxValue);
                     }
 
-                    if (HttpRuntime.Cache[this.GetType().FullName + ".LogicInstancelockobj"] != null)
+                    if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicInstancelockobj") != null)
                     {
-                        _lockobj_instance = (Dictionary<string, object>)HttpRuntime.Cache[this.GetType().FullName + ".LogicInstancelockobj"];
+                        _lockobj_instance = (Dictionary<string, object>)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".LogicInstancelockobj");
 
                     }
                     else
                     {
                         _lockobj_instance = new Dictionary<string, object>();
                         //写入缓存
-                        HttpRuntime.Cache.Insert(this.GetType().FullName + ".LogicInstancelockobj", _lockobj_instance);
+                        GlobalCommon.ApplicationCache.Set(this.GetType().FullName + ".LogicInstancelockobj", _lockobj_instance, DateTime.MaxValue);
                     }
                 }
 

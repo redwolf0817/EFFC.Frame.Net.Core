@@ -1,21 +1,19 @@
 ﻿using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
-using EFFC.Frame.Net.Base.ResouceManage;
-using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
+using Frame.Net.Base.Interfaces.DataConvert;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace EFFC.Frame.Net.Base.Data.Base
 {
+    [Serializable]
     /// <summary>
     /// 构建框架使用的数据集（线程安全）
     /// </summary>
-    public abstract class BaseCollection : ISerializable, IXmlSerializable, ICloneable, IEnumerable<KeyValuePair<string, object>>,IDisposable
+    public abstract class BaseCollection : ICloneable, IEnumerable<KeyValuePair<string, object>>,IDisposable
     {
         protected SerializationInfo _info;
         protected StreamingContext _context;
@@ -416,106 +414,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 return (FrameDLRObject)GetValue("ExtentionObj");
             }
         }
-        #region 序列化
-        /// <summary>
-        /// 序列化
-        /// </summary>
-        /// <param name="st"></param>
-        public virtual void DoSerialization(SerializableType st)
-        {
-            if (st == SerializableType.Binary)
-            {
-                string keys = "";
-                foreach (string key in Keys)
-                {
-                    _info.AddValue(key, GetValue(key));
-                    string typename = "";
-                    if (GetValue(key) != null)
-                    {
-                        typename = GetValue(key).GetType().FullName;
-                    }
-                    _info.AddValue(key + "_Type#", typename);
-                    keys += keys.Length <= 0 ? key : ";" + key;
-                }
-                _info.AddValue("DatatdKeys#", keys);
-            }
-            else
-            {
-
-            }
-        }
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="st"></param>
-        public virtual void DeSerialization(SerializableType st)
-        {
-            if (st == SerializableType.Binary)
-            {
-                string keys = _info.GetString("DatatdKeys#");
-                string[] keyarray = keys.Split(';');
-                foreach (string key in keyarray)
-                {
-                    string typename = _info.GetString(key + "_Type#");
-                    if (!string.IsNullOrEmpty(typename))
-                    {
-                        Type t = Type.GetType(_info.GetString(key + "_Type#"));
-                        SetValue(key, _info.GetValue(key, t));
-                    }
-                    else
-                    {
-                        SetValue(key, null);
-                    }
-                }
-            }
-            else
-            {
-
-            }
-        }
-        /// <summary>
-        /// 序列化
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            _info = info;
-            _context = context;
-            DoSerialization(SerializableType.Binary);
-        }
-        private BaseCollection(SerializationInfo info, StreamingContext context)
-        {
-            _info = info;
-            _context = context;
-            DeSerialization(SerializableType.Binary);
-        }
-        /// <summary>
-        /// xml序列化
-        /// </summary>
-        /// <returns></returns>
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
-        /// <summary>
-        /// xml反序列化
-        /// </summary>
-        /// <param name="reader"></param>
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            DeSerialization(SerializableType.Xml);
-        }
-        /// <summary>
-        /// xml序列化
-        /// </summary>
-        /// <param name="writer"></param>
-        public void WriteXml(System.Xml.XmlWriter writer)
-        {
-            DoSerialization(SerializableType.Xml);
-        }
-
-        #endregion
 
 
         /// <summary>

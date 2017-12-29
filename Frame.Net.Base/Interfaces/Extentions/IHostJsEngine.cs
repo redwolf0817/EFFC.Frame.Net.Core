@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace EFFC.Frame.Net.Base.Interfaces.Extentions
+namespace Frame.Net.Base.Interfaces.Extentions
 {
+    /// <summary>
+    /// HostJs接口定义
+    /// </summary>
     interface IHostJsEngine
     {
         void Evaluate(string script, params KeyValuePair<string, object>[] kvp);

@@ -1,12 +1,12 @@
 ﻿using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.Interfaces.Extentions;
+using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
+using Frame.Net.Base.Interfaces.Extentions;
+using JavaScriptEngineSwitcher.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace EFFC.Frame.Net.Base.ResouceManage.JsEngine
+namespace Frame.Net.Base.ResouceManage.JsEngine
 {
     /// <summary>
     /// HostJs的基类
@@ -18,18 +18,11 @@ namespace EFFC.Frame.Net.Base.ResouceManage.JsEngine
         /// <summary>
         /// 通过反射获取指定的Js引擎
         /// </summary>
-        /// <param name="typeName">参数为VRoomJs或为空则使用框架默认的VRoomJs引擎</param>
+        /// <param name="typeName">参数为:VRoomJs,Chakra,MSIE，默认为Chakra</param>
         /// <returns></returns>
-        public static HostJs NewInstance(string typeName = "NoesisJs")
+        public static HostJs NewInstance(string typeName="")
         {
-            if (string.IsNullOrEmpty(typeName) || typeName.ToLower() == "noesisjs")
-            {
-                return new NoesisJs();
-            }
-            else
-            {
-                return (HostJs)Activator.CreateInstance(Type.GetType(typeName));
-            }
+            return new JsSwitcher(typeName);
         }
         /// <summary>
         /// 通过反射获取指定的Js引擎

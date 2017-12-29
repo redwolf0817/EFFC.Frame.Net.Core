@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EFFC.Frame.Net.Base.Common;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace EFFC.Frame.Net.Base.Data.Base
 {
@@ -186,18 +184,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return string.Compare(strA.Value, strB.Value, comparisonType);
         }
         /// <summary>
-        /// 比較兩個指定的 System.StringStd 物件，忽略或承認它們的大小寫，並使用與文化特性相關的資訊影響比較。
-        /// </summary>
-        /// <param name="strA"></param>
-        /// <param name="strB"></param>
-        /// <param name="ignoreCase"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public static int Compare(StringStd strA, StringStd strB, bool ignoreCase, CultureInfo culture)
-        {
-            return string.Compare(strA.Value, strB.Value, ignoreCase, culture);
-        }
-        /// <summary>
         /// 比較兩個指定的 System.StringStd 物件的子字串。
         /// </summary>
         /// <param name="strA"></param>
@@ -209,20 +195,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
         public static int Compare(StringStd strA, int indexA, StringStd strB, int indexB, int length)
         {
             return string.Compare(strA.Value, indexA, strB.Value, indexB, length);
-        }
-        /// <summary>
-        /// 比較兩個指定的 System.StringStd 物件子字串，忽略或承認它們的大小寫。
-        /// </summary>
-        /// <param name="strA"></param>
-        /// <param name="indexA"></param>
-        /// <param name="strB"></param>
-        /// <param name="indexB"></param>
-        /// <param name="length"></param>
-        /// <param name="ignoreCase"></param>
-        /// <returns></returns>
-        public static int Compare(StringStd strA, int indexA, StringStd strB, int indexB, int length, bool ignoreCase)
-        {
-            return string.Compare(strA.Value, indexA, strB.Value, indexB, length, ignoreCase);
         }
         /// <summary>
         /// 比較兩個指定的 System.StringStd 物件的子字串。
@@ -237,21 +209,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
         public static int Compare(StringStd strA, int indexA, StringStd strB, int indexB, int length, StringComparison comparisonType)
         {
             return string.Compare(strA.Value, indexA, strB.Value, indexB, length, comparisonType);
-        }
-        /// <summary>
-        /// 比較兩個指定的 System.StringStd 物件的子字串，忽略或承認它們的大小寫，並使用與文化特性相關的資訊影響比較。
-        /// </summary>
-        /// <param name="strA"></param>
-        /// <param name="indexA"></param>
-        /// <param name="strB"></param>
-        /// <param name="indexB"></param>
-        /// <param name="length"></param>
-        /// <param name="ignoreCase"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public static int Compare(StringStd strA, int indexA, StringStd strB, int indexB, int length, bool ignoreCase, CultureInfo culture)
-        {
-            return string.Compare(strA.Value, indexA, strB.Value, indexB, length, ignoreCase, culture);
         }
         /// <summary>
         /// 藉由評估每個字串中對應的 System.Char 物件之數字值，比較兩個指定的 System.StringStd 物件。
@@ -283,7 +240,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <returns></returns>
         public int CompareTo(object value)
         {
-            return this.Value.CompareTo(value);
+            return this.Value.CompareTo(ComFunc.nvlNotrim(value));
         }
         /// <summary>
         /// 比較這個執行個體與指定的 System.StringStd 物件。
@@ -403,15 +360,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return this.Value.Contains(value.Value);
         }
         /// <summary>
-        /// 使用與指定的 System.StringStd 相同的值，建立 System.StringStd 的新執行個體。
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static StringStd Copy(StringStd str)
-        {
-            return new StringStd(string.Copy(str.Value));
-        }
-        /// <summary>
         /// 將字元的指定數目從這個執行個體的指定位置，複製到 Unicode 字元陣列的指定位置。
         /// </summary>
         /// <param name="sourceIndex"></param>
@@ -440,17 +388,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
         public bool EndsWith(StringStd value, StringComparison comparisonType)
         {
             return this.Value.EndsWith(value.Value, comparisonType);
-        }
-        /// <summary>
-        /// 判斷當使用指定之文化特性進行比較時，此字串的結尾是否符合指定之字串。
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="ignoreCase"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public bool EndsWith(StringStd value, bool ignoreCase, CultureInfo culture)
-        {
-            return this.Value.EndsWith(value.Value, ignoreCase, culture);
         }
         /// <summary>
         /// 判斷這個執行個體和另一個指定的 System.StringStd 物件是否具有相同的值。
@@ -547,28 +484,12 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return new StringStd(string.Format(format.Value, arg0, arg1, arg2));
         }
         /// <summary>
-        /// 擷取可以逐一查看這個字串中個別字元的物件。
-        /// </summary>
-        /// <returns></returns>
-        public CharEnumerator GetEnumerator()
-        {
-            return this.Value.GetEnumerator();
-        }
-        /// <summary>
         /// 傳回這個字串的雜湊程式碼。
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
         {
             return this.Value.GetHashCode();
-        }
-        /// <summary>
-        /// 傳回類別 System.StringStd 的 System.TypeCode。
-        /// </summary>
-        /// <returns></returns>
-        public TypeCode GetTypeCode()
-        {
-            return this.Value.GetTypeCode();
         }
         /// <summary>
         /// 報告這個字串中指定之 Unicode 字元的第一個符合項目的索引。
@@ -1046,17 +967,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return this.Value.StartsWith(value.Value, comparisonType);
         }
         /// <summary>
-        /// 判斷當使用指定之文化特性進行比較時，此字串的開頭是否符合指定之字串。
-        /// </summary>
-        /// <param name="value">要比較的 System.StringStd 物件。</param>
-        /// <param name="ignoreCase">true 表示在比較這個字串與 value 時要忽略大小寫，否則為 false。</param>
-        /// <param name="culture">判斷此字串和 value 如何進行比較的文化特性資訊。如果 culture 是 null，則會使用目前的文化特性。</param>
-        /// <returns>如果 value 參數符合這個字串的開頭，則為 true，否則為 false。</returns>
-        public bool StartsWith(StringStd value, bool ignoreCase, CultureInfo culture)
-        {
-            return this.Value.StartsWith(value.Value, ignoreCase, culture);
-        }
-        /// <summary>
         /// 從這個執行個體擷取子字串。子字串從指定的字元位置開始。
         /// </summary>
         /// <param name="startIndex">這個執行個體中的子字串起始字元位置。</param>
@@ -1104,15 +1014,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return new StringStd(this.Value.ToLower());
         }
         /// <summary>
-        /// 傳回轉換成小寫的這個 System.StringStd 複本，透過的方式是使用指定之文化特性的大小寫規則。
-        /// </summary>
-        /// <param name="culture">System.Globalization.CultureInfo 物件，提供文化特性的特定大小寫規則。</param>
-        /// <returns>小寫的 System.StringStd。</returns>
-        public StringStd ToLower(CultureInfo culture)
-        {
-            return new StringStd(this.Value.ToLower(culture));
-        }
-        /// <summary>
         /// 傳回轉換成小寫的這個 System.StringStd 物件之複本，透過的方式是使用不因文化特性而異的大小寫規則。
         /// </summary>
         /// <returns>小寫的 System.StringStd 物件。</returns>
@@ -1127,15 +1028,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
         public StringStd ToUpper()
         {
             return new StringStd(this.Value.ToUpper());
-        }
-        /// <summary>
-        /// 傳回轉換成大寫的這個 System.StringStd 複本，透過的方式是使用指定之文化特性的大小寫規則。
-        /// </summary>
-        /// <param name="culture">System.Globalization.CultureInfo 物件，提供文化特性的特定大小寫規則。</param>
-        /// <returns>大寫的 System.StringStd。</returns>
-        public StringStd ToUpper(CultureInfo culture)
-        {
-            return new StringStd(this.Value.ToUpper(culture));
         }
         /// <summary>
         /// 傳回轉換成大寫的這個 System.StringStd 物件之複本，透過的方式是使用不因文化特性而異的大小寫規則。

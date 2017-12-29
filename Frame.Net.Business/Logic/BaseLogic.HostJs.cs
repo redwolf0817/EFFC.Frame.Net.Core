@@ -1,14 +1,12 @@
 ﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data.Base;
-using EFFC.Frame.Net.Base.ResouceManage;
 using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
-using Noesis.Javascript;
+using Frame.Net.Base.Exceptions;
+using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Logic
 {
@@ -56,7 +54,8 @@ namespace EFFC.Frame.Net.Business.Logic
             {
                 try
                 {
-                    var jse = _logic.CallContext_ResourceManage.CreateInstance<HostJs>();
+                    var jse = HostJs.NewInstance();
+                    _logic.CallContext_ResourceManage.AddEntity(_logic.CallContext_CurrentToken, jse);
                     input = input == null ? FrameDLRObject.CreateInstance() : input;
                     var lp = others.ToList();
                     lp.Add(new KeyValuePair<string, object>("input", input.ToDictionary()));
@@ -67,11 +66,11 @@ namespace EFFC.Frame.Net.Business.Logic
                     else
                         return obj;
                 }
-                catch (JavascriptException jex)
+                catch (HostJsException jex)
                 {
                     var strmsg = new StringBuilder();
-                    strmsg.AppendLine(jex.V8SourceLine);
-                    strmsg.AppendLine(jex.V8StackTrace);
+                    strmsg.AppendLine(ComFunc.nvl(jex.Line));
+                    strmsg.AppendLine(ComFunc.nvl(jex.Column));
                     throw new Exception(strmsg.ToString(), jex);
                 }
             }

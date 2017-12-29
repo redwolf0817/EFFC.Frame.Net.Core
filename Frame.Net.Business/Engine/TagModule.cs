@@ -1,16 +1,10 @@
-﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Module;
-using EFFC.Frame.Net.Data.Parameters;
-using EFFC.Frame.Net.Data.WebData;
+﻿using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Tag.Core;
 using EFFC.Frame.Net.Tag.Module;
 using EFFC.Frame.Net.Tag.Tags.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Engine
 {

@@ -1,10 +1,6 @@
 ﻿using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Tag.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Tag.Module
 {

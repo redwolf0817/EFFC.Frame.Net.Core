@@ -1,33 +1,20 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net.Json;
-using System.Text;
-using System.Threading.Tasks;
-using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
+using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.Constants;
 
 namespace EFFC.Frame.Net.Data.DataConvert
 {
-    public class DataTable2Json : IDataConvert<JsonCollection>
+    public class DataTable2Json : IDataConvert<string>
     {
 
-        public JsonCollection ConvertTo(object obj)
+        public string ConvertTo(object obj)
         {
-
-            if (obj == null)
-                return new JsonObjectCollection();
-
             DataTableStd dtt = null;
-            if (obj is DataTable)
-            {
-                dtt = DataTableStd.ParseStd(obj);
-            }
-            else if (obj is DataTableStd)
+            if (obj is DataTableStd)
             {
                 dtt = (DataTableStd)obj;
             }
@@ -35,28 +22,21 @@ namespace EFFC.Frame.Net.Data.DataConvert
             {
                 throw new Exception("DataTable2Json无法转化" + obj.GetType().FullName + "类型数据!");
             }
-
-            JsonArrayCollection jsonobj = new JsonArrayCollection("rows");
+            FrameDLRObject data = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            var list = new List<FrameDLRObject>();
+            data.SetValue("rows", list);
             for (int i = 0; i < dtt.RowLength; i++)
             {
-                JsonObjectCollection jac = new JsonObjectCollection();
+                FrameDLRObject item = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
                 foreach (string colname in dtt.ColumnNames)
                 {
-                    if (dtt.ColumnDateType(colname).FullName == typeof(DateTime).FullName)
-                    {
-                        DateTimeStd dtime = DateTimeStd.ParseStd(dtt[i, colname]);
-                        jac.Add(new JsonStringValue(colname, dtime != null ? dtime.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""));
-                    }
-                    else
-                    {
-                        jac.Add(new JsonStringValue(colname, ComFunc.nvl(dtt[i, colname])));
-                    }
+                    item.SetValue(colname, dtt[i, colname]);
                 }
-                jsonobj.Add(jac);
+                list.Add(item);
             }
 
 
-            return jsonobj;
+            return data.ToJSONString();
         }
     }
 }

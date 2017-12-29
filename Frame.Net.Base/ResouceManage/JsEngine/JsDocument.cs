@@ -1,12 +1,8 @@
 ﻿using EFFC.Frame.Net.Base.AttributeDefine;
 using EFFC.Frame.Net.Base.Constants;
-using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
-using System;
-using System.Collections.Generic;
+using Frame.Net.Base.ResouceManage.JsEngine;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Base.ResouceManage.JsEngine
 {

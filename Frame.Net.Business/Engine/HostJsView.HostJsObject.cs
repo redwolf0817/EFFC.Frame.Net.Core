@@ -5,6 +5,7 @@ using EFFC.Frame.Net.Base.ResouceManage.JsEngine;
 using EFFC.Frame.Net.Tag.Core;
 using EFFC.Frame.Net.Tag.Module;
 using EFFC.Frame.Net.Tag.Tags.Base;
+using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;

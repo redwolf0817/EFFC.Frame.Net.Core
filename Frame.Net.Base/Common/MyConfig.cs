@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Configuration;
-using System.Collections;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Web.Configuration;
-using System.Reflection;
-using System.Web;
+using System.Collections.Generic;
 
 namespace EFFC.Frame.Net.Base.Common
 {
@@ -15,6 +11,9 @@ namespace EFFC.Frame.Net.Base.Common
     /// </summary>
     public class MyConfig
     {
+
+        private static IConfigurationRoot _config;
+        private static string _filepath = "";
         /// <summary>
         /// 加密类型
         /// </summary>
@@ -29,7 +28,57 @@ namespace EFFC.Frame.Net.Base.Common
             /// </summary>
             AES256
         }
+        /// <summary>
+        /// 系统配置档对象
+        /// </summary>
+        public static IConfigurationRoot Configuration
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    var builder = new ConfigurationBuilder()
+                                .SetBasePath(ConfigFilePath)
+                                .AddJsonFile("appsettings.json", optional: true);
 
+                    _config = builder.Build();
+                }
+
+                return _config;
+            }
+        }
+        /// <summary>
+        /// 配置档文件目录
+        /// </summary>
+        public static string ConfigFilePath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_filepath))
+                {
+                    _filepath = Path.Combine(Directory.GetCurrentDirectory());
+                }
+
+                return _filepath;
+            }
+            set
+            {
+                _filepath = value;
+            }
+        }
+
+
+        #region GetConfiguration
+        /// <summary>
+        /// 获取指定section下的指定参数
+        /// </summary>
+        /// <param name="section"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetConfiguration(string section, string key)
+        {
+            return Configuration.GetSection(section)[key];
+        }
         /// <summary>
         /// 獲取connectionStrings中的配置數據
         /// </summary>
@@ -37,11 +86,8 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string GetConnections(string key)
         {
-            string sgf = ConfigurationManager.ConnectionStrings[key].ToString();
-            return sgf;
+            return Configuration.GetSection("connections")[key];
         }
-
-        #region GetConfiguration
         /// <summary>
         /// 取得appSettings裏的值
         /// </summary>
@@ -49,8 +95,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string GetConfiguration(string key)
         {
-            string sgf = ConfigurationManager.AppSettings[key];
-            return sgf;
+            return Configuration.GetSection("appsettings")[key];
         }
         /// <summary>
         /// 取得appSettings裏的值
@@ -69,7 +114,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string GetConfigurationByEncrypt(string key, EncryptionType type)
         {
-            string sgf = ConfigurationManager.AppSettings[key];
+            string sgf = Configuration.GetSection("appsettings")[key];
             string oldpass = DeCode(sgf, type);
 
             return oldpass;
@@ -81,7 +126,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string GetWebConnectionString(string key)
         {
-            return ConfigurationManager.ConnectionStrings[key].ConnectionString;
+            return Configuration.GetSection("connections")[key];
         }
         /// <summary>
         /// 取得Webconfig裏DBConnstring的值，Password和userid采用base64加密
@@ -152,7 +197,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <returns></returns>
         public static string GetDBConnStringByEncrypt(string key, EncryptionType type)
         {
-            string sgf = ConfigurationManager.AppSettings[key];
+            string sgf = Configuration.GetSection("connections")[key];
 
             string spassword = "";
             string userid = "";
@@ -180,22 +225,19 @@ namespace EFFC.Frame.Net.Base.Common
 
         #region GetConfigurationList
         /// <summary>
-        /// 取得appSettings裏的值列表
+        /// 取得指定section裏的值列表
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static Dictionary<string, object> GetConfigurationList(string filePath)
+        public static Dictionary<string, object> GetConfigurationList(string section)
         {
-            Configuration configuration = null;                         //Configuration對象     
-            Dictionary<string, object> k = null;                   //返回的鍵值對類型
-
-            configuration = ConfigurationManager.OpenExeConfiguration(filePath);
+            Dictionary<string, object> k = new Dictionary<string, object>();                   //返回的鍵值對類型
 
             //取得AppSettings節
-
-            foreach (KeyValueConfigurationElement key in configuration.AppSettings.Settings)
+            var list = Configuration.GetSection(section).GetChildren();
+            foreach (var item in list)
             {
-                k.Add(key.Key, key.Value);
+                k.Add(item.Key, item.Value);
             }
 
             return k;
@@ -211,14 +253,13 @@ namespace EFFC.Frame.Net.Base.Common
             Dictionary<string, object> k = new Dictionary<string,object>();                   //返回的鍵值對類型
 
             //取得AppSettings節
-
-            foreach (var key in ConfigurationManager.AppSettings.Keys)
+            var list = Configuration.GetSection("appsettings").GetChildren();
+            foreach(var item in list)
             {
-                k.Add(key.ToString(), ConfigurationManager.AppSettings.Get(key.ToString()));
+                k.Add(item.Key, item.Value);
             }
 
             return k;
-
         }
 
         #region SetConfiguration
@@ -228,21 +269,10 @@ namespace EFFC.Frame.Net.Base.Common
         /// </summary>
         /// <param name="key">鍵</param>
         /// <param name="value">值</param>
-        /// <param name="filePath">App.config檔路徑</param>
-        public static void SetConfiguration(string key, string value, string filePath)
+        /// <param name="section">对应section</param>
+        public static void SetConfiguration(string key, string value, string section)
         {
-            Configuration configuration = null;                 //Configuration對象
-            AppSettingsSection appSection = null;               //AppSection對象 
-
-            configuration = ConfigurationManager.OpenExeConfiguration(filePath);
-
-            //取得AppSetting節
-            appSection = configuration.AppSettings;
-
-            //賦值並保存
-            appSection.Settings[key].Value = value;
-            configuration.Save();
-
+            
 
         }
         #endregion
@@ -256,8 +286,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <param name="value">值</param>
         public static void SetConfiguration(string key, string value)
         {
-            string assemblyConfigFile = Assembly.GetEntryAssembly().Location;
-            SetConfiguration(key, value, assemblyConfigFile);
+          
 
         }
         #endregion
@@ -269,18 +298,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <param name="path"></param>
         public static void SetWebConfiguration(string key, string value, string path)
         {
-            var config = WebConfigurationManager.OpenWebConfiguration(path);
-            AppSettingsSection appSetting = (AppSettingsSection)config.GetSection("appSettings");
-            if (appSetting.Settings[key] == null)//如果不存在此节点,则添加  
-            {
-                appSetting.Settings.Add(key, value);
-            }
-            else//如果存在此节点,则修改  
-            {
-                appSetting.Settings[key].Value = value;
-            }
-            config.Save();
-            config = null;  
+           
         }
         /// <summary>
         /// 设置web.config中appsetting的值
@@ -289,7 +307,7 @@ namespace EFFC.Frame.Net.Base.Common
         /// <param name="value"></param>
         public static void SetWebConfiguration(string key, string value)
         {
-            SetWebConfiguration(key, value, HttpContext.Current.Request.ApplicationPath);
+            
         }
     }
 }

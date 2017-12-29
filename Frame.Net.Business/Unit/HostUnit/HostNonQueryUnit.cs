@@ -3,10 +3,6 @@ using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Interfaces.Unit;
 using EFFC.Frame.Net.Data.Parameters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Business.Unit.HostUnit
 {

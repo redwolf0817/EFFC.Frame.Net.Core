@@ -1,25 +1,30 @@
 ﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Data;
+using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using System.Threading;
 
 namespace EFFC.Frame.Net.Base.Data
 {
     /// <summary>
     /// 框架自定义上传文件接口
     /// </summary>
-    public class FrameUploadFile:HttpPostedFileBase
+    public class FrameUploadFile:IFormFile
     {
         private string _contentType;
         private string _filename;
         private Stream _stream;
         private Encoding _encoding;
-
+        public FrameUploadFile(IFormFile file)
+        {
+            this._filename = file.Name;
+            this._contentType = file.ContentType;
+            this._stream = new MemoryStream();
+            file.OpenReadStream().CopyTo(this._stream);
+            this._encoding = Encoding.UTF8;
+        }
         public FrameUploadFile(string filename, string contentType, Stream stream, Encoding encode)
         {
             this._filename = filename;
@@ -28,17 +33,17 @@ namespace EFFC.Frame.Net.Base.Data
             this._encoding = encode;
         }
 
-        public FrameUploadFile(HttpPostedFile file)
+        public FrameUploadFile(string filename,string contentype, Stream file)
         {
-            this._filename = file.FileName;
-            this._contentType = file.ContentType;
-            ComFunc.CopyStream(file.InputStream, this._stream);
+            this._filename = filename;
+            this._contentType = contentype;
+            ComFunc.CopyStream(file, this._stream);
         }
         /// <summary>
         /// 保存文件流
         /// </summary>
         /// <param name="path"></param>
-        public override void SaveAs(string path)
+        public void SaveAs(string path)
         {
             if (!Path.IsPathRooted(path))
             {
@@ -54,7 +59,7 @@ namespace EFFC.Frame.Net.Base.Data
             }
             finally
             {
-                s.Close();
+                s.Dispose();
             }
         }
         /// <summary>
@@ -79,11 +84,26 @@ namespace EFFC.Frame.Net.Base.Data
             }
             finally
             {
-                s.Close();
+                s.Dispose();
             }
         }
 
-        public override int ContentLength
+        public Stream OpenReadStream()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(Stream target)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CopyToAsync(Stream target, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ContentLength
         {
             get
             {
@@ -91,7 +111,7 @@ namespace EFFC.Frame.Net.Base.Data
             }
         }
 
-        public override string ContentType
+        public string ContentType
         {
             get
             {
@@ -99,7 +119,7 @@ namespace EFFC.Frame.Net.Base.Data
             }
         }
 
-        public override string FileName
+        public string FileName
         {
             get
             {
@@ -107,12 +127,20 @@ namespace EFFC.Frame.Net.Base.Data
             }
         }
 
-        public override Stream InputStream
+        public Stream InputStream
         {
             get
             {
                 return this._stream;
             }
         }
+
+        public string ContentDisposition => throw new NotImplementedException();
+
+        public IHeaderDictionary Headers => throw new NotImplementedException();
+
+        public long Length => throw new NotImplementedException();
+
+        public string Name => throw new NotImplementedException();
     }
 }

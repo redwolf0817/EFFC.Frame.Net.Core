@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Web;
 using EFFC.Frame.Net.Base.Exceptions;
-using EFFC.Frame.Net.Base.Interfaces;
-using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Module;
 using EFFC.Frame.Net.Business.Logic;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Parameter;
-using System.Web.Caching;
-using System.Collections.Concurrent;
+using EFFC.Frame.Net.Global;
 
 namespace EFFC.Frame.Net.Business.Module
 {
@@ -60,19 +55,19 @@ namespace EFFC.Frame.Net.Business.Module
                 if (_logics == null)
                 {
 
-                    if (HttpRuntime.Cache[this.GetType().FullName + ".SingletonLogicList"] != null)
+                    if (GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".SingletonLogicList") != null)
                     {
-                        _logics = (Dictionary<string, L>)HttpRuntime.Cache[this.GetType().FullName + ".SingletonLogicList"];
+                        _logics = (Dictionary<string, L>)GlobalCommon.ApplicationCache.Get(this.GetType().FullName + ".SingletonLogicList");
                     }
                     else
                     {
 
                         _logics = new Dictionary<string, L>();
-                        Assembly asm = Assembly.Load(LogicAssemblyPath);
+                        Assembly asm = Assembly.Load(new AssemblyName(LogicAssemblyPath));
                         Type[] ts = asm.GetTypes();
                         foreach (Type t in ts)
                         {
-                            if (t.IsSubclassOf(typeof(L)) && !t.IsAbstract && !t.IsInterface)
+                            if (t.GetTypeInfo().IsSubclassOf(typeof(L)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                             {
                                 L l = (L)Activator.CreateInstance(t, true);
                                 L outl = default(L);
@@ -88,7 +83,7 @@ namespace EFFC.Frame.Net.Business.Module
                             }
                         }
                         //写入缓存
-                        HttpRuntime.Cache.Insert(this.GetType().FullName + ".SingletonLogicList", _logics, null, TimeExpiration, SlidingExpiration);
+                        GlobalCommon.ApplicationCache.Set(this.GetType().FullName + ".SingletonLogicList", _logics, TimeExpiration);
                     }
                 }
             }
@@ -110,17 +105,6 @@ namespace EFFC.Frame.Net.Business.Module
             get
             {
                 return DateTime.Now.AddHours(12);
-            }
-        }
-        /// <summary>
-        /// 设置最后一次访问后多长时间过期,默认不过期
-        /// 两种过期时间设了其中一种，另一种要设为0,用NoAbsolute(Sliding)Expiration枚举
-        /// </summary>
-        public virtual TimeSpan SlidingExpiration
-        {
-            get
-            {
-                return Cache.NoSlidingExpiration;
             }
         }
 

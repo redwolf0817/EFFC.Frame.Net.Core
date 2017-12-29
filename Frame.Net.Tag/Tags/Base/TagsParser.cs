@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using EFFC.Frame.Net.Tag.Core;
 using EFFC.Frame.Net.Base.Data.Base;

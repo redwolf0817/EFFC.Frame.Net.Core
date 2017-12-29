@@ -1,18 +1,6 @@
-﻿using EFFC.Frame.Net.Base.Common;
-using EFFC.Frame.Net.Base.Constants;
-using EFFC.Frame.Net.Base.Data.Base;
-using EFFC.Frame.Net.Base.Interfaces.Core;
-using EFFC.Frame.Net.Base.Interfaces.Unit;
-using EFFC.Frame.Net.Base.ResouceManage.DB;
-using EFFC.Frame.Net.Base.Unit;
-using EFFC.Frame.Net.Business.Unit;
-using EFFC.Frame.Net.Data.LogicData;
+﻿using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Data.Parameters;
-using EFFC.Frame.Net.Data.UnitData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EFFC.Frame.Net.Business.Logic
 {
