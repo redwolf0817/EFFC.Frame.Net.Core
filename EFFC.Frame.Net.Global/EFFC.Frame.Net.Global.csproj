@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Version>1.0.2</Version>
+    <Authors>YCH</Authors>
+    <Company>EFFC@ItTrending</Company>
+    <Product>EFFC.Frame.Net.Base</Product>
+    <Description>E.F.F.C Frame Global Settings</Description>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为基础库包含EFFC框架的基础接口和基本资源API
+
+.net core 2.0的升级版本</PackageReleaseNotes>
+    <AssemblyVersion>3.5.2.0</AssemblyVersion>
+    <FileVersion>3.5.2.0</FileVersion>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Global.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Global.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Global.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Base\EFFC.Frame.Net.Base.csproj" />
+  </ItemGroup>
+
+</Project>

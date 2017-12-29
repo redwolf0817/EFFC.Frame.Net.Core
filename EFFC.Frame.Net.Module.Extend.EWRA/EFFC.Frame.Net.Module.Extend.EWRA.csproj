@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>YCH</Authors>
+    <Company>EFFC@ItTrending</Company>
+    <Description>E.F.F.C Frame Module Web Rest API</Description>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为Web处理扩展库，包含EFFC框架框架下的RestFUL API开发接口定义
+.net core 2.0升级版本</PackageReleaseNotes>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.Extend.EWRA.Key.snk</AssemblyOriginatorKeyFile>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>3.5.2.0</AssemblyVersion>
+    <FileVersion>3.5.2.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.Extend.EWRA.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.Extend.EWRA.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
+    <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Business\EFFC.Frame.Net.Module.Business.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Web\EFFC.Frame.Net.Module.Web.csproj" />
+  </ItemGroup>
+
+</Project>

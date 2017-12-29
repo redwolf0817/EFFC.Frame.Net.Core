@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Business\EFFC.Frame.Net.Module.Business.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.EWRA\EFFC.Frame.Net.Module.Extend.EWRA.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Sqlite\EFFC.Frame.Net.Resource.Sqlite.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.SQLServer\EFFC.Frame.Net.Resource.SQLServer.csproj" />
+  </ItemGroup>
+
+</Project>
