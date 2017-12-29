@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FBB312AD-E85E-4F26-BC21-DDAD45762CCB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EFFC.Frame.Net.Data</RootNamespace>
+    <AssemblyName>EFFC.Frame.Net.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Data.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Data.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Frame.Net.Data.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\ReferenceDll\4.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Json">
+      <HintPath>..\ReferenceDll\System.Net.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataConvert\DataSet2Json.cs" />
+    <Compile Include="DataConvert\DataTable2Json.cs" />
+    <Compile Include="DataConvert\DataTable2List.cs" />
+    <Compile Include="DataConvert\Json2DataSet.cs" />
+    <Compile Include="DataConvert\Json2DataTable.cs" />
+    <Compile Include="DataConvert\Json2List.cs" />
+    <Compile Include="DataConvert\List2Xml.cs" />
+    <Compile Include="DataConvert\QueryByPage2Json.cs" />
+    <Compile Include="DataConvert\Xml2List.cs" />
+    <Compile Include="FlowData\FlowData.cs" />
+    <Compile Include="FlowData\FlowInstanceReport.cs" />
+    <Compile Include="FlowData\FlowVersion.cs" />
+    <Compile Include="LogicData\ConsoleLogicData.cs" />
+    <Compile Include="LogicData\FlowLogicData.cs" />
+    <Compile Include="LogicData\LogicData.QueryByPage.cs" />
+    <Compile Include="LogicData\LogicData.cs" />
+    <Compile Include="LoginUserData.cs" />
+    <Compile Include="Parameters\ConsoleParameter.cs" />
+    <Compile Include="Parameters\DODParameter.cs" />
+    <Compile Include="Parameters\Flow\FlowParameter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleData\ObjectResult.cs" />
+    <Compile Include="RuleData\PersistentResult.cs" />
+    <Compile Include="RuleData\RuleData.cs" />
+    <Compile Include="RuleData\RuleJsonModel.cs" />
+    <Compile Include="UnitData\DOCollection.cs" />
+    <Compile Include="UnitData\UnitDataCollection.cs" />
+    <Compile Include="Parameters\UnitParamter.cs" />
+    <Compile Include="WebData\AspRData.cs" />
+    <Compile Include="WebData\GoData.cs" />
+    <Compile Include="WebData\WebBaseData.cs" />
+    <Compile Include="Parameters\WebParameter.cs" />
+    <Compile Include="WebData\WebFormData.cs" />
+    <Compile Include="WebData\WebFormPageModel.cs" />
+    <Compile Include="WebData\WMvcData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Frame.Net.Data.Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frame.Net.Base\Frame.Net.Base.csproj">
+      <Project>{eb6b4a1c-0804-4f32-a1a7-839edcad7609}</Project>
+      <Name>Frame.Net.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

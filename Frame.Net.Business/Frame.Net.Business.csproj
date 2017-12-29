@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F984643B-7220-4AA4-B172-4ABCDF586801}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EFFC.Frame.Net.Business</RootNamespace>
+    <AssemblyName>EFFC.Frame.Net.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Business.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Business.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Frame.Net.Business.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Noesis.Javascript, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ae36d046c7f89f85, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Noesis.Javascript\Noesis.Javascript.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDLL\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Engine\HostJsView.cs" />
+    <Compile Include="Engine\HostJsView.HostJsObject.cs" />
+    <Compile Include="Engine\HostJsView.TagModule.cs" />
+    <Compile Include="Engine\HostJsView.Tags.cs" />
+    <Compile Include="Engine\HostLogicEngine.cs" />
+    <Compile Include="Engine\WMvcView.cs" />
+    <Compile Include="Logic\BaseLogic.DataObject.cs" />
+    <Compile Include="Logic\BaseLogic.LogicCall.cs" />
+    <Compile Include="Logic\BaseLogic.HostJs.cs" />
+    <Compile Include="Logic\BaseLogic.Config.cs" />
+    <Compile Include="Logic\BaseLogic.cs" />
+    <Compile Include="Logic\Consoles\ConsoleBaseLogic.cs" />
+    <Compile Include="Logic\BaseLogic.DB.cs" />
+    <Compile Include="Engine\HostJsObject.cs" />
+    <Compile Include="Engine\TagModule.cs" />
+    <Compile Include="Engine\Tags.cs" />
+    <Compile Include="Logic\HostJsLogic.cs" />
+    <Compile Include="Logic\HostJsLogic.HostJsObject.cs" />
+    <Compile Include="Logic\HostJsLogic.TagModule.cs" />
+    <Compile Include="Logic\HostJsLogic.Tags.cs" />
+    <Compile Include="Logic\WebBaseLogic.Validation.cs" />
+    <Compile Include="Logic\WebBaseLogic.Application.cs" />
+    <Compile Include="Logic\WebBaseLogic.Cookie.cs" />
+    <Compile Include="Logic\WebBaseLogic.WebSocket.cs" />
+    <Compile Include="Logic\WebBaseLogic.Session.cs" />
+    <Compile Include="Logic\BaseLogic.DataConvert.cs" />
+    <Compile Include="Logic\WebBaseLogic.Info.cs" />
+    <Compile Include="Logic\BaseLogic.Cache.cs" />
+    <Compile Include="Logic\WebBaseLogic.Model.cs" />
+    <Compile Include="Logic\ILogic.cs" />
+    <Compile Include="Logic\WebBaseLogic.cs" />
+    <Compile Include="Logic\WebBaseLogic.Globalization.cs" />
+    <Compile Include="Logic\WebForm\WebFormLogic.cs" />
+    <Compile Include="Module\AssemblyLoadBusinessByLAModule.cs" />
+    <Compile Include="Module\AssemblyLoadBusinessSingletonModule.cs" />
+    <Compile Include="Module\AssemblyLoadBusinessModule.cs" />
+    <Compile Include="Module\LocalLoadHostBusinessModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\DOD\DODBaseUnit.DB.cs" />
+    <Compile Include="Unit\DOD\DODBaseUnit.InputP.cs" />
+    <Compile Include="Unit\DOD\DODBaseUnit.Config.cs" />
+    <Compile Include="Unit\DOD\DODBaseUnit.cs" />
+    <Compile Include="Unit\DOD\DODUnitProxy.cs" />
+    <Compile Include="Unit\HostUnit\HostNonQueryUnit.cs" />
+    <Compile Include="Unit\HostUnit\HostQueryByPageUnit.cs" />
+    <Compile Include="Unit\HostUnit\HostQueryUnit.cs" />
+    <Compile Include="Unit\NonQueryUnit.cs" />
+    <Compile Include="Unit\QueryByPageUnit.cs" />
+    <Compile Include="Unit\QueryUnit.cs" />
+    <Compile Include="Unit\SPUnit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frame.Net.Base\Frame.Net.Base.csproj">
+      <Project>{eb6b4a1c-0804-4f32-a1a7-839edcad7609}</Project>
+      <Name>Frame.Net.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Data\Frame.Net.Data.csproj">
+      <Project>{fbb312ad-e85e-4f26-bc21-ddad45762ccb}</Project>
+      <Name>Frame.Net.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Global\Frame.Net.Global.csproj">
+      <Project>{034e1a19-f091-4419-ac7b-a85db4b55adb}</Project>
+      <Name>Frame.Net.Global</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Tag\Frame.Net.Tag.csproj">
+      <Project>{ed7d912d-0bc8-4707-8c40-9080c35d6179}</Project>
+      <Name>Frame.Net.Tag</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Frame.Net.Business.Key.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

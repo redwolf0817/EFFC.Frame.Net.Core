@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A7AE004E-BD8B-4EA0-A845-99C8B9D0FF76}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EFFC.Frame.Net.Console</RootNamespace>
+    <AssemblyName>EFFC.Frame.Net.Console</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Console.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.Console.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Frame.Net.Console.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\ConsoleBaseHandler.cs" />
+    <Compile Include="Module\ConsoleBusinessModule.cs" />
+    <Compile Include="Module\ConsoleLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\ConsoleBusinessProxy.cs" />
+    <Compile Include="Proxy\ConsoleProxy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frame.Net.Base\Frame.Net.Base.csproj">
+      <Project>{eb6b4a1c-0804-4f32-a1a7-839edcad7609}</Project>
+      <Name>Frame.Net.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Business\Frame.Net.Business.csproj">
+      <Project>{f984643b-7220-4aa4-b172-4abcdf586801}</Project>
+      <Name>Frame.Net.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Data\Frame.Net.Data.csproj">
+      <Project>{fbb312ad-e85e-4f26-bc21-ddad45762ccb}</Project>
+      <Name>Frame.Net.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frame.Net.Global\Frame.Net.Global.csproj">
+      <Project>{034e1a19-f091-4419-ac7b-a85db4b55adb}</Project>
+      <Name>Frame.Net.Global</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Frame.Net.Console.Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Global\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

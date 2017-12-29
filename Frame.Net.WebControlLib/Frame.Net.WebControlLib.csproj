@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{311B3089-B276-464A-8DE8-532D13F6796A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EFFC.Frame.Net.WebControlLib</RootNamespace>
+    <AssemblyName>EFFC.Frame.Net.WebControlLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.WebControlLib.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Frame.Net.WebControlLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Frame.Net.WebControlLib.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ControlEditor\AjaxValidator.cs" />
+    <Compile Include="ControlEditor\CustAdRotator.cs" />
+    <Compile Include="ControlEditor\CustCalendar.cs" />
+    <Compile Include="ControlEditor\CustCheckBox.cs" />
+    <Compile Include="ControlEditor\CustFileUpload.cs" />
+    <Compile Include="ControlEditor\CustGridView.cs" />
+    <Compile Include="ControlEditor\CustHyperLink.cs" />
+    <Compile Include="ControlEditor\CustImage.cs" />
+    <Compile Include="ControlEditor\CustImageButton.cs" />
+    <Compile Include="ControlEditor\CustImageMap.cs" />
+    <Compile Include="ControlEditor\CustLinkButton.cs" />
+    <Compile Include="ControlEditor\CustListBox.cs" />
+    <Compile Include="ControlEditor\CustListView.cs" />
+    <Compile Include="ControlEditor\CustLiteral.cs" />
+    <Compile Include="ControlEditor\CustMenu.cs" />
+    <Compile Include="ControlEditor\CustMultiView.cs" />
+    <Compile Include="ControlEditor\CustPanel.cs" />
+    <Compile Include="ControlEditor\CustPlaceHolder.cs" />
+    <Compile Include="ControlEditor\CustRepeater.cs" />
+    <Compile Include="ControlEditor\CustSubstitution.cs" />
+    <Compile Include="ControlEditor\CustTreeview.cs" />
+    <Compile Include="ControlEditor\CustUpdatePanel.cs" />
+    <Compile Include="ControlEditor\CustView.cs" />
+    <Compile Include="ControlEditor\CustWizard.cs" />
+    <Compile Include="ControlEditor\DatePicker.cs" />
+    <Compile Include="ControlEditor\GridPager.cs" />
+    <Compile Include="ControlEditor\GridViewPageingByDB.cs" />
+    <Compile Include="ControlEditor\MoveListBox.cs" />
+    <Compile Include="ControlEditor\MoveListBoxAll.cs" />
+    <Compile Include="ControlEditor\MoveListBoxValidatior.cs" />
+    <Compile Include="FileUploadManager\FileUploadManager.cs" />
+    <Compile Include="FileUploadManager\FileUploadModule.cs" />
+    <Compile Include="FileUploadManager\FileUploadUtility.cs" />
+    <Compile Include="GridViewCustom\MoveListBox.cs" />
+    <Compile Include="GridViewCustom\PageNavigation.cs" />
+    <Compile Include="Input\ButtonPermission.cs" />
+    <Compile Include="Input\CalendarInpurt.cs" />
+    <Compile Include="Input\CheckBoxMap.cs" />
+    <Compile Include="Input\DropDownListMap.cs" />
+    <Compile Include="Input\HiddenFieldMap.cs" />
+    <Compile Include="Input\ImageButtonPermission.cs" />
+    <Compile Include="Input\LabelMap.cs" />
+    <Compile Include="Input\LinkButtonPermission.cs" />
+    <Compile Include="Input\RadioButtonListMap.cs" />
+    <Compile Include="Input\RadioMap.cs" />
+    <Compile Include="Input\TextBoxMap.cs" />
+    <Compile Include="Interfaces\IActionPermission.cs" />
+    <Compile Include="Interfaces\IWebDataControl.cs" />
+    <Compile Include="Navigation\FrameworkMenu.cs" />
+    <Compile Include="Navigation\FrameworkSiteMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="TypeConvert\EnumPropertieByActionTypeConvert.cs" />
+    <Compile Include="TypeConvert\PageNavigationTypeConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FileUploadManager\FileUploadManager.js" />
+    <Content Include="FileUploadManager\jquery.js" />
+    <Content Include="FileUploadManager\table.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DialogForm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Frame.Net.WebControlLib.Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Frame.Net.Base\Frame.Net.Base.csproj">
+      <Project>{eb6b4a1c-0804-4f32-a1a7-839edcad7609}</Project>
+      <Name>Frame.Net.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
