@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Authors>YCH</Authors>
+    <Company>EFFC@ItTrending</Company>
+    <Description>E.F.F.C Frame Module Web GoHandler Definition</Description>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为Web处理扩展库，包含EFFC框架的基础接口、基本资源API、Go请求处理</PackageReleaseNotes>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\.xml</DocumentationFile>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.Extend.WebGo.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Business\EFFC.Frame.Net.Module.Business.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Razor\EFFC.Frame.Net.Module.Razor.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Web\EFFC.Frame.Net.Module.Web.csproj" />
+  </ItemGroup>
+
+</Project>

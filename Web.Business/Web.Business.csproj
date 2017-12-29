@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.WeixinWeb\EFFC.Frame.Net.Module.Extend.WeixinWeb.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
+  </ItemGroup>
+
+</Project>

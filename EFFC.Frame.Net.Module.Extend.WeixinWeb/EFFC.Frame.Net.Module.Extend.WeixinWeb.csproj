@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Authors>YCH</Authors>
+    <Company>EFFC@ItTrending</Company>
+    <Description>E.F.F.C Frame Module Web WeixinHandler Definition</Description>
+    <Copyright>Copyright © ItTrending  2017</Copyright>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为微信处理扩展库，包含EFFC框架的基础接口、基本资源API、微信请求处理</PackageReleaseNotes>
+    <AssemblyVersion>3.5.1.0</AssemblyVersion>
+    <FileVersion>3.5.1.0</FileVersion>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.Extend.WeixinWeb.key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.Extend.WeixinWeb.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.Extend.WeixinWeb.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.HttpCall\EFFC.Frame.Net.Module.HttpCall.csproj" />
+  </ItemGroup>
+
+</Project>

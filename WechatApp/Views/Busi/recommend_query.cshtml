@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Layout/_layout_frame.cshtml";
+}
+@section js{
+    <script src="~/scripts/bootstrap-select-1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="~/js/pages/busi/recommendquery.js"></script>
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <label>推荐人电话号码：</label>
+        </div>
+        <div class="col-md-10">
+            <input type="text" class="form-control" required="" autofocus="" maxlength="20" id="recommender" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <label>被推荐人电话号码：</label>
+        </div>
+        <div class="col-md-10">
+            <input type="text" class="form-control" required="" id="recommended" maxlength="20" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-large" id="search">查询</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="result">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>所属门店</th>
+                        <th>
+                            推荐人
+                        </th>
+                        <th>
+                            推荐人姓名
+                        </th>
+                        <th>
+                            被推荐人
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            
+        </div>
+    </div>
+</div>
