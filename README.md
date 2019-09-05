@@ -45,3 +45,4 @@ Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core�
 3.5是将3.0版本框架移植到.net core上，只是个实验版本，未投入实用<br/>
 3.5.1是基于.net core 1.1的构建版本<br/>
 3.5.2是基于.net core 2.0的构建版本<br/>
+3.5.3是基于.net core 2.1的构建版本<br/>
