@@ -1,0 +1,74 @@
+﻿{
+  "$acttype": "CreateTable",
+  "$table": "EXTEND_METADATA_COLUMNS",
+  "MetaUID": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": false
+  },
+  "MetaColumnName": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": false
+  },
+  "MetaColumnDesc": {
+    "$datatype": "nvarchar",
+    "$precision": 100,
+    "$isnull": true
+  },
+  "MetaDataType": {
+    "$datatype": "nvarchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "MetaDataPrecision": {
+    "$datatype": "int",
+    "$isnull": true
+  },
+  "MetaDataScale": {
+    "$datatype": "int",
+    "$isnull": true
+  },
+  "MetaDataDefault": {
+    "$datatype": "nvarchar",
+    "$precision": 100,
+    "$isnull": true
+  },
+  "MetaAllowEmpty": {
+    "$datatype": "bit",
+    "$isnull": true
+  },
+  "MetaIsPK": {
+    "$datatype": "bit",
+    "$isnull": true
+  },
+  "add_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "add_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "add_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "last_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "last_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "last_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "$pk": [ "MetaUID", "MetaColumnName" ]
+}

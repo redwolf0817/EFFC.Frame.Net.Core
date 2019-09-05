@@ -131,6 +131,14 @@ namespace EFFC.Frame.Net.Unit.DB.Datas
             get;
             set;
         }
+        /// <summary>
+        /// 出错的信息提示
+        /// </summary>
+        public string ErrorMsg
+        {
+            get;
+            set;
+        }
 
         public override object Clone()
         {

@@ -53,6 +53,27 @@ namespace EFFC.Frame.Net.Unit.DB
             Call<NonQueryUnit<TUnit>>(p);
         }
         /// <summary>
+        /// 执行DDL操作
+        /// </summary>
+        /// <typeparam name="TUnit"></typeparam>
+        /// <param name="p"></param>
+        /// <param name="actionflag"></param>
+        /// <returns>返回为空，则表示操作成功，否则为错误提示信息</returns>
+        public static string ExcuteDDL<TUnit>(UnitParameter p, string actionflag)
+            where TUnit : IDBUnit<UnitParameter>
+        {
+            try
+            {
+                p.SetValue("_unit_action_flag_", actionflag);
+                Call<NonQueryUnit<TUnit>>(p);
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        /// <summary>
         /// 执行存储过程操作
         /// </summary>
         /// <typeparam name="TUnit"></typeparam>
@@ -90,7 +111,22 @@ namespace EFFC.Frame.Net.Unit.DB
                     }
                     else
                     {
-                        NonQuery<JsonExpressUnit>(p, "");
+                        switch (express.CurrentAct)
+                        {
+                            case DBExpress.ActType.CreateTable:
+                                rtn.ErrorMsg = ExcuteDDL<JsonExpressUnit>(p, "");
+                                break;
+                            case DBExpress.ActType.AlterColumn:
+                                rtn.ErrorMsg = ExcuteDDL<JsonExpressUnit>(p, "");
+                                break;
+                            case DBExpress.ActType.DropTable:
+                                rtn.ErrorMsg = ExcuteDDL<JsonExpressUnit>(p, "");
+                                break;
+                            default:
+                                NonQuery<JsonExpressUnit>(p, "");
+                                break;
+
+                        }
                     }
                 }
 
@@ -102,8 +138,9 @@ namespace EFFC.Frame.Net.Unit.DB
         /// </summary>
         /// <param name="p"></param>
         /// <param name="json"></param>
+        /// <param name="islog">用于设定是否记录解析结果，以便进行debug操作</param>
         /// <returns></returns>
-        public static UnitDataCollection Excute(UnitParameter p, FrameDLRObject json)
+        public static UnitDataCollection Excute(UnitParameter p, FrameDLRObject json, bool islog = false)
         {
             DBExpress express = null;
             if (p.Dao is ADBAccess)
@@ -111,6 +148,7 @@ namespace EFFC.Frame.Net.Unit.DB
                 express = ((ADBAccess)p.Dao).MyDBExpress;
                 DBExpress.Load(express, json);
             }
+            express.IsLog = islog;
 
             return Excute(p, express);
         }
@@ -119,10 +157,11 @@ namespace EFFC.Frame.Net.Unit.DB
         /// </summary>
         /// <param name="p"></param>
         /// <param name="json"></param>
+        /// <param name="islog">用于设定是否记录解析结果，以便进行debug操作</param>
         /// <returns></returns>
-        public static UnitDataCollection Excute(UnitParameter p, string json)
+        public static UnitDataCollection Excute(UnitParameter p, string json, bool islog = false)
         {
-            return Excute(p, FrameDLRObject.CreateInstance(json));
+            return Excute(p, FrameDLRObject.CreateInstance(json), islog);
         }
     }
 }

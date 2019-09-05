@@ -83,5 +83,33 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.DataCollections
             get;
             set;
         }
+        /// <summary>
+        /// 下载文件的名称
+        /// </summary>
+        public string Download_File_Name
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 下载文件的contenttype
+        /// </summary>
+        public string File_ContentType
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 设定是否执行当前接口方法列表
+        /// </summary>
+        public bool IsInvoke
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 跳转页，如果有设置值，则优先执行跳转
+        /// </summary>
+        public string RedirectUri { get; set; }
     }
 }

@@ -146,7 +146,7 @@ namespace EFFC.Frame.Net.Module.Tag
         public object GetBindObject(string name)
         {
             string key = "__bind." + name;
-            if (!_content.ContainsKey(key))
+            if (_content.ContainsKey(key))
             {
                 return _content[key];
             }

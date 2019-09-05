@@ -6,6 +6,617 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\publish\chuyuwang</_PublishTargetUrl>
+    <_PublishTargetUrl>e:\publish\core2.0</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="wwwroot/css/Admin/Pages/login.css">
+      <publishTime>07/21/2017 10:18:51</publishTime>
+    </File>
+    <File Include="wwwroot/css/Admin/Pages/main.css">
+      <publishTime>07/21/2017 14:05:26</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/account.js">
+      <publishTime>08/04/2017 17:14:45</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/busi/custbind.js">
+      <publishTime>01/10/2018 13:49:06</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/busi/recommendquery.js">
+      <publishTime>10/30/2017 11:16:00</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/function.js">
+      <publishTime>07/27/2017 15:22:58</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/login.js">
+      <publishTime>07/25/2017 17:19:57</publishTime>
+    </File>
+    <File Include="wwwroot/js/pages/role.js">
+      <publishTime>08/03/2017 17:29:13</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/browser-polyfill.js">
+      <publishTime>07/26/2017 15:55:28</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/browser-polyfill.min.js">
+      <publishTime>07/26/2017 15:55:31</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/browser.js">
+      <publishTime>07/26/2017 15:55:31</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/browser.min.js">
+      <publishTime>07/26/2017 15:55:30</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/external-helpers.js">
+      <publishTime>07/26/2017 15:55:30</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/babel/external-helpers.min.js">
+      <publishTime>07/26/2017 15:55:30</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/css/bootstrap-select.css">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/css/bootstrap-select.css.map">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/css/bootstrap-select.min.css">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/.jshintrc">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/bootstrap-select.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/bootstrap-select.js.map">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/bootstrap-select.min.js">
+      <publishTime>07/24/2017 18:29:51</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ar_AR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ar_AR.min.js">
+      <publishTime>07/24/2017 18:29:51</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-bg_BG.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-bg_BG.min.js">
+      <publishTime>07/24/2017 18:29:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-cro_CRO.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-cro_CRO.min.js">
+      <publishTime>07/24/2017 18:29:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-cs_CZ.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-cs_CZ.min.js">
+      <publishTime>07/24/2017 18:29:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-da_DK.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-da_DK.min.js">
+      <publishTime>07/24/2017 18:29:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-de_DE.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-de_DE.min.js">
+      <publishTime>07/24/2017 18:29:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-en_US.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-en_US.min.js">
+      <publishTime>07/24/2017 18:29:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-es_CL.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-es_CL.min.js">
+      <publishTime>07/24/2017 18:29:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-es_ES.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-es_ES.min.js">
+      <publishTime>07/24/2017 18:29:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-et_EE.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-et_EE.min.js">
+      <publishTime>07/24/2017 18:29:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-eu.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-eu.min.js">
+      <publishTime>07/24/2017 18:29:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fa_IR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fa_IR.min.js">
+      <publishTime>07/24/2017 18:29:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fi_FI.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fi_FI.min.js">
+      <publishTime>07/24/2017 18:29:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fr_FR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-fr_FR.min.js">
+      <publishTime>07/24/2017 18:29:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-hu_HU.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-hu_HU.min.js">
+      <publishTime>07/24/2017 18:29:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-id_ID.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-id_ID.min.js">
+      <publishTime>07/24/2017 18:29:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-it_IT.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-it_IT.min.js">
+      <publishTime>07/24/2017 18:29:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ja_JP.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ja_JP.min.js">
+      <publishTime>07/24/2017 18:29:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-kh_KM.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-kh_KM.min.js">
+      <publishTime>07/24/2017 18:29:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ko_KR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ko_KR.min.js">
+      <publishTime>07/24/2017 18:29:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-lt_LT.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-lt_LT.min.js">
+      <publishTime>07/24/2017 18:29:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-nb_NO.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-nb_NO.min.js">
+      <publishTime>07/24/2017 18:29:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-nl_NL.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-nl_NL.min.js">
+      <publishTime>07/24/2017 18:29:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pl_PL.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pl_PL.min.js">
+      <publishTime>07/24/2017 18:29:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pt_BR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pt_BR.min.js">
+      <publishTime>07/24/2017 18:29:58</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pt_PT.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-pt_PT.min.js">
+      <publishTime>07/24/2017 18:29:58</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ro_RO.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ro_RO.min.js">
+      <publishTime>07/24/2017 18:29:58</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ru_RU.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ru_RU.min.js">
+      <publishTime>07/24/2017 18:29:58</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sk_SK.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sk_SK.min.js">
+      <publishTime>07/24/2017 18:29:59</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sl_SI.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sl_SI.min.js">
+      <publishTime>07/24/2017 18:29:59</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sv_SE.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-sv_SE.min.js">
+      <publishTime>07/24/2017 18:29:59</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-tr_TR.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-tr_TR.min.js">
+      <publishTime>07/24/2017 18:29:59</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ua_UA.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-ua_UA.min.js">
+      <publishTime>07/24/2017 18:30:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-vi_VN.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-vi_VN.min.js">
+      <publishTime>07/24/2017 18:30:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-zh_CN.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-zh_CN.min.js">
+      <publishTime>07/24/2017 18:30:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-zh_TW.js">
+      <publishTime>07/19/2017 11:56:42</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap-select-1.12.4/js/i18n/defaults-zh_TW.min.js">
+      <publishTime>07/24/2017 18:30:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap_dialog.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/bootstrap_dialog.min.js">
+      <publishTime>07/24/2017 18:29:45</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/dialog.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/dialog.min.js">
+      <publishTime>07/24/2017 18:29:46</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/attrchange.js">
+      <publishTime>02/08/2017 17:00:10</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/attrchange.min.js">
+      <publishTime>08/03/2017 16:37:50</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/attrchange_ext.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/attrchange_ext.min.js">
+      <publishTime>08/03/2017 16:37:50</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/ajax.config.js">
+      <publishTime>07/24/2017 17:08:20</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/ajax.config.min.js">
+      <publishTime>08/03/2017 16:37:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/exception.config.js">
+      <publishTime>02/08/2017 17:00:09</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/exception.config.min.js">
+      <publishTime>08/03/2017 16:37:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/message.config.js">
+      <publishTime>07/24/2017 17:02:29</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/message.config.min.js">
+      <publishTime>08/03/2017 16:37:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/validation.config.js">
+      <publishTime>02/08/2017 17:00:08</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/configs/validation.config.min.js">
+      <publishTime>08/03/2017 16:37:58</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.ajax.js">
+      <publishTime>02/08/2017 17:00:08</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.ajax.min.js">
+      <publishTime>08/03/2017 16:37:51</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.control.js">
+      <publishTime>02/08/2017 17:00:08</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.control.min.js">
+      <publishTime>08/03/2017 16:37:51</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.exception.js">
+      <publishTime>02/08/2017 17:00:10</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.exception.min.js">
+      <publishTime>08/03/2017 16:37:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.extention.js">
+      <publishTime>07/24/2017 15:30:20</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.extention.min.js">
+      <publishTime>08/03/2017 16:37:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.form.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.form.min.js">
+      <publishTime>08/03/2017 16:37:52</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.message.js">
+      <publishTime>02/08/2017 17:00:08</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.message.min.js">
+      <publishTime>08/03/2017 16:37:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.net.js">
+      <publishTime>07/24/2017 16:37:31</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.net.min.js">
+      <publishTime>08/03/2017 16:37:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.promises.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.promises.min.js">
+      <publishTime>08/03/2017 16:37:53</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.revolver.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.revolver.min.js">
+      <publishTime>08/03/2017 16:37:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.treetable.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.treetable.min.js">
+      <publishTime>08/03/2017 16:37:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.validation.js">
+      <publishTime>02/08/2017 17:00:10</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/frame.validation.min.js">
+      <publishTime>08/03/2017 16:37:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/global.js">
+      <publishTime>08/03/2017 16:33:03</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/global.min.js">
+      <publishTime>08/03/2017 16:37:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.blockUI.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.blockUI.min.js">
+      <publishTime>08/03/2017 16:37:55</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.cookie.js">
+      <publishTime>02/08/2017 17:00:10</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.cookie.min.js">
+      <publishTime>08/03/2017 16:37:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.form.js">
+      <publishTime>02/08/2017 17:00:10</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jquery.form.min.js">
+      <publishTime>08/03/2017 16:37:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_diagonals-thick_50_ffc5c5_40x40.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_diagonals-thick_50_fffcae_40x40.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_flat_0_000000_40x100.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_flat_0_ff5555_40x100.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_flat_20_ff5555_40x100.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_flat_75_ff5555_40x100.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-bg_glass_50_ff5555_1x400.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-icons_0088cc_256x240.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-icons_404040_256x240.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-icons_cd0a0a_256x240.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/images/ui-icons_ffffff_256x240.png">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/jquery-ui-1.11.2.css">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/jquery-ui-1.11.2.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/jquery-ui-1.11.2.min.css">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/jqueryui/jquery-ui-1.11.2.min.js">
+      <publishTime>08/03/2017 16:37:59</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.events.EventDispatcher.js">
+      <publishTime>02/08/2017 17:00:09</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.events.EventDispatcher.min.js">
+      <publishTime>08/03/2017 16:38:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.lang.Class.js">
+      <publishTime>02/08/2017 17:00:09</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.lang.Class.min.js">
+      <publishTime>08/03/2017 16:38:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.util.ArrayList.js">
+      <publishTime>02/08/2017 17:00:09</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.util.ArrayList.min.js">
+      <publishTime>08/03/2017 16:38:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.util.Dictionary.js">
+      <publishTime>02/08/2017 17:00:09</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js.Util/js.util.Dictionary.min.js">
+      <publishTime>08/03/2017 16:38:00</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/js_min.bat">
+      <publishTime>07/22/2017 11:23:49</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/ObjTree.js">
+      <publishTime>02/08/2017 17:00:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/FrameJs/ObjTree.min.js">
+      <publishTime>08/03/2017 16:37:56</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.11.3.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.11.3.min.js">
+      <publishTime>07/24/2017 18:29:47</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.8.2.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.8.2.min.js">
+      <publishTime>07/24/2017 18:29:48</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.9.1.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-1.9.1.min.js">
+      <publishTime>07/24/2017 18:29:49</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/css/jquery.treegrid.css">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/img/collapse.png">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/img/expand.png">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/img/file.png">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/img/folder.png">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.cookie.js">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.cookie.min.js">
+      <publishTime>07/24/2017 18:30:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap2.js">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap2.min.js">
+      <publishTime>07/24/2017 18:30:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap3.js">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap3.min.js">
+      <publishTime>07/24/2017 18:30:11</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.js">
+      <publishTime>07/03/2017 04:44:34</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery-treegrid-master/js/jquery.treegrid.min.js">
+      <publishTime>07/24/2017 18:30:12</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery.tmpl.js">
+      <publishTime>02/08/2017 17:00:02</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/jquery.tmpl.min.js">
+      <publishTime>07/24/2017 18:29:49</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/js_min.bat">
+      <publishTime>07/22/2017 11:23:49</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.core.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.core.min.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.fp.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.fp.min.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/lodash.min.js">
+      <publishTime>12/31/2016 12:34:36</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/lodash%404.17.4/mapping.fp.js">
+      <publishTime>12/31/2016 12:34:38</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/myapp.js">
+      <publishTime>10/30/2017 14:28:07</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/myapp.min.js">
+      <publishTime>07/24/2017 18:29:50</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/react%4016/react.dom.min.js">
+      <publishTime>10/30/2017 14:07:44</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/react%4016/react.min.js">
+      <publishTime>10/30/2017 14:07:13</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/require.js/require.js">
+      <publishTime>07/26/2017 18:08:18</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/require.js/require.min.js">
+      <publishTime>07/26/2017 18:06:57</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/vuejs%402.4.0/vue.js">
+      <publishTime>08/02/2017 10:44:54</publishTime>
+    </File>
+    <File Include="wwwroot/scripts/vuejs%402.4.0/vue.min.js">
+      <publishTime>07/26/2017 15:09:02</publishTime>
+    </File>
+  </ItemGroup>
 </Project>

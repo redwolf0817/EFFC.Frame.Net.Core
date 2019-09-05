@@ -24,7 +24,7 @@ namespace Wechat.Business.Admin
             FrameDLRObject express = FrameDLRObject.CreateInstanceFromat(@"{
 $acttype : 'QueryByPage',
 $table : 'LoginInfo'
-}", id);
+}");
             if (id != "")
             {
                 express.SetValue("$where", FrameDLRObject.CreateInstanceFromat(@"{

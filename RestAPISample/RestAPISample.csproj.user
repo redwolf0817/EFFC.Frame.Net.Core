@@ -6,5 +6,6 @@
   <PropertyGroup>
     <ActiveDebugProfile>RestAPISample</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EFFC.Frame.Net.Base</id>
+    <version>1.1.0</version>
+    <authors>YCH</authors>
+    <owners>YCH</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</projectUrl>
+    <description>E.F.F.C Frame Base Lib</description>
+    <releaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为基础库包含EFFC框架的基础接口和基本资源API
+
+.net core 2.0升级版本
+
+1.0.3:调整FrameDLRObject，为了更好的兼容性，将用来解析json串的js引擎改为用Newton.JSON来解析
+1.0.4:修正DefaultCache在设定了LimitSize的时候，在linux下报异常的问题，ComFunc新增GetApplicationRoot方法用来获取获取application的目录
+1.0.5:ComFunc中的Random调整算法，通过Guid的hashcode做种子来避免重复的数字，同时增加RandomCode方法生成指定长度随机码;
+修正FrameDLRObject转JSON时缺少对ushort，short，ulong，uint等整数类型的支持
+修正FrameDLRObject对xml的解析处理，将attribute也加入到对象属性中，如，&lt;a name=''&gt;,就可以解析成d.a.name的结构
+1.0.6:ComFunc新增ToJson的的工具方法,
+防范xxe攻击
+1.1.0:升级.netcore到2.1.2</releaseNotes>
+    <copyright>Copyright © ItTrending  2017</copyright>
+    <tags>EFFC</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.1">
+        <dependency id="EFFC.ChakraCore" version="1.0.7" exclude="Build,Analyzers" />
+        <dependency id="EFFC.VRoomJs" version="1.0.5" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.All" version="2.1.2" exclude="Build,Analyzers" />
+        <dependency id="QRCoder" version="1.3.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Base.runtimeconfig.json" target="lib\netcoreapp2.1\EFFC.Frame.Net.Base.runtimeconfig.json" />
+    <file src="E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Base.dll" target="lib\netcoreapp2.1\EFFC.Frame.Net.Base.dll" />
+    <file src="E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\Frame.Net.Base.xml" target="lib\netcoreapp2.1\Frame.Net.Base.xml" />
+  </files>
+</package>

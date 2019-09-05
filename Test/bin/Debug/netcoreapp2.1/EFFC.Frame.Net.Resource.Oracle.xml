@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Resource.Oracle</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess">
+            <summary>
+            Oracle连接底层封装
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess.isneedopentrans_in_open">
+            <summary>
+            需要在open的时候开启trans
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess.FillParametersToCommand(System.Data.Common.DbCommand,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            依據Dictionary填充Command物件參數集
+            </summary>
+            <param name="command">命令物件</param>
+            <param name="parameters">參數</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess.Delete(System.Object,System.String)">
+            <summary>
+            暂不提供
+            </summary>
+            <param name="data"></param>
+            <param name="toTable"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess.GetColumnsNameBySql(System.String,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            通過sql獲得相關的欄位列表
+            </summary>
+            <param name="sql"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Base.ResouceManage.DB.OracleAccess.NewLinqTable(System.String,System.String)">
+            <summary>
+            生成一个LinqDLR2SQL对象用于Linq操作
+            </summary>
+            <param name="table"></param>
+            <param name="alianname"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Base.ResouceManage.DB.OracleDLRColumn">
+            <summary>
+            Oracle专用的DLRColumn
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Base.ResouceManage.DB.OracleOperatorFlags">
+            <summary>
+            Oracle数据相关的操作符
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Base.ResouceManage.DB.OracleSqlGenerator">
+            <summary>
+            Oracle专属linqDLR2sql生成器
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Base.ResouceManage.DB.OracleSqlGenerator.#ctor">
+            <summary>
+            Oracle专属linqDLR2sql生成器
+            </summary>
+        </member>
+    </members>
+</doc>

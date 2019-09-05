@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>武汉市仪表电子学校--管理与教学</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_761537_a4ovx6bcxyl.css">
+    <link rel="stylesheet" href="css/basic.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!--头部-->
+  <header>
+    <!--欢迎部分-->
+    <div class="head_welcome">
+      <div class="head_welcomeInfo clear">
+        <div class="head_welcomeInfoLeft">欢迎来到武汉市仪表电子学校！</div>
+        <div class="head_welcomeInfoRight clear">
+          <img src="images/headerPhone.png" alt="">
+          <span>400-100-1917</span>
+        </div>
+      </div>
+    </div>
+    <!--logo部分-->
+    <div class="head_main clear">
+      <a href="index.html" class="head_logoImg"><img src="images/logo.png" alt=""></a>
+      <!--导航部分-->
+      <ul class="head_navList clear">
+        <li><a href="index.html">学校首页</a></li>
+        <li><a href="schoolBrief.html">学校概况</a></li>
+        <li><a href="education.html">教育教学</a></li>
+        <li><a href="teaching.html" class="active">管理与教学</a></li>
+        <li><a href="moralEducation.html">德育天地</a></li>
+        <li><a href="union.html">党群工作</a></li>
+        <li><a href="discipline.html">纪委监察</a></li>
+        <li><a href="admissions.html">招生就业</a></li>
+        <li><a href="open.html">校务公开</a></li>
+      </ul>
+    </div>
+  </header>
+  <!--主体内容部分-->
+  <section>
+    <!--上部图片-->
+    <div class="common_bgContent common_bgContentEducation"></div>
+    <!--面包屑导航部分-->
+    <div class="common_breadNav">
+      <div class="common_breadNavInfo">
+        <span>您当前的位置：</span>
+        <a href="index.html">首页</a>
+        <a href="teaching.html">&gt;管理与教学</a>
+        <span>&gt;教学整改</span>
+      </div>
+    </div>
+    <!--下部详细的内容-->
+    <div class="common_mainContent clear">
+      <!--左边部分-->
+      <div class="common_leftContent">
+        <div class="common_subNav">
+          <p class="common_subNavTitle">管理与教学</p>
+          <ul class="common_subNavList">
+            <li><a href="teaching.html?0" class="active">教学整改</a></li>
+            <li><a href="teaching.html?1">督导工作</a></li>
+          </ul>
+         </div>
+      </div>
+      <!--右边部分(教学整改)-->
+      <div class="common_rightContent">
+        <!--标题-->
+        <div class="common_rightTitle">
+          <span>教学整改</span>/The Teaching Reform
+        </div>
+      </div>
+      <!--右边部分(督导工作)-->
+      <div class="common_rightContent" style="display: none">
+        <!--标题-->
+        <div class="common_rightTitle">
+          <span>督导工作</span>/The Supervision Work
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--底部-->
+  <footer>
+    <div class="footerInfo">
+      <p>
+        <span>版权所有@武汉市仪表电子学校</span>
+        <span>技术支持：武汉飞加网络科技有限公司</span>
+        <span>地址：武汉市东湖高新技术开发区流芳园路1号</span>
+        <span>招办传真：027-52237986</span>
+      </p>
+      <P>
+        电话：<span>027-52237988</span><span>027-87403681</span><span>13071265257</span>
+      </P>
+    </div>
+  </footer>
+  <!--返回顶部按钮-->
+  <div class="toTop" title="返回顶部"><i class="iconfont icon-up"></i></div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/public.js"></script>
+<script>
+  var i=window.location.search.slice(1),
+      breadText=['教学整改', '督导工作'];
+  if (i) {
+    $(".common_rightContent:eq("+i+")").show().siblings(".common_rightContent").hide();
+    $(".common_breadNavInfo>span:eq(1)").html("&gt;"+breadText[i]);
+    $(".common_subNavList").children("li").children("a").removeClass("active");
+    $(".common_subNavList>li:eq("+i+")").children("a").addClass("active");
+  }
+
+</script>
+</body>
+</html>

@@ -195,5 +195,10 @@ namespace EFFC.Frame.Net.Module.Web.Parameters
                 SetValue("RequestUri", value);
             }
         }
+
+        public override object Clone()
+        {
+            return base.Clone();
+        }
     }
 }

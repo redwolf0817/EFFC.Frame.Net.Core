@@ -634,6 +634,16 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return string.IsNullOrEmpty(value.Value);
         }
         /// <summary>
+        /// 判断对象是否为空,如果为空则返回defaultvalue，否则返回value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="defaultvalue"></param>
+        /// <returns></returns>
+        public static string IsNullOrEmptyThen(object value,string defaultvalue = "")
+        {
+            return string.IsNullOrEmpty(ComFunc.nvl(value)) ? defaultvalue : ComFunc.nvlNotrim(value);
+        }
+        /// <summary>
         /// 將指定 System.StringStd 陣列每個元素之間的指定分隔符號 System.StringStd 串連，產生單一的串連字串。
         /// </summary>
         /// <param name="separator"></param>

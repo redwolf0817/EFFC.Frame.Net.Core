@@ -36,7 +36,8 @@ namespace EFFC.Frame.Net.Unit.DB.DataConvert
             }
 
             Type te = typeof(E);
-            if(te == typeof(FrameDLRObject))
+            if (te == typeof(FrameDLRObject)
+                || te == typeof(object))
             {
                 return dtt.Rows.Select(p => (E)(object)p).ToList();
             }

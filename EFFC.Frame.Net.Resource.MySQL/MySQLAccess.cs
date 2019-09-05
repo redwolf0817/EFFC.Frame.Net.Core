@@ -1,8 +1,10 @@
-﻿using EFFC.Frame.Net.Base.Common;
+﻿using EFFC.Extends.LinqDLR2SQL;
+using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Interfaces.Core;
+using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Unit.DB;
 using EFFC.Frame.Net.Unit.DB.Datas;
 using EFFC.Frame.Net.Unit.DB.Parameters;
@@ -26,6 +28,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
         MySqlConnection conn = null;
         MySqlTransaction tran = null;
         private MySqlCommand sqlcomm = null;
+        protected override int CommandTimeOut => 60 * 60000;
         /// <summary>
         /// 需要在open的时候开启trans
         /// </summary>
@@ -35,17 +38,16 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             if (sqlcomm == null)
             {
                 sqlcomm = new MySqlCommand(sql, this.conn);
-                sqlcomm.CommandTimeout = 90;
+                sqlcomm.CommandTimeout = CommandTimeOut;
             }
             else
             {
                 sqlcomm.CommandText = sql;
             }
+
             //如果事務開啟，則使用事務的方式
             if (this._s == DBStatus.Begin_Trans)
                 sqlcomm.Transaction = this.tran;
-
-            
             DataSetStd ds = new DataSetStd();
             MySqlDataReader ddr = null;
             try
@@ -57,12 +59,14 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 }
                 
                 ddr = sqlcomm.ExecuteReader();
+
                 ds = DataSetStd.FillData(ddr);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //    throw ex;
+            //}
             finally
             {
                 
@@ -213,7 +217,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             if (sqlcomm == null)
             {
                 sqlcomm = new MySqlCommand(sql, this.conn);
-                sqlcomm.CommandTimeout = 90;
+                sqlcomm.CommandTimeout = CommandTimeOut;
             }
             else
             {
@@ -227,19 +231,9 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
             if (_s == DBStatus.Begin_Trans)
                 sqlcomm.Transaction = this.tran;
-
-            try
+            using (sqlcomm)
             {
                 sqlcomm.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                sqlcomm.Dispose();
-                sqlcomm = null;
             }
         }
 
@@ -257,7 +251,8 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
             MySqlBulkLoader sbc;
             sbc = new MySqlBulkLoader(this.conn);
-            string tmpPath = Path.GetTempFileName();
+            string tmpPath = ComFunc.GetApplicationRoot() + "/" + ComFunc.RandomCode(6) + ".csv"; //Path.GetTempFileName();
+            //Console.WriteLine($"csv file path={tmpPath}");
             MySqlBulkLoader bulk = new MySqlBulkLoader(conn)
             {
                 FieldTerminator = ",",
@@ -275,14 +270,14 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                     string csv = DataTableToCsv((DataTableStd)data);
                     File.WriteAllText(tmpPath, csv);
                 }
-                else if (data is List<FrameDLRObject>)
+                //else if (data is IEnumerable<FrameDLRObject>)
+                //{
+                //    string csv = ListToCsv((IEnumerable<FrameDLRObject>)data);
+                //    File.WriteAllText(tmpPath, csv);
+                //}
+                else if (data is IEnumerable<object>)
                 {
-                    string csv = ListToCsv((List<FrameDLRObject>)data);
-                    File.WriteAllText(tmpPath, csv);
-                }
-                else if(data is List<object>)
-                {
-                    string csv = ListToCsv((List<object>)data);
+                    string csv = ListToCsv((IEnumerable<object>)data);
                     File.WriteAllText(tmpPath, csv);
                 }
 
@@ -292,64 +287,137 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             {
                 File.Delete(tmpPath);
             }
+            // BulkInsert(data, toTable);
         }
-        private static string ListToCsv(List<FrameDLRObject> list)
+        private void BulkInsert(object data, string toTable)
         {
-            if (list == null || list.Count <= 0) return "";
-            //以半角逗号（即,）作分隔符，列为空也要表达其存在。  
-            //列内容如存在半角逗号（即,）则用半角引号（即""）将该字段值包含起来。  
-            //列内容如存在半角引号（即"）则应替换成半角双引号（""）转义，并用半角引号（即""）将该字段值包含起来。  
-            StringBuilder sb = new StringBuilder();
-            var obj = list[0];
-            var columns = obj.Keys;
+            if (data == null) return;
 
-            foreach (var item in list)
+            var sql = $"INSERT INTO {toTable}(#col#)VALUES";
+            var parameters = new DBOParameterCollection();
+            if (data is IEnumerable<FrameDLRObject>)
             {
-                var str = "";
-                foreach (var c in columns)
+                var cols = "";
+                var values = new StringBuilder();
+                var param = "";
+                var list = (IEnumerable<FrameDLRObject>)data;
+                if (list.Count() <= 0) return;
+                if (list.ElementAt(0).Keys.Count <= 0) return;
+
+               
+                foreach (var k in list.ElementAt(0).Keys)
                 {
-                    var v = item.GetValue(c);
-                    if ((v is string) && v.ToString().Contains(","))
-                    {
-                        str += "\"" + v.ToString().Replace("\"", "\"\"") + "\",";
-                    }
-                    else str += v.ToString();
-
-
+                    cols += $",{k}";
+                    param += $",{ParameterFlagChar}{k}#no#";                    
                 }
-                str = str.Length > 0 ? str.Substring(0, str.Length - 1) : "";
-                sb.AppendLine(str);
-            }
+                sql = sql.Replace("#col#", cols.Substring(1));
 
-            return sb.ToString();
+                var index = 0;
+                
+                foreach (var item in (IEnumerable<FrameDLRObject>)data)
+                {
+                    values.AppendLine($",({param.Substring(1).Replace("#no#", index + "")})");
+                    foreach(var key in item.Keys)
+                    {
+                        parameters.Add($"{key}{index}",item.GetValue(key));
+                    }
+                    index++;
+                }
+
+                sql += values.ToString().Substring(1);
+            }
+            ExecuteNoQuery(sql, parameters);
+
+
         }
-        private static string ListToCsv(List<object> list)
+        private static string ListToCsv(IEnumerable<object> list)
         {
-            if (list == null || list.Count <= 0) return "";
+            if (list == null || list.Count() <= 0) return "";
             //以半角逗号（即,）作分隔符，列为空也要表达其存在。  
             //列内容如存在半角逗号（即,）则用半角引号（即""）将该字段值包含起来。  
             //列内容如存在半角引号（即"）则应替换成半角双引号（""）转义，并用半角引号（即""）将该字段值包含起来。  
             StringBuilder sb = new StringBuilder();
-            var obj = list[0];
-            var columns = obj.GetType().GetTypeInfo().GetFields(BindingFlags.Instance | BindingFlags.Public).ToList();
+            var obj = list.First();
+            if(obj is FrameDLRObject)
+            {
+                var fobj = (FrameDLRObject)obj;
+                var columns = fobj.Keys;
+
+                foreach (FrameDLRObject item in list)
+                {
+                    var str = "";
+                    foreach (var c in columns)
+                    {
+                        var v = item.GetValue(c);
+                        if ((v is string) && v.ToString().Contains(","))
+                        {
+                            str += "\"" + v.ToString().Replace("\"", "\"\"") + "\",";
+                        }
+                        else if (v is DateTime)
+                        {
+                            str += ((DateTime)v).ToString("yyyy-MM-dd HH:mm:ss.fff") + ",";
+                        }
+                        else str += (v != null ? v.ToString() : "") + ",";
+
+
+                    }
+                    str = str.Length > 0 ? str.Substring(0, str.Length - 1) : "";
+                    sb.Append(str + "\r\n");
+                }
+            }
+            else
+            {
+                var columns = obj.GetType().GetTypeInfo().GetFields(BindingFlags.Instance | BindingFlags.Public).ToList();
+                if (columns.Count > 0)
+                {
+                    foreach (var item in list)
+                    {
+                        var str = "";
+                        foreach (var c in columns)
+                        {
+                            var v = c.GetValue(item);
+                            if (c.FieldType == typeof(string) && v.ToString().Contains(","))
+                            {
+                                str += "\"" + v.ToString().Replace("\"", "\"\"") + "\",";
+                            }
+                            else if (v is DateTime)
+                            {
+                                str += ((DateTime)v).ToString("yyyy-MM-dd HH:mm:ss.fff") + ",";
+                            }
+                            else str += (v != null ? v.ToString() : "") + ",";
+
+
+                        }
+                        str = str.Length > 0 ? str.Substring(0, str.Length - 1) : "";
+                        sb.Append(str + "\r\n");
+                    }
+                }
+                else
+                {
+                    var properties = obj.GetType().GetTypeInfo().GetProperties(BindingFlags.Instance | BindingFlags.Public).ToList();
+                    foreach (var item in list)
+                    {
+                        var str = "";
+                        foreach (var c in properties)
+                        {
+                            var v = c.GetValue(item);
+                            if (c.DeclaringType == typeof(string) && v.ToString().Contains(","))
+                            {
+                                str += "\"" + v.ToString().Replace("\"", "\"\"") + "\",";
+                            }
+                            else if (v is DateTime)
+                            {
+                                str += ((DateTime)v).ToString("yyyy-MM-dd HH:mm:ss.fff") + ",";
+                            }
+                            else str += (v != null ? v.ToString() : "") + ",";
+                        }
+                        str = str.Length > 0 ? str.Substring(0, str.Length - 1) : "";
+                        sb.Append(str + "\r\n");
+                    }
+                }
+            }
             
-            foreach(var item in list)
-            {
-                var str = "";
-                foreach (var c in columns)
-                {
-                    var v = c.GetValue(item);
-                    if (c.FieldType == typeof(string) && v.ToString().Contains(","))
-                    {
-                        str += "\"" + v.ToString().Replace("\"", "\"\"") + "\",";
-                    }
-                    else str += v.ToString();
-                    
-
-                }
-                str = str.Length > 0 ? str.Substring(0, str.Length - 1) : "";
-                sb.AppendLine(str);
-            }
+            
 
             return sb.ToString();
         }
@@ -370,13 +438,18 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 {
                     colum = table.Columns[i];
                     if (i != 0) sb.Append(",");
+                    var v = row.GetValue(colum.ColumnName);
                     if (colum.DataType == typeof(string) && row.GetValue(colum.ColumnName).ToString().Contains(","))
                     {
-                        sb.Append("\"" + row.GetValue(colum.ColumnName).ToString().Replace("\"", "\"\"") + "\"");
+                        sb.Append("\"" + v.ToString().Replace("\"", "\"\"") + "\"");
                     }
-                    else sb.Append(row.GetValue(colum.ColumnName).ToString());
+                    else if (colum.DataType == typeof(DateTime))
+                    {
+                        sb.Append(((DateTime)v).ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                    }
+                    else sb.Append(v != null ? v.ToString() : "");
                 }
-                sb.AppendLine();
+                sb.Append("\r\n");
             }
 
 
@@ -456,7 +529,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             {
                 dc = new MySqlCommand(sp_name, this.conn);
             }
-            dc.CommandTimeout = 90;
+            dc.CommandTimeout = CommandTimeOut;
             dc.CommandType = CommandType.StoredProcedure;
             FillParametersToCommand(dc, dbp);
             MySqlDataReader ddr = null;
@@ -502,10 +575,11 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             var newsql = sql;
             if (orderby != null && orderby != "")
             {
-                newsql += "order by " + orderby;
+                newsql += " order by " + orderby;
             }
 
-            newsql = string.Format(newsql + " limit {0},{1}", startRow - 1, count_of_page);
+            newsql = string.Format(newsql + " limit {0} offset {1}", count_of_page, startRow - 1);
+            //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"MySql QueryByPage Sql={newsql}");
             DataSetStd dss = Query(newsql, p);
             if (dss == null)
             {
@@ -534,6 +608,21 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
         public override string ParameterFlagChar => "@";
         MySQLExpress _express = new MySQLExpress();
         public override DBExpress MyDBExpress => _express;
+
+        public override DBType MyType => DBType.MySql;
+
+        /// <summary>
+        /// 生成一个LinqDLR2SQL对象用于Linq操作
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="alianname"></param>
+        /// <returns></returns>
+        public override LinqDLRTable NewLinqTable(string table, string alianname = "")
+        {
+            var tn = alianname == "" ? table : alianname;
+            LinqDLRTable rtn = LinqDLRTable.New<LinqDLRTable>(new MySqlLamdaSQLObject(tn, new MySQLOperatorFlags()), table, alianname, new MySqlGenerator());
+            return rtn;
+        }
 
         public void Release()
         {

@@ -115,10 +115,114 @@ namespace EFFC.Frame.Net.Base.Data.Base
             {
                 return MetaOrElse(v);
             }
+            else if (methodname == "MetaAdd")
+            {
+                return MetaAdd(v);
+            }
+            else if (methodname == "MetaAddAssign")
+            {
+                return MetaAddAssign(v);
+            }
+            else if (methodname == "MetaSubstract")
+            {
+                return MetaSubstract(v);
+            }
+            else if (methodname == "MetaSubstractAssign")
+            {
+                return MetaSubstractAssign(v);
+            }
+            else if (methodname == "MetaMultiply")
+            {
+                return MetaMultiply(v);
+            }
+            else if (methodname == "MetaMultiplyAssign")
+            {
+                return MetaMultiplyAssign(v);
+            }
+            else if (methodname == "MetaDivide")
+            {
+                return MetaDivide(v);
+            }
+            else if (methodname == "MetaDivideAssign")
+            {
+                return MetaDivideAssign(v);
+            }
             else
             {
                 return null;
             }
+        }
+        /// <summary>
+        /// a+b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaAdd(object v)
+        {
+            throw new NotSupportedException("不支持+操作");
+        }
+        /// <summary>
+        /// a+=b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaAddAssign(object v)
+        {
+            throw new NotSupportedException("不支持+=操作");
+        }
+        /// <summary>
+        /// a-b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaSubstract(object v)
+        {
+            throw new NotSupportedException("不支持-操作");
+        }
+        /// <summary>
+        /// a-=b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaSubstractAssign(object v)
+        {
+            throw new NotSupportedException("不支持-=操作");
+        }
+        /// <summary>
+        /// a*b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaMultiply(object v)
+        {
+            throw new NotSupportedException("不支持*操作");
+        }
+        /// <summary>
+        /// a*=b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaMultiplyAssign(object v)
+        {
+            throw new NotSupportedException("不支持*=操作");
+        }
+        /// <summary>
+        /// a/b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaDivide(object v)
+        {
+            throw new NotSupportedException("不支持/操作");
+        }
+        /// <summary>
+        /// a/=b操作
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected virtual object MetaDivideAssign(object v)
+        {
+            throw new NotSupportedException("不支持/=操作");
         }
         /// <summary>
         /// ==操作
@@ -289,6 +393,30 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     case ExpressionType.OrElse:
                         methodName = "MetaOrElse";
                         break;
+                    case ExpressionType.Add:
+                        methodName = "MetaAdd";
+                        break;
+                    case ExpressionType.AddAssign:
+                        methodName = "MetaAddAssign";
+                        break;
+                    case ExpressionType.Subtract:
+                        methodName = "MetaSubstract";
+                        break;
+                    case ExpressionType.SubtractAssign:
+                        methodName = "MetaSubstractAssign";
+                        break;
+                    case ExpressionType.Multiply:
+                        methodName = "MetaMultiply";
+                        break;
+                    case ExpressionType.MultiplyAssign:
+                        methodName = "MetaMultiplyAssign";
+                        break;
+                    case ExpressionType.Divide:
+                        methodName = "MetaDivide";
+                        break;
+                    case ExpressionType.DivideAssign:
+                        methodName = "MetaDivideAssign";
+                        break;
                     default:
                         return base.BindBinaryOperation(binder, arg);
                 }
@@ -349,12 +477,12 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 // setup the parameters:
                 Expression[] args = new Expression[2];
                 // First parameter is the name of the property to Set
-                var indexlist = new List<Object>();
+                var indexlist = new List<Expression>();
                 foreach (var item in indexes)
                 {
-                    indexlist.Add(item.Value);
+                    indexlist.Add(item.Expression);
                 }
-                args[0] = Expression.Constant(indexlist.ToArray(),typeof(object[]));
+                args[0] = Expression.NewArrayInit(typeof(object), indexlist);
                 // Second parameter is the value
                 args[1] = Expression.Convert(value.Expression, typeof(object));
                 // Setup the 'this' reference
@@ -375,12 +503,12 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 // Method call in the containing class:
                 string methodName = "GetMetaIndexValue";
                 // One parameter
-                var indexlist = new List<Object>();
+                var indexlist = new List<Expression>();
                 foreach (var item in indexes)
                 {
-                    indexlist.Add(item.Value);
+                    indexlist.Add(item.Expression);
                 }
-                Expression[] parameters = new Expression[] { Expression.Constant(indexlist.ToArray(),typeof(object[])) };
+                Expression[] parameters = new Expression[] { Expression.NewArrayInit(typeof(object),indexlist) };
                 DynamicMetaObject getDictionaryEntry = new DynamicMetaObject(
                                     Expression.Call(
                                                 Expression.Convert(Expression, LimitType),
@@ -408,7 +536,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
                                     BindingRestrictions.GetTypeRestriction(Expression, LimitType));
                 return getDictionaryEntry;
             }
-
             public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
             {
                 // Method to call in the containing class:

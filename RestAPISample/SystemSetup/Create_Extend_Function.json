@@ -1,0 +1,61 @@
+﻿{
+  "$acttype": "CreateTable",
+  "$table": "EXTEND_FUNCTION",
+  "FunctionNo": {
+    "$datatype": "varchar",
+    "$precision": 20,
+    "$isnull": false
+  },
+  "FunctionName": {
+    "$datatype": "nvarchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "FunctionUrl": {
+    "$datatype": "nvarchar",
+    "$precision": 100,
+    "$isnull": true
+  },
+  "P_FunctionNo": {
+    "$datatype": "varchar",
+    "$precision": 20,
+    "$isnull": true
+  },
+  "FunctionLevel": {
+    "$datatype": "int",
+    "$isnull": true
+  },
+  "Is_Menu": {
+    "$datatype": "bit",
+    "$isnull": true
+  },
+  "add_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "add_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "add_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "last_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "last_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "last_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "$pk": [ "FunctionNo" ]
+}

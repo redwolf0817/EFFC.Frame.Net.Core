@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.MongoDB\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.MongoDB.pdb

@@ -1,0 +1,16 @@
+﻿{
+  "$acttype": "CopyData",
+  "$table": "IC_Staff",
+  "$to_table": "IC_Staff_Bak",
+  "$if_not_exists": true,
+  "S_ID": "S_ID",
+  "S_ID_No": "S_ID_No",
+  "S_ID_Type": "S_ID_Type",
+  "S_Name": "S_Name",
+  "S_No": "S_No",
+  "$where": {
+    "S_ID": {
+      "$like": "2"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+﻿{
+  "$acttype": "CopyTable",
+  "$table": "IC_Staff",
+  "$to_table": "IC_Staff_Bak",
+  "$with_data": true
+}
+

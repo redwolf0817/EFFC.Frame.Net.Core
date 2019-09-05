@@ -47,7 +47,7 @@ namespace EFFC.Frame.Net.Module.Tag
                 var list = new List<TTagEntity>();
                 foreach (Type t in ts)
                 {
-                    if (t.GetTypeInfo().IsSubclassOf(typeof(ITagParser)) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
+                    if (typeof(ITagParser).IsAssignableFrom(t) && !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface)
                     {
                         list.Add(new TTagEntity(t));
                     }
@@ -127,15 +127,18 @@ namespace EFFC.Frame.Net.Module.Tag
 
             //进行预处理
             PreProcess(tp, td);
-            var list = td.Context.GetAllTagParsers();
-            foreach (var parser in list)
+            var list = td.Context.GetAllTagParsers().OrderBy(d=>d.Priority);
+            var pre_parsed_text = td.ParsedText;
+            //嵌套标签支持
+            do
             {
-                //if (parser.TagName.ToLower() != "load")
-                //{
-                parser.DoParse(tp, td);
-                //}
-            }
-            AferProcess(tp,td);
+                pre_parsed_text = td.ParsedText;
+                foreach (var parser in list)
+                {
+                    parser.DoParse(tp, td);
+                }
+            } while (td.ParsedText != pre_parsed_text);
+            AferProcess(tp, td);
         }
 
         private class TTagEntity

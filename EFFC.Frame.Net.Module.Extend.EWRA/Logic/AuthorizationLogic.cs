@@ -1,4 +1,5 @@
-﻿using EFFC.Frame.Net.Base.Common;
+﻿using EFFC.Extends.JWT;
+using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Global;
@@ -25,60 +26,42 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
     /// </summary>
     public partial class AuthorizationLogic : WebBaseLogic<EWRAParameter, EWRAData>
     {
-        static string privateKey = "";
-        static string publicKey = "";
-        static RsaSecurityKey privateSK = null;
-        static RsaSecurityKey publicSK = null;
+        JWTHelper jwt = null;
         Dictionary<string, string> claim_save_parameters = new Dictionary<string, string>();
         /// <summary>
         /// RSA公共秘钥存放目录，如果没有则写入内存中
         /// </summary>
         public virtual string PublicKeySavePath
         {
-            get
-            {
-                return "";
-            }
+            get { return ""; }
         }
         /// <summary>
         /// RSA私有秘钥存放目录，如果没有则写入内存中
         /// </summary>
         public virtual string PrivateKeySavePath
         {
-            get
-            {
-                return "";
-            }
+            get { return ""; }
+        }
+        /// <summary>
+        /// 超时设置
+        /// </summary>
+        public virtual TimeSpan Expire
+        {
+            get { return TimeSpan.FromMinutes(20); }
         }
         /// <summary>
         /// 授权者
         /// </summary>
         public virtual string Issuer
         {
-            get
-            {
-                return "Issuer_EWRA";
-            }
+            get { return "Issuer_EWRA"; }
         }
         /// <summary>
         /// 接受者
         /// </summary>
         public virtual string Audience
         {
-            get
-            {
-                return "Audience_98771";
-            }
-        }
-        /// <summary>
-        /// 超时的时长
-        /// </summary>
-        public virtual TimeSpan Expire
-        {
-            get
-            {
-                return TimeSpan.FromMinutes(20);
-            }
+            get; private set;
         }
         /// <summary>
         /// 用于往token中存入参数
@@ -96,11 +79,10 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
                 claim_save_parameters.Add(key, value);
             }
         }
-        #region 独立方法
-
-        #endregion
         protected override void DoProcess(EWRAParameter p, EWRAData d)
         {
+            if (jwt == null)
+                jwt = new JWTHelper(CallContext_Parameter.ServerRootPath, PublicKeySavePath, PrivateKeySavePath, Expire, Issuer, Audience);
 
             if (p.__AuthMethod.ToLower() == "validauth")
             {
@@ -110,10 +92,13 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
 
                 if (p.IsAuth)
                 {
-                    //获取payload信息
-                    p.AuthorizedTokenPayLoad = GetPayLoadInfoFromToken(p.AuthorizedToken);
-                    //执行二级扩展验证
-                    p.IsAuth = IsValid_Level2(p.AuthorizedToken, p.AuthorizedTokenPayLoad, ref msg);
+                    if (p.AuthorizedToken != "")
+                    {
+                        //获取payload信息
+                        p.AuthorizedTokenPayLoad = GetPayLoadInfoFromToken(p.AuthorizedToken);
+                        //执行二级扩展验证
+                        p.IsAuth = IsValid_Level2(p.AuthorizedToken, p.AuthorizedTokenPayLoad, ref msg);
+                    }
                     p.__Auth_ValidMsg = string.IsNullOrEmpty(msg) ? p.__Auth_ValidMsg : msg;
                 }
 
@@ -122,7 +107,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
             {
                 if (p.MethodName == "post")
                 {
-                    var requestarr = p.RequestRoute.ToLower().Split('/').Where(sp => sp != "").ToArray();
+                    var requestarr = p.RequestRoute.Split('/').Where(sp => sp != "").ToArray();
                     var id = requestarr.Length > 1 ? requestarr[1] : "";
                     d.Result = CreateToken(id);
                     if (d.Result == null || ComFunc.nvl(d.Result) == "")
@@ -147,33 +132,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
             {
                 return "";
             }
-            if(GetRSAPrivateKey() == null)
-            {
-                GenerateAndSaveKey();
-            }
-            var dtExpire = DateTime.Now.Add(Expire);
-            var handler = new JwtSecurityTokenHandler();
-            string jti = Audience + id + ComFunc.ToTimestamp(dtExpire);
-            jti = ComFunc.getMD5_String(jti); // Jwt 的一个参数，用来标识 Token
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, id), // 用户 Id ClaimValueTypes.Integer32),
-                new Claim("jti",jti,ClaimValueTypes.String) // jti，用来标识 token
-            };
-            foreach (var item in claim_save_parameters)
-            {
-                claims.Add(new Claim(item.Key, ComFunc.nvl(item.Value), ClaimValueTypes.String));
-            }
-            ClaimsIdentity identity = new ClaimsIdentity(new GenericIdentity(id, "TokenAuth"), claims);
-            var token = handler.CreateEncodedJwt(new SecurityTokenDescriptor
-            {
-                Issuer = Issuer, // 指定 Token 签发者，也就是这个签发服务器的名称
-                Audience = Audience, // 指定 Token 接收者
-                SigningCredentials = new SigningCredentials(privateSK, SecurityAlgorithms.RsaSha256Signature),
-                Subject = identity,
-                Expires = dtExpire
-            });
-            return token;
+            return jwt.CreateToken(id, claim_save_parameters);
         }
         /// <summary>
         /// 执行登录验证，请子类实现该方法，该方法被CreateToken调用
@@ -186,106 +145,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
             return true;
         }
 
-        /// <summary>
-        /// 生成并保存 RSA 公钥与私钥
-        /// </summary>
-        /// <returns></returns>
-        private void GenerateAndSaveKey()
-        {
-            if (privateKey == "")
-            {
-                RSA.Create();
-                using (var rsa = new RSACryptoServiceProvider(2048))
-                {
-                    try
-                    {
-                        var privateKeys = rsa.ExportParameters(true);
-                        var publicKeys = rsa.ExportParameters(false);
 
-                        privateSK = new RsaSecurityKey(privateKeys);
-                        publicSK = new RsaSecurityKey(publicKeys);
-
-                        privateKey = FrameDLRObject.CreateInstance(privateKeys, Base.Constants.FrameDLRFlags.SensitiveCase).tojsonstring(Encoding.Unicode);
-                        publicKey = FrameDLRObject.CreateInstance(publicKeys, Base.Constants.FrameDLRFlags.SensitiveCase).tojsonstring(Encoding.Unicode);
-
-                        if (!string.IsNullOrEmpty(PrivateKeySavePath))
-                        {
-                            GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"RestAPI Token私有秘钥存放位置为{PrivateKeySavePath}");
-                            var physicalPath = PrivateKeySavePath.Replace("~", CallContext_Parameter.ServerRootPath);
-                            var dirPath = Path.GetDirectoryName(physicalPath);
-                            if (!Directory.Exists(dirPath))
-                            {
-                                Directory.CreateDirectory(dirPath);
-                            }
-                            File.WriteAllText(physicalPath, privateKey);
-
-                        }
-                        if (!string.IsNullOrEmpty(PublicKeySavePath))
-                        {
-                            GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"RestAPI Token公有秘钥存放位置为{PublicKeySavePath}");
-                            var physicalPath = PublicKeySavePath.Replace("~", CallContext_Parameter.ServerRootPath);
-                            var dirPath = Path.GetDirectoryName(physicalPath);
-                            if (!Directory.Exists(dirPath))
-                            {
-                                Directory.CreateDirectory(dirPath);
-                            }
-                            File.WriteAllText(physicalPath, publicKey);
-                        }
-                    }
-                    finally
-                    {
-                        rsa.PersistKeyInCsp = false;
-                    }
-                }
-            }
-        }
-        private RsaSecurityKey GetRSAPrivateKey()
-        {
-            var physicalPath = PrivateKeySavePath.Replace("~", CallContext_Parameter.ServerRootPath);
-            if (File.Exists(physicalPath))
-            {
-                var content = File.ReadAllText(physicalPath);
-                privateKey = content;
-                RSAParameters rp = ((FrameDLRObject)FrameDLRObject.CreateInstance(content, FrameDLRFlags.SensitiveCase)).ToModel<RSAParameters>(Encoding.Unicode);
-                privateSK = new RsaSecurityKey(rp);
-            }
-            else
-            {
-                GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"Rest验证读取PrivateKey文件失败，原因是目录文件{PrivateKeySavePath}不存在，请给出正确的秘钥钥文件路径（请在验证的Logic中重载PrivateKeySavePath的get方法），没有密钥会导致token生成失败甚至出现异常");
-            }
-
-            if (string.IsNullOrEmpty(privateKey))
-            {
-                GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"Rest创建token密钥不存在，没有密钥会导致创建失败甚至出现异常，如果本API服务提供生成Token的功能则请不要重载PublicKeySavePath和PrivateKeySavePath两个属性的get方法或在get时返回空串，如果不是则请提供正确的PrivateKeySavePath路径值");
-            }
-
-            return privateSK;
-        }
-        private RsaSecurityKey GetRSAPublicKey()
-        {
-            if (string.IsNullOrEmpty(publicKey) && !string.IsNullOrEmpty(PublicKeySavePath))
-            {
-                var physicalPath = PublicKeySavePath.Replace("~", CallContext_Parameter.ServerRootPath);
-                if (File.Exists(physicalPath))
-                {
-                    var content = File.ReadAllText(physicalPath);
-                    publicKey = content;
-                    RSAParameters rp = ((FrameDLRObject)FrameDLRObject.CreateInstance(content, FrameDLRFlags.SensitiveCase)).ToModel<RSAParameters>(Encoding.Unicode);
-                    publicSK = new RsaSecurityKey(rp);
-                }
-                else
-                {
-                    GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"Rest验证读取PublicKey文件失败，原因是目录文件{PublicKeySavePath}不存在，请给出正确的公钥文件路径（请在验证的Logic中重载PublicKeySavePath的get方法），没有公钥会导致验证失败甚至出现异常");
-                }
-            }
-
-            if (string.IsNullOrEmpty(publicKey))
-            {
-                GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, $"Rest验证公钥不存在，没有公钥会导致验证失败甚至出现异常，如果本API服务提供生成Token的功能则请不要重载PublicKeySavePath和PrivateKeySavePath两个属性的get方法或在get时返回空串，如果不是则请提供正确的PublicKeySavePath路径值");
-            }
-
-            return publicSK;
-        }
         /// <summary>
         /// 校验用的方法
         /// </summary>
@@ -294,88 +154,16 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
         /// <returns></returns>
         protected virtual bool IsValid(string token, ref string msg)
         {
-            if (string.IsNullOrEmpty(token))
-            {
-                msg = "Invalid:缺少授权Token";
-                return false;
-            }
-
-            var handler = new JwtSecurityTokenHandler();
-            SecurityToken re = null;
-            try
-            {
-                var result = handler.ValidateToken(token, new TokenValidationParameters()
-                {
-                    ValidateAudience = true,
-                    ValidAudience = Audience,
-
-                    ValidateIssuer = true,
-                    ValidIssuer = Issuer,
-
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SigningCredentials(GetRSAPublicKey(), SecurityAlgorithms.RsaSha256Signature).Key,
-
-                    ValidateLifetime = true,
-
-                    ClockSkew = TimeSpan.Zero
-                }, out re);
-
-                if (result == null)
-                {
-                    msg = "Invalid:授权无效";
-                    return false;
-                }
-                else
-                {
-                    if (!result.Identity.IsAuthenticated)
-                    {
-                        msg = "Invalid:授权无效";
-                    }
-
-                    return result.Identity.IsAuthenticated;
-                }
-            }
-            catch (SecurityTokenValidationException stve)
-            {
-                GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.INFO, $"授权访问验证失败，请求链接为{CallContext_Parameter.MethodName}:{CallContext_Parameter.RequestRoute},请求的IP为{this.ClientInfo.IP}，原因：{stve.Message}");
-                if (stve.Message.StartsWith("IDX10223:") || stve.Message.IndexOf(" The token is expired") > 0)
-                {
-                    msg = "TimeOut:Token已过期";
-                }
-                else
-                {
-                    msg = "Invalid:授权无效";
-                }
-                return false;
-            }
-            catch (ArgumentException ae)
-            {
-                GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.INFO, $"授权访问验证失败，请求链接为{CallContext_Parameter.MethodName}:{CallContext_Parameter.RequestRoute},请求的IP为{this.ClientInfo.IP}，原因：{ae.Message}");
-                msg = "Invalid:授权无效";
-                return false;
-            }
+            return jwt.IsValid(token, ref msg);
         }
         /// <summary>
         /// 从token中获取加载的参数信息
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        protected FrameDLRObject GetPayLoadInfoFromToken(string token)
+        protected virtual FrameDLRObject GetPayLoadInfoFromToken(string token)
         {
-            var payloadobj = FrameDLRObject.CreateInstance();
-            var handler = new JwtSecurityTokenHandler();
-            var result = handler.ReadJwtToken(token);
-            payloadobj.id = result.Claims.First(t => t.Type == "unique_name").Value;
-            payloadobj.jti = result.Payload.Jti;
-            payloadobj.validFrom = result.ValidFrom;
-            payloadobj.expire_time = result.ValidTo;
-            foreach (var item in result.Claims)
-            {
-                if ("unique_name,jti,nbf,exp,iat,iss,aud".Contains(item.Type)) continue;
-                ((FrameDLRObject)payloadobj).SetValue(item.Type, item.Value);
-            }
-
-            return payloadobj;
+            return jwt.GetPayLoadInfoFromToken(token);
 
         }
         /// <summary>

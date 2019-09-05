@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Go\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WebGo.pdb

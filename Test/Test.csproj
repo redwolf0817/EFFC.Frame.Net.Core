@@ -2,30 +2,71 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Linq2SQL\CustomTable.cs" />
+    <Compile Remove="Linq2SQL\**" />
+    <EmbeddedResource Remove="Linq2SQL\**" />
+    <None Remove="Linq2SQL\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
+    <None Remove="appsettings.json" />
+    <None Remove="log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="3.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0" />
+    <PackageReference Include="NPOI" Version="2.4.1" />
+    <PackageReference Include="RtspClientSharp" Version="1.2.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
     <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EFFC.Extends.HostJs\EFFC.Extends.HostJs.csproj" />
+    <ProjectReference Include="..\EFFC.Extends.LinqDLR2SQL\EFFC.Extends.LinqDLR2SQL.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Resource.MySQL\EFFC.Frame.Net.Resource.MySQL.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Oracle\EFFC.Frame.Net.Resource.Oracle.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Postgresql\EFFC.Frame.Net.Resource.Postgresql.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Resource.Sqlite\EFFC.Frame.Net.Resource.Sqlite.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Resource.SQLServer\EFFC.Frame.Net.Resource.SQLServer.csproj" />
     <ProjectReference Include="..\Web.Business\Web.Business.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AipSdk">
+      <HintPath>lib\baidu\aip-csharp-sdk-3.5.1\AipSdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="AppData\EFFC_CMS.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="js\addNumbers.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Plugin\" />
   </ItemGroup>
 
 </Project>

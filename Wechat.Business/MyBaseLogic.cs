@@ -11,10 +11,11 @@ using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Unit.DB;
 using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Extends.LinqDLR2SQL;
 
 namespace Wechat.Business
 {
-    public abstract partial class MyBaseLogic:WeixinGoLogic
+    public abstract partial class MyBaseLogic:QiyeWxGoLogic
     {
         MyDBHelper _db;
         /// <summary>
@@ -53,6 +54,10 @@ namespace Wechat.Business
                 rtn.Dao.Open(rtn.DBConnString);
                 return rtn;
             }
+            public override LinqDLRTable LamdaTable(string tablename, string alianname = "", DBType dbtype = DBType.Sqlite)
+            {
+                return base.LamdaTable(tablename, alianname, dbtype);
+            }
             public UnitParameter NewDBUnitParameter4Business()
             {
                 var rtn = base.NewDBUnitParameter<SQLServerAccess>();
@@ -72,7 +77,7 @@ namespace Wechat.Business
                 return rtn;
             }
 
-            public override UnitDataCollection Excute(UnitParameter p, DBExpress express)
+            public override UnitDataCollection Excute(UnitParameter p, DBExpress express,bool islog= false)
             {
                 if(express.CurrentAct == DBExpress.ActType.QueryByPage)
                 {
@@ -82,12 +87,12 @@ namespace Wechat.Business
                 return base.Excute(p, express);
             }
 
-            public override UnitDataCollection Excute(UnitParameter p, FrameDLRObject json)
+            public override UnitDataCollection Excute(UnitParameter p, FrameDLRObject json, bool islog = false)
             {
                 InitUPPage(p);
                 return base.Excute(p, json);
             }
-            public override UnitDataCollection Excute(UnitParameter p, string json)
+            public override UnitDataCollection Excute(UnitParameter p, string json, bool islog = false)
             {
                 InitUPPage(p);
                 return base.Excute(p, json);

@@ -1,0 +1,11 @@
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.deps.json
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.dll
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.pdb
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.xml
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.csprojAssemblyReference.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.AssemblyInfo.cs
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.csproj.CopyComplete
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.dll
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Razor\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Razor.pdb

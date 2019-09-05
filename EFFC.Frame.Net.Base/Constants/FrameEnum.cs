@@ -231,4 +231,66 @@ namespace EFFC.Frame.Net.Base.Constants
         /// </summary>
         End
     }
+
+    /// <summary>
+    /// DB类型
+    /// </summary>
+    public enum DBType
+    {
+        /// <summary>
+        /// 未指定类型
+        /// </summary>
+        None,
+        /// <summary>
+        /// SQLServer
+        /// </summary>
+        SqlServer,
+        /// <summary>
+        /// Sqlite
+        /// </summary>
+        Sqlite,
+        /// <summary>
+        /// MySQL
+        /// </summary>
+        MySql,
+        /// <summary>
+        /// Oracle
+        /// </summary>
+        Oracle,
+        /// <summary>
+        /// DB2
+        /// </summary>
+        DB2,
+        /// <summary>
+        /// PostgreSQL
+        /// </summary>
+        PostgreSQL,
+        /// <summary>
+        /// MongoDB
+        /// </summary>
+        MongoDB
+    }
+    /// <summary>
+    /// RestFul请求中输入参数的位置
+    /// </summary>
+    public enum RestInputPosition
+    {
+        /// <summary>
+        /// Post Data
+        /// </summary>
+        PostData = 1,
+        /// <summary>
+        /// Url后面的接的参数
+        /// </summary>
+        QueryString = 2,
+        /// <summary>
+        /// 来自于Request的Header中的数据
+        /// </summary>
+        HeaderData = 4,
+        /// <summary>
+        /// 来自于路由路径上的参数
+        /// </summary>
+        Path=8
+    }
+
 }

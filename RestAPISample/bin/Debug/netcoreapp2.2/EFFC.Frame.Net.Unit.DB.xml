@@ -1,0 +1,1102 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Unit.DB</name>
+    </assembly>
+    <members>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.CommandTimeOut">
+            <summary>
+            指令执行的timeout执行，默认为
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Query(System.String,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            查询接口
+            </summary>
+            <param name="sql"></param>
+            <param name="dbp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Open(System.String,System.Object[])">
+            <summary>
+            开启连接
+            </summary>
+            <param name="connString"></param>
+            <param name="p"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Open(System.String)">
+            <summary>
+            开启连接
+            </summary>
+            <param name="connString"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Close">
+            <summary>
+            关闭连接
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.BeginTransaction">
+            <summary>
+            开启事务
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.BeginTransaction(EFFC.Frame.Net.Base.Constants.FrameIsolationLevel)">
+            <summary>
+            开启事务
+            </summary>
+            <param name="level"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            开启事务
+            </summary>
+            <param name="level"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.CommitTransaction">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.RollbackTransaction">
+            <summary>
+            回滚事务
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.ExecuteNoQuery(System.String,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            执行非查询操作
+            </summary>
+            <param name="sql"></param>
+            <param name="dbp"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Update(System.Object,System.String)">
+            <summary>
+            更新操作
+            </summary>
+            <param name="data"></param>
+            <param name="selectsql"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Insert(System.Object,System.String)">
+            <summary>
+            新增操作
+            </summary>
+            <param name="data"></param>
+            <param name="toTable"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.Delete(System.Object,System.String)">
+            <summary>
+            删除操作
+            </summary>
+            <param name="data"></param>
+            <param name="toTable"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.ExcuteProcedure(System.String,System.Boolean,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection@)">
+            <summary>
+            執行存儲過程
+            </summary>
+            <param name="sp_name"></param>
+            <param name="isReturnDataSet"></param>
+            <param name="dbp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.QueryByPage(System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            執行翻頁查詢，V1.0.0.0新增
+            </summary>
+            <param name="startRow"></param>
+            <param name="endRow"></param>
+            <param name="toPage"></param>
+            <param name="count_of_page"></param>
+            <param name="sql"></param>
+            <param name="orderby"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.StartPageByCondition(EFFC.Frame.Net.Unit.DB.Parameters.DBAPageP)">
+            <summary>
+            設定翻頁條件，啟動翻頁機制
+            </summary>
+            <param name="p"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.TotalRow">
+            <summary>
+            總比數
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.RowCountByPage">
+            <summary>
+            獲取翻頁下的總資料行數
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.TotalPage">
+            <summary>
+            獲取翻頁下的總頁數
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.CurrentPage">
+            <summary>
+            獲取翻頁下的當前頁數
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.NextPage">
+            <summary>
+            下一頁的資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.PrePage">
+            <summary>
+            上一頁的資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.LastPage">
+            <summary>
+            最後一頁的資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.FirstPage">
+            <summary>
+            第一頁的資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.GoToPage(System.Int32)">
+            <summary>
+            跳到toPage页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.EndOfPage">
+            <summary>
+            判定是否已經尾頁
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.ParameterFlagChar">
+            <summary>
+            prepare参数标识符，如sqlserver的参数标识符为@，oracle为:
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.MyDBExpress">
+            <summary>
+            获取本DAO对应的Express
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.ADBAccess.NewLinqTable(System.String,System.String)">
+            <summary>
+            获取本Dao对应的LinqDLR2SQL表达式实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.ADBAccess.MyType">
+            <summary>
+            DB数据类型
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend">
+            <summary>
+            LinqDLR2Sql操作扩展实现Dao层级的相关操作
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Query``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            直接执行query操作，并返回结果
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.GetQueryList``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            直接执行query操作，并返回结果集
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.GetUnionQueryList``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String,System.Boolean,EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0}[])">
+            <summary>
+            直接执行union query操作，并返回结果集
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="order_by"></param>
+            <param name="is_all"></param>
+            <param name="express"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.QueryByPage``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            直接执行翻页查询
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="orderby">排序语句</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.UnionQuery``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String,System.Boolean,EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0}[])">
+            <summary>
+            直接执行union query操作，并返回结果
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="order_by"></param>
+            <param name="is_all"></param>
+            <param name="express"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.UnionQueryByPage``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String,System.Boolean,EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0}[])">
+            <summary>
+            直接执行union querybypage操作，并返回结果
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="order_by"></param>
+            <param name="is_all"></param>
+            <param name="express"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Update``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Object)">
+            <summary>
+            直接执行Update操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="columns"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Delete``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            直接执行Delete操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Insert``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Object)">
+            <summary>
+            直接执行Insert操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="columns"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Count``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            直接执行count的DB操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Max``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Func{``0,``1})">
+            <summary>
+            直接执行max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Max``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Min``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Func{``0,``1})">
+            <summary>
+            执行Min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Min``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行Min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Sum``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Func{``0,``1})">
+            <summary>
+            执行Sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Sum``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行Sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Avg``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.Func{``0,``1})">
+            <summary>
+            执行Avg操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Avg``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行Avg操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.Distinct``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            执行Distinct操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoLinqDLR2SqlExtend.IsExists``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter)">
+            <summary>
+            判断资料是否存在
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="up"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator">
+            <summary>
+            Dao相关的LinqDLR2Sql的操作
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.CurrentSQL">
+            <summary>
+            当前生成的SQL语句
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.#ctor(EFFC.Extends.LinqDLR2SQL.SqlOperatorFlags)">
+            <summary>
+            Dao相关的LinqDLR2Sql的操作
+            </summary>
+            <param name="sqlflags"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.DoUpdate``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Object)">
+            <summary>
+            执行update操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.DoDelete``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行Delete操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.DoInsert``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Object)">
+            <summary>
+            执行Insert操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="columns"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DaoSqlGenerator.Convert2Express(System.Object)">
+            <summary>
+            将右侧值转化成对应的表达式，并添加条件值
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DataConvert.DataTable2List`1">
+            <summary>
+            DataTable转化成list
+            </summary>
+            <typeparam name="E"></typeparam>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DataConvert.QueryByPage2Json">
+            <summary>
+            将UnitDataCollection中的涉及到翻页的属性转化成Json
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Datas.DBDataCollection">
+            <summary>
+            存储过程返回数据集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.DBDataCollection.ReturnDataSet">
+            <summary>
+            查询过后返回的数据集
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Datas.DBDataCollection.GetReturnDataList``2">
+            <summary>
+            获取返回的数据集，并进行类型转化
+            </summary>
+            <typeparam name="T">IDataConvert</typeparam>
+            <typeparam name="E">返回的数据类型</typeparam>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.DBDataCollection.IsSuccess">
+            <summary>
+            执行是否成功
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection">
+            <summary>
+            普通DB操作返回数据集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryDatas">
+            <summary>
+            查询的数据集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryTable">
+            <summary>
+            查询的数据集
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryData``1(System.Int32)">
+            <summary>
+            查询的数据集，将QueryDatas中指定的table转化成List
+            </summary>
+            <typeparam name="T">dto数据类型</typeparam>
+            <param name="tableindex">table index</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryData``1">
+            <summary>
+            查询的数据集，将QueryTable转化成List
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryData2Json">
+            <summary>
+            查询的数据转化成json数据格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.MongoListData">
+            <summary>
+            mongo的数据结果集
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.QueryByPage2Json">
+            <summary>
+            查询的数据转化成json数据格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.TotalPage">
+            <summary>
+            總頁數
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.CurrentPage">
+            <summary>
+            當前頁數
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.Count_Of_OnePage">
+            <summary>
+            一頁顯示多少筆
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.TotalRow">
+            <summary>
+            總比數
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Datas.UnitDataCollection.ErrorMsg">
+            <summary>
+            出错的信息提示
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DBExpress">
+            <summary>
+            数据库访问表达式解析器,将通用的json表达式解析为对应DB的sql或nonsql表达式
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DBExpress.ActType">
+            <summary>
+            DBExpress的动作定义
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.Insert">
+            <summary>
+            新增
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.Query">
+            <summary>
+            查询
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.QueryByPage">
+            <summary>
+            翻页查询
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.Update">
+            <summary>
+            修改
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.InsertSelect">
+            <summary>
+            新增（insert select方式）
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.CreateTable">
+            <summary>
+            创建table
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.DropTable">
+            <summary>
+            删除table
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.AlterColumn">
+            <summary>
+            修改table中栏位的结构
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.CopyTable">
+            <summary>
+            复制表
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.DBExpress.ActType.CopyData">
+            <summary>
+            复制数据
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.DBExpress.IsLog">
+            <summary>
+            设定是否需要在log中打印解析结果
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.DBExpress.CurrentAct">
+            <summary>
+            当前的动作类型
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Load(EFFC.Frame.Net.Unit.DB.DBExpress,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            给Express加载对应的参数
+            </summary>
+            <param name="express"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Load(EFFC.Frame.Net.Unit.DB.DBExpress,System.String)">
+            <summary>
+             给Express加载对应的参数
+            </summary>
+            <param name="express"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Create``1(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            创建一个DBExpress对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Create``1(System.String)">
+            <summary>
+            创建一个DBExpress对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.And(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            and操作
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Or(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            or操作
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.Where(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            where操作
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBExpress.ToExpress">
+            <summary>
+            解析表达式，转化成sql
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.DBUnitProxy">
+            <summary>
+            DB Unit的呼叫Proxy
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.Query``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            查询
+            </summary>
+            <typeparam name="TUnit"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.QueryByPage``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            翻页查询
+            </summary>
+            <typeparam name="TUnit"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.NonQuery``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            非查询类的db操作
+            </summary>
+            <typeparam name="TUnit"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.ExcuteDDL``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行DDL操作
+            </summary>
+            <typeparam name="TUnit"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag"></param>
+            <returns>返回为空，则表示操作成功，否则为错误提示信息</returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.ExcuteSP``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行存储过程操作
+            </summary>
+            <typeparam name="TUnit"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,EFFC.Frame.Net.Unit.DB.DBExpress)">
+            <summary>
+            标准化DB执行操作
+            </summary>
+            <param name="p"></param>
+            <param name="express"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean)">
+            <summary>
+            通过json对象执行标准化DB操作
+            </summary>
+            <param name="p"></param>
+            <param name="json"></param>
+            <param name="islog">用于设定是否记录解析结果，以便进行debug操作</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.DBUnitProxy.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String,System.Boolean)">
+            <summary>
+            通过json串执行标准化DB操作
+            </summary>
+            <param name="p"></param>
+            <param name="json"></param>
+            <param name="islog">用于设定是否记录解析结果，以便进行debug操作</param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter">
+            <summary>
+            執行參數類
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.NewInstance(System.String,System.Object)">
+            <summary>
+            創建一個實例對象
+            </summary>
+            <param name="name">參數名稱</param>
+            <param name="value">參數值</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.NewInstance(System.String,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            創建一個實例對象
+            </summary>
+            <param name="name">參數名稱</param>
+            <param name="value">參數值</param>
+            <param name="direction">參數指向</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.NewInstance(System.String,System.Object,System.Data.DbType)">
+            <summary>
+            創建一個實例對象
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.NewInstance(System.String,System.Object,System.Data.DbType,System.Int32)">
+            <summary>
+            創建一個實例對象
+            </summary>
+            <param name="name">參數名称</param>
+            <param name="value">參數值</param>
+            <param name="datatype">參數類型，如果參數为返回值類型则必须指定</param>
+            <param name="length">參數长度，如果參數为返回值類型则必须指定</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.NewInstance(System.String,System.Object,System.Data.DbType,System.Int32,System.Data.ParameterDirection)">
+            <summary>
+            創建一個實例對象
+            </summary>
+            <param name="name">參數名称</param>
+            <param name="value">參數值</param>
+            <param name="datatype">參數類型，如果參數为返回值類型则必须指定</param>
+            <param name="length">參數长度，如果參數为返回值類型则必须指定</param>
+            <param name="direction">參數指向</param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.ParameterName">
+            <summary>
+            參數名稱
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.ParameterValue">
+            <summary>
+            參數值
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.Direction">
+            <summary>
+            參數的指向，輸入還是輸出
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.DataType">
+            <summary>
+            数据類型，如果该參數为返回值類型则必须指定類型和长度
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.CmdParameter.DataLength">
+            <summary>
+            数据類型，如果该參數为返回值類型则必须指定類型和长度
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP">
+            <summary>
+            column的参数结构定义
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.String_Type">
+            <summary>
+            String的Type描述
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.Int32_Type">
+            <summary>
+            Int的Type描述
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.Int64_Type">
+            <summary>
+            Int64的Type描述
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.Double_Type">
+            <summary>
+            Doube的Type描述
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.Float_Type">
+            <summary>
+            Float的Type描述
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.DateTime_Type">
+            <summary>
+            DateTime的Type描述
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.CreatInstanse(System.String)">
+            <summary>
+            創建一個實例，栏位类型為默认的String类型，长度為无限制，允許為空
+            </summary>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.CreatInstanse(System.String,System.String)">
+            <summary>
+            創建一個實例，長度為無限制，允許為空
+            </summary>
+            <param name="column"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.ColumnP.CreatInstanse(System.String,System.String,System.Int32)">
+            <summary>
+            創建一個實例，允許為空
+            </summary>
+            <param name="column"></param>
+            <param name="type"></param>
+            <param name="MaxLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection.Add(System.String,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            添加一個新的參數
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="d"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection.Add(System.String,System.Object,System.Data.DbType)">
+            <summary>
+            添加一個新的參數
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection.Add(System.String,System.Object,System.Data.DbType,System.Int32)">
+            <summary>
+            添加一個新的參數
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="datatype"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection.Add(System.String,System.Object,System.Data.DbType,System.Int32,System.Data.ParameterDirection)">
+            <summary>
+            添加一個新的參數
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="datatype"></param>
+            <param name="length"></param>
+            <param name="d"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection.SetValue(System.String,System.Object,System.Data.ParameterDirection)">
+            <summary>
+            給一個已有的參數賦值
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="d"></param>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter">
+            <summary>
+            DB Unit使用的参数集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.SPParameter">
+            <summary>
+            存储过程的参数集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.Count_Of_OnePage">
+            <summary>
+            一页显示资料笔数
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.CurrentPage">
+            <summary>
+            当前页数
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.ToPage">
+            <summary>
+            转转页数
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.ClearParameters">
+            <summary>
+            清空参数，但保留dao和dbconnstring,resource manager和transtoken
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter.OperationType">
+            <summary>
+            Unit中的操作标记
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.SQLKeywords">
+            <summary>
+            SQL中的常用关键字，用于对使用这些特殊关键字做栏位名称的时候进行识别并做格式转化
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParameterFlag">
+            <summary>
+            参数标识符
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.LinkFlag">
+            <summary>
+            字符串链接标识符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.Column_Quatation">
+            <summary>
+            栏位引用符号
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParseCopyData(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            转化CopyData指令
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParseCopyTable(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            转化CopyTable指令
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParseDropTable(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            转化DropTable指令
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParseCreateTable(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            转化CreateTable指令
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ParseAlterColumn(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            转化AlterColumn指令
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.IfTableEmptyThen4Query">
+            <summary>
+            查询表达式中，如果$table为空或没有设定的时候，from表达式的生成逻辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.SqlWhere(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            条件表达式关系解析
+            </summary>
+            <param name="obj"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.SqlWhere(System.String,System.Object,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            条件表达式操作符解析
+            </summary>
+            <param name="key"></param>
+            <param name="obj"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.GetParameterSerialno(System.String)">
+            <summary>
+            获取参数名称
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ColumnFormat(System.String)">
+            <summary>
+            栏位的名称格式化，主要针对特殊名称，如desc,asc之类的sql关键字做转化
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DB.SqlTypeDBExpress.ConvertObject(System.Object)">
+            <summary>
+            将json中的特殊数据做转化
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Unit.NonQueryUnit`1">
+            <summary>
+            非查询操作的Unit
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Unit.QueryByPageUnit`1">
+            <summary>
+            翻页查询操作Unit
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Unit.QueryUnit`1">
+            <summary>
+            查询操作的Unit
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DB.Unit.SPUnit`1">
+            <summary>
+            存储过程操作Unit
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+    </members>
+</doc>

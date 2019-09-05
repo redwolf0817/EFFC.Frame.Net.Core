@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using EFFC.Extends.LinqDLR2SQL.DLRColumns;
+using EFFC.Frame.Net.Base.Constants;
 
 namespace EFFC.Extends.LinqDLR2SQL
 {
@@ -11,54 +11,17 @@ namespace EFFC.Extends.LinqDLR2SQL
     public class LinqDLRTable : LinqDLR2Sql<dynamic>
     {
         /// <summary>
-        /// DB类型
-        /// </summary>
-        public enum DBType
-        {
-            /// <summary>
-            /// 未指定类型
-            /// </summary>
-            None,
-            /// <summary>
-            /// SQLServer
-            /// </summary>
-            SqlServer,
-            /// <summary>
-            /// Sqlite
-            /// </summary>
-            Sqlite,
-            /// <summary>
-            /// MySQL
-            /// </summary>
-            MySql
-        }
-
-        /// <summary>
         /// 生成一个LinqDLRTable的实例
         /// </summary>
         /// <param name="table">实际table的名称</param>
         /// <param name="aliasName">table的别名</param>
-        /// <param name="dbtype">数据库类型</param>
+        /// <param name="sqlflags">sql相关操作符号</param>
         /// <returns>LinqDLRTable</returns>
-        public static LinqDLRTable New(string table, string aliasName = "", DBType dbtype = DBType.None)
+        public static LinqDLRTable New<TColumn>(string table, string aliasName = "", SqlOperatorFlags sqlflags=null) where TColumn:LinqDLRColumn
         {
             var tn = aliasName == "" ? table : aliasName;
-            LinqDLRTable rtn = null;
-            switch (dbtype)
-            {
-                case DBType.SqlServer:
-                    rtn = New<LinqDLRTable>(new LamdaSQLObject<SqlServerDLRColumn>(tn), table, aliasName);
-                    break;
-                case DBType.Sqlite:
-                    rtn = New<LinqDLRTable>(new LamdaSQLObject<SqliteDLRColumn>(tn), table, aliasName);
-                    break;
-                case DBType.MySql:
-                    rtn = New<LinqDLRTable>(new LamdaSQLObject<MysqlDLRColumn>(tn), table, aliasName);
-                    break;
-                default:
-                    rtn = New<LinqDLRTable>(new LamdaSQLObject<LinqDLRColumn>(tn), table, aliasName);
-                    break;
-            }
+            sqlflags = sqlflags == null ? new SqlOperatorFlags() : sqlflags;
+            LinqDLRTable rtn = New<LinqDLRTable>(new LamdaSQLObject<TColumn>(tn, sqlflags), table, aliasName, new GeneralLinqDLR2SQLGenerator(sqlflags));
             return rtn;
         }
     }

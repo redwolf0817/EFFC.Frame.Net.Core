@@ -1,0 +1,601 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Module.Extend.EWRA</name>
+    </assembly>
+    <members>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRAAuthAttribute.IsNeedAuth">
+            <summary>
+            是否需要进行校验
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRAIsOpenAttribute">
+            <summary>
+            标记method是否对外开放
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRAIsOpenAttribute.IsOpen">
+            <summary>
+            标记该方法是否开放
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRARouteAttribute.#ctor(System.String,System.String)">
+            <summary>
+            路由属性描述
+            注意:使用本属性后，方法所属的类单独会构成API独立入口，最后API的调用格式为：/{参数route}/{parmeters}
+            </summary>
+            <param name="verb">方法谓词:get,post,put,patch,delete</param>
+            <param name="route">路由描述，路由不可与其他的路由重复</param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRARouteAttribute.MethodVerb">
+            <summary>
+            方法Verb
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRARouteAttribute.Route">
+            <summary>
+            路由描述
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRARouteDescAttribute">
+            <summary>
+            路由描述
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRAValidAttribute.IsValid(EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter,EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData)">
+            <summary>
+            进行校验，判定校验是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.Validation.EWRADateTimeValidAttribute">
+            <summary>
+            针对post数据进行是否为Datetime的校验,如果校验成功则将对应的数据转化成DateTime类型
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.Validation.EWRADoubleValidAttribute">
+            <summary>
+            针对post数据进行是否为double的校验,如果校验成功则将对应的数据转化成double类型
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.Validation.EWRAEmptyValidAttribute">
+            <summary>
+            针对post数据进行是否为空的校验
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Attributes.Validation.EWRAIntValidAttribute">
+            <summary>
+             针对post数据进行是否为int的校验,如果校验成功则将对应的数据转化成int类型
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode">
+            <summary>
+            Rest状态码
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.NONE">
+            <summary>
+            未设置
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.OK">
+            <summary>
+             [GET]：服务器成功返回用户请求的数据
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.CREATED">
+            <summary>
+             [POST/PUT/PATCH]：用户新建或修改数据成功
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.ACCEPTED">
+            <summary>
+            [*]：表示一个请求已经进入后台排队（异步任务）
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.NO_CONTENT">
+            <summary>
+            [DELETE]：用户删除数据成功
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.INVALID_REQUEST">
+            <summary>
+            [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.UNAUTHORIZED">
+            <summary>
+            [*]：表示用户没有权限（令牌、用户名、密码错误）
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.FORBIDDEN">
+            <summary>
+            [*] 表示用户得到授权（与401错误相对），但是访问是被禁止的
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.NOT_FOUND">
+            <summary>
+            [*]：用户发出的请求针对的是不存在的记录，服务器没有进行操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.NOT_ACCEPTABLE">
+            <summary>
+            [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）或不接受当前的处理方式
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.GONE">
+            <summary>
+            [GET]：用户请求的资源被永久删除或未找到，且不会再得到的
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.UNPROCESABLE_ENTITY">
+            <summary>
+            [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestStatusCode.INTERNAL_SERVER_ERROR">
+            <summary>
+            [*]：服务器发生错误，用户将无法判断发出的请求是否成功
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestContentType">
+            <summary>
+            Rest请求返回的contenttype类型
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestContentType.JSON">
+            <summary>
+            返回json数据格式
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.Constants.RestContentType.TXT">
+            <summary>
+            返回文本
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData">
+            <summary>
+            EWRA的专用数据集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.StatusCode">
+            <summary>
+            返回的结果状态码
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.ContentType">
+            <summary>
+            返回的contenttype
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.InvokeMethod">
+            <summary>
+            通过route搜索出来待执行的Method
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.InvokeParameters">
+            <summary>
+            执行用的参数集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.Error">
+            <summary>
+            当出现4xx的错误时的错误信息内容
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.Code">
+            <summary>
+            当为2xx时的返回的代码值
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.RefreshCacheList">
+            <summary>
+            待处理缓存的列表
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData.IsCache">
+            <summary>
+            本次get是否做cache,默认为true
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity">
+            <summary>
+            RESTAPI入口节点定义
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.LType">
+            <summary>
+            Logic的基类，为RestLogic的子类，用于建构时的扩展识别
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity._d_route_index_">
+            <summary>
+            verb+route资源个数做key映射一个索引,该索引可以用于通过url进行执行列表的查找功能
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity._invalid_keys_">
+            <summary>
+            无效的关键字，用于路由搜索
+            覆盖范围：logic的name，{p}
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.APIVersion">
+            <summary>
+            入口节点的API版本号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.Name">
+            <summary>
+            入口节点名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.RouteDesc">
+            <summary>
+            API调用结构说明
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.FindByRoute(System.String[],System.String,System.Object[]@)">
+            <summary>
+            根据请求的url资源和verb抓取执行列表
+            </summary>
+            <param name="sarray"></param>
+            <param name="verb"></param>
+            <param name="parsedParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.CreateFrom(System.Type,System.Collections.Generic.List{System.Type},System.Type)">
+            <summary>
+            根据Type类型和Type列表创建入口节点
+            </summary>
+            <param name="t"></param>
+            <param name="pointTypeList"></param>
+            <param name="baseType">为RestLogic的子类，如果为空或不为RestLogic子类，则自动识别为RestLogic</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.BuildEntryRouteInvokeLink(System.Type,System.Collections.Generic.List{System.Type})">
+            <summary>
+            构建入口路由
+            </summary>
+            <param name="t"></param>
+            <param name="pointTypeList"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.BuildNextRouteInvokeLink(System.Type,System.String,System.Collections.Generic.List{EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity},System.Collections.Generic.List{System.Type})">
+            <summary>
+            构建next执行链接
+            </summary>
+            <param name="t"></param>
+            <param name="parentRIE"></param>
+            <param name="pointTypeList"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.EntryPointEntity.BuildSingleEntryInvokeLink(System.Type,System.Collections.Generic.List{System.Type})">
+            <summary>
+            基于RouteAttribute描述构建自定义独立API入口
+            </summary>
+            <param name="t"></param>
+            <param name="pointTypeList"></param>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity">
+            <summary>
+            路由执行流程中的元素
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.InstanceType">
+            <summary>
+            执行的实例的类型
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.InvokeMethod">
+            <summary>
+            执行的方法
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.Route">
+            <summary>
+            对应的路由路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.RouteRegExpress">
+            <summary>
+            对应路由路径的正则表达式
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.RouteDesc">
+            <summary>
+            对应路由描述
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.InvokeName">
+            <summary>
+            执行的名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.ParameterCountWithOutParent">
+            <summary>
+            排除名称为parent_开头的参数后的参数个数
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.HasParentParameter">
+            <summary>
+            判断是否有名称为parent_开头的参数
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.RouteInvokeEntity.Clone">
+            <summary>
+            执行
+            </summary>
+            <param name="paramValues"></param>
+            <param name="ewrap"></param>
+            <param name="ewrad"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.EWRAGoProxy">
+            <summary>
+            
+            </summary>
+            <typeparam name="LType"></typeparam>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic">
+            <summary>
+            验证用的logic
+            </summary>
+            <summary>
+            验证用的logic
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.PublicKeySavePath">
+            <summary>
+            RSA公共秘钥存放目录，如果没有则写入内存中
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.PrivateKeySavePath">
+            <summary>
+            RSA私有秘钥存放目录，如果没有则写入内存中
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.Issuer">
+            <summary>
+            授权者
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.Audience">
+            <summary>
+            接受者
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.Expire">
+            <summary>
+            超时的时长
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.SetClaimSaveParameter(System.String,System.String)">
+            <summary>
+            用于往token中存入参数
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.DoLogin(System.String)">
+            <summary>
+            执行登录验证，请子类实现该方法，该方法被CreateToken调用
+            </summary>
+            <param name="id"></param>
+            <param name="saveparameter">待传出的要保存的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.GenerateAndSaveKey">
+            <summary>
+            生成并保存 RSA 公钥与私钥
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.IsValid(System.String,System.String@)">
+            <summary>
+            校验用的方法
+            </summary>
+            <param name="token"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.GetPayLoadInfoFromToken(System.String)">
+            <summary>
+            从token中获取加载的参数信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.IsValid_Level2(System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.String@)">
+            <summary>
+            token的第二级验证，
+            通过第一次验证（基本算法验证）完成后，如果需要进行其他扩展性的验证可以在此处理
+            二级验证只有在一级验证返回true的时候才执行
+            </summary>
+            <param name="token"></param>
+            <param name="payloadinfo">一级验证完成后解析出来的参数信息</param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.DB">
+            <summary>
+            db操作相关
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.MyDBHelper.NewDBUnitParameter``1(System.String)">
+            <summary>
+            开启指定db，并开启链接
+            </summary>
+            <typeparam name="TAccess"></typeparam>
+            <param name="dbconn">db链接串</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.AuthorizationLogic.MyDBHelper.NewDefaultDBUnitParameter``1">
+            <summary>
+            用默认链接串开启指定的DB
+            </summary>
+            <typeparam name="TAccess"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic">
+            <summary>
+            Rest API专用Logic
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.DB">
+            <summary>
+            Token中payload的参数信息
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.SetRefreshCacheRoute(System.String[])">
+            <summary>
+            设置需要刷新的缓存列表，只有post，put，patch才有效
+            </summary>
+            <param name="route">待缓存的get方法对应的路由路径，格式为：/xxxx/{参数名称}</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.IsValidBy(System.String,System.Func{System.Boolean})">
+            <summary>
+            使用自定义方法进行校验，系统自动设定返回状态码
+            </summary>
+            <param name="msg"></param>
+            <param name="f"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.IsValidBy(System.Func{System.Text.StringBuilder,System.Boolean})">
+            <summary>
+            使用自定义方法进行校验，系统自动设定返回状态码
+            </summary>
+            <param name="f"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.SetCacheEnable(System.Boolean)">
+            <summary>
+            设定是否做缓存，默认开启
+            </summary>
+            <param name="isEnable"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.TokenPayLoad">
+            <summary>
+            Token中payload的参数信息
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.TokenPayload.ID">
+            <summary>
+            验证的ID号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.TokenPayload.ExpireTime">
+            <summary>
+            Token的超时时间设置
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Logic.RestLogic.TokenPayload.Item(System.String)">
+            <summary>
+            根据key获取payload中的数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Logic.ValidRestLogic">
+            <summary>
+            带校验功能的RestLogic
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Logic.ValidRestLogic.IsValid(EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter,EFFC.Frame.Net.Module.Extend.EWRA.DataCollections.EWRAData,System.String@,EFFC.Frame.Net.Module.Extend.EWRA.Attributes.EWRAValidAttribute[])">
+            <summary>
+            方法执行之前的校验操作，如果所有的校验都通过则为true，否则为false
+            特别说明：无属性时则不做任何校验，返回true
+            </summary>
+            <param name="p"></param>
+            <param name="d"></param>
+            <param name="errormsg"></param>
+            <param name="validAttributes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Log.Log4Net">
+            <summary>
+            Log4Net为框架提供一个基础的log实现
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.Log.Log4Net.WriteLog(System.String)">
+            <summary>
+            写入Log
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter">
+            <summary>
+            EWRA专用参数集合
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.CurrentAPIVersion">
+            <summary>
+            当前API的主版本号，格式：v{0.0}
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.IsAuth">
+            <summary>
+            判断当前请求是否已经通过验证
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.AuthorizedToken">
+            <summary>
+            校验用的Token
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.AuthorizedTokenPayLoad">
+            <summary>
+            Token中附加的业务参数信息
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.__AuthMethod">
+            <summary>
+            执行校验的方法名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.Parameters.EWRAParameter.__Auth_ValidMsg">
+            <summary>
+            校验后的结果信息
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext">
+            <summary>
+            RestAPI入口节点上下文结构，用于解析路由
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.MainVersion">
+            <summary>
+            当前主版本号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.RouteDesc">
+            <summary>
+            总路由表描述
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.MainRouteDesc">
+            <summary>
+            主版本访问路由
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.GetRouteDesc(System.String)">
+            <summary>
+            根据版本号获取RestAPI调用说明
+            </summary>
+            <param name="version"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.Item(System.String)">
+            <summary>
+            根据版本号和入口名称获取
+            </summary>
+            <param name="version"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.EWRA.RestPointContext.Create(System.String,System.String,System.Type)">
+            <summary>
+            创建Rest入口节点上下文
+            </summary>
+            <param name="assemblyName">logic所在的Assembly名称</param>
+            <param name="mainversion">主版本号</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

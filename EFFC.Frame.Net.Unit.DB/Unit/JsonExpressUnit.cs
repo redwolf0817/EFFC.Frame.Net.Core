@@ -24,7 +24,7 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
                 var express = (DBExpress)json;
                 var re = express.ToExpress();
                 var sql = ComFunc.nvl(re.GetValue("sql"));
-                var data = (FrameDLRObject)re.GetValue("data");
+                FrameDLRObject data = re.GetValue("data") != null ? (FrameDLRObject)re.GetValue("data") : FrameDLRObject.CreateInstance();
                 var orderby = ComFunc.nvl(re.GetValue("orderby"));
                 foreach (var k in data.Keys)
                 {

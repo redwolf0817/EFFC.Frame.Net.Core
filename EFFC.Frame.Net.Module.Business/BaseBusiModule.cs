@@ -73,7 +73,7 @@ namespace EFFC.Frame.Net.Module.Business
 
             tp.Resources.RollbackTransaction(tp.CurrentTransToken);
 
-            throw new Exception($"{this.GetType().Name}处理出错：" + ex.Message, ex);
+            throw new Exception($"{this.GetType().Name}处理出错：" + ex.Message, ex.InnerException == null?ex:ex.InnerException);
         }
 
         protected override void Run(ParameterStd p, DataCollection d)

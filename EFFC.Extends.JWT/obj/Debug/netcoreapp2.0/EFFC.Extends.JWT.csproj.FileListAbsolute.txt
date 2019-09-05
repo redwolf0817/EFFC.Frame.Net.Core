@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Extends.JWT.xml
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Extends.JWT.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Extends.JWT.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Extends.JWT.pdb
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.dll
+E:\work\EFFC\3.5.2\EFFC.Extends.JWT\obj\Debug\netcoreapp2.0\EFFC.Extends.JWT.pdb

@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>YCH</Authors>
+    <Company>EFFC@ItTrending</Company>
+    <Description>E.F.F.C Frame Module Batch Application</Description>
+    <Copyright>Copyright © ItTrending  2018</Copyright>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为Batch Application处理扩展库
+.net core 2.0升级版本
+
+1.0.1:新增执行指令选项
+可以通过不同的选项来改变执行计划的执行方式，添加选项如下：
+-help/-h:可以查看帮助
+-immediately/-i:立即执行，并且只执行一次
+-logic/-l:执行指定的logic，如果后面没有指定action，则指定默认的load方法
+-action/-a:执行指定的logic下的action，如果没有指定action，则指定默认的load方法
+1.0.2:ScheduleProxy异常处理时log显示innerexception的信息
+1.0.3:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.3
+1.0.4:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.4
+1.0.5:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.5,
+引用库EFFC.Frame.Net.Base升级到1.0.6
+批次新增EBAGroupAttribute：用于指定批次action所属的组，通过指令参数可以指定哪个的组的批次才执行
+批次新增EBAIsOpenAttribute：用于指定批次action是否参与执行
+批次新增EBARepeatWhenExceptionAttribute：用于指定批次执行中遇到指定类型的异常时，再次重复执行的次数
+1.1.0:升级.netcore到2.1.2
+1.1.1:Base库升级到1.1.1
+1.1.2:Base库升级到1.1.2</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.Extend.EBA.Key.snk</AssemblyOriginatorKeyFile>
+    <Version>1.1.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.EBA.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.Console\EFFC.Frame.Net.Module.Extend.EConsole.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.HttpCall\EFFC.Frame.Net.Module.HttpCall.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Files\EFFC.Frame.Net.Resource.Others.csproj" />
+  </ItemGroup>
+
+</Project>

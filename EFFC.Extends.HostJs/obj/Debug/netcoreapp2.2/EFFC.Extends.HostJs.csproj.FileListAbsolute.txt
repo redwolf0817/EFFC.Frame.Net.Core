@@ -1,0 +1,12 @@
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Extends.HostJs.deps.json
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Extends.HostJs.dll
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Frame.Net.Base.dll
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Frame.Net.Global.dll
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Frame.Net.Global.pdb
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Frame.Net.Global.xml
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\bin\Debug\netcoreapp2.2\EFFC.Frame.Net.Base.pdb
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\obj\Debug\netcoreapp2.2\EFFC.Extends.HostJs.csprojAssemblyReference.cache
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\obj\Debug\netcoreapp2.2\EFFC.Extends.HostJs.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\obj\Debug\netcoreapp2.2\EFFC.Extends.HostJs.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\obj\Debug\netcoreapp2.2\EFFC.Extends.HostJs.AssemblyInfo.cs
+E:\work\EFFC\3.5.3\EFFC.Extends.HostJs\obj\Debug\netcoreapp2.2\EFFC.Extends.HostJs.csproj.CopyComplete

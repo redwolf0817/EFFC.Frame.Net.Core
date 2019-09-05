@@ -1,0 +1,36 @@
+/*****************************************************************************************公共基础样式（包括头尾）*/
+body,h1,h2,h3,h4,h5,h6,ul,ol,dl,dt,dd,p,table,thead,tbody,tr,td,th{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+body{
+    font-size:12px !important;
+    font-family:"Microsoft YaHei","Arial" !important;
+    color:#333;
+    background-color:#fff;
+    overflow-x:hidden ;
+}
+img{
+    vertical-align:middle;
+    border:none;
+}
+a{
+    text-decoration:none !important;
+}
+.clear::after{
+    display:block;
+    content:"";
+    clear:both;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+*{
+    box-sizing: border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}

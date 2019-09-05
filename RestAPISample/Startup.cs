@@ -11,7 +11,8 @@ using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Module.Extend.EWRA;
 using EFFC.Frame.Net.Module.Extend.EWRA.Logic;
-using RestAPI.Business;
+using RestAPISample.Business;
+using EFFC.Frame.Net.Module.Extend.WeixinWeb;
 
 namespace RestAPISample
 {
@@ -28,11 +29,27 @@ namespace RestAPISample
         {
             var options = FrameDLRObject.CreateInstance();
             //Logic参数设定
-            options.RestAPILogicAssemblyName = "RestAPI.Business";
+            options.BusinessAssemblyName = "RestAPISample";
+            options.WeixinHome = "weixinhome";
+            //EWRA自定义模块加载
+            options.RestAPIModuleName = typeof(MyWebModule).FullName;
+            //Logic参数设定
+            options.RestAPILogicAssemblyName = "RestAPISample";
             //RestAPI模块启用定义
             options.RestAPILogicBaseType = typeof(MyRestLogic);
+            //Tag模块启动定义
+            options.TagAssembly = "RestAPISample";
+            options.RestAPIMainVersion = "v1.0";
+            //默认起始路由
+            options.DefaultStartRoute = MyConfig.GetConfiguration("Server", "DefaultStartRoute");
+            //设置apidoc的路由
+            options.APIDocRoute = MyConfig.GetConfiguration("Server", "APIDocRoute");
+            //设置是否显示api doc
+            options.IsShowRestAPIDoc = BoolStd.IsNotBoolThen(MyConfig.GetConfiguration("Server", "IsShowAPIDoc"), false);
+            //设置中间件参数
+            options.MiddleWareOptionsType = typeof(MyWebOptions);
 
-            app.UseEWRAMiddleWare((FrameDLRObject)options);
+            app.UseWeixinEWRAMiddleWare((FrameDLRObject)options);
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <SignAssembly>True</SignAssembly>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.HttpCall.Key.snk</AssemblyOriginatorKeyFile>
+	<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <Authors>YCH</Authors>
     <Company>EFFC@ItTrending</Company>
     <Description>E.F.F.C Frame Module HttpCall Definition</Description>
@@ -12,15 +13,25 @@
     <PackageTags>EFFC</PackageTags>
     <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
 本包为基础库包含EFFC框架的基础接口和基本资源API
-.net core 2.0升级版本</PackageReleaseNotes>
-    <AssemblyVersion>3.5.2.0</AssemblyVersion>
-    <FileVersion>3.5.2.0</FileVersion>
-    <Version>1.0.1</Version>
+.net core 2.0升级版本
+
+1.0.2:跟随Base同步更新
+1.0.3:引用库EFFC.Frame.Net.Base升级到1.0.6
+1.1.0:升级.netcore到2.1.2
+1.1.1:Base库升级到1.1.1
+1.1.2:Base库升级到1.1.2</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
+    <Version>1.1.2</Version>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.HttpCall.xml</DocumentationFile>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.HttpCall.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

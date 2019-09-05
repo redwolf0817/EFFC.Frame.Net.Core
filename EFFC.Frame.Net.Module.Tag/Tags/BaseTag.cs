@@ -124,6 +124,10 @@ namespace EFFC.Frame.Net.Module.Tag.Tags
         public void DoParse(TagParameter p, TagData d)
         {
             tagdata.Value = d;
+            foreach(var item in p.BindObject.Items)
+            {
+                tagdata.Value.Context.AddBindObject(item.Key, item.Value);
+            }
 
             Regex re = null;
             Regex rearg = new Regex(regArgs);
@@ -228,7 +232,7 @@ namespace EFFC.Frame.Net.Module.Tag.Tags
         /// <summary>
         /// 加载优先级，正数，数字越小优先加载
         /// </summary>
-        public int Priority => 10;
+        public virtual int Priority => 10;
 
         public FrameDLRObject ToJsonObject()
         {

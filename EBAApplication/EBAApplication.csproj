@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="log4net.config">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.EBA\EFFC.Frame.Net.Module.Extend.EBA.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.MySQL\EFFC.Frame.Net.Resource.MySQL.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Resource.Postgresql\EFFC.Frame.Net.Resource.Postgresql.csproj" />
+  </ItemGroup>
+
+</Project>

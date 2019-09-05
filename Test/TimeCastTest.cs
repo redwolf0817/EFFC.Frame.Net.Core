@@ -1,6 +1,6 @@
-﻿using EFFC.Frame.Net.Base.Common;
+﻿using EFFC.Extends.HostJs;
+using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Data.Base;
-using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;

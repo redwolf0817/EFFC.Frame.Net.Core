@@ -28,8 +28,9 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Attributes.Validation
             {
                 foreach (var f in fields)
                 {
-                    var v = ComFunc.nvl(ep[DomainKey.POST_DATA, f]);
-                    if (v == "") return false;
+                    var v = ep[DomainKey.POST_DATA, f];
+                    v = v == null ? ep[DomainKey.QUERY_STRING, f] : v;
+                    if (v==null || ComFunc.nvl(v) == "") return false;
                 }
 
                 return true;

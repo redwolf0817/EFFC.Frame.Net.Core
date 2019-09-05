@@ -17,6 +17,8 @@ using Frame.Net.Base.Interfaces.DataConvert;
 using System.DrawingCore;
 using QRCoder;
 using System.DrawingCore.Imaging;
+using System.Xml;
+using System.Runtime.CompilerServices;
 
 namespace EFFC.Frame.Net.Base.Common
 {
@@ -98,9 +100,57 @@ namespace EFFC.Frame.Net.Base.Common
             {
                 l += "0";
             }
-            Random r = new Random();
-            return r.Next(int.Parse(l));
+            Random r = new Random(Guid.NewGuid().GetHashCode());
+            var rtn = r.Next(int.Parse(l));
+            while (rtn.ToString().Length < length)
+            {
+                rtn = r.Next(int.Parse(l));
+            }
+            return rtn;
         }
+        /// <summary>
+        /// 生成不重复的随机码
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string RandomCode(int length)
+        {
+            var result = new StringBuilder();
+            for (var i = 0; i < length; i++)
+            {
+                var r = new Random(Guid.NewGuid().GetHashCode());
+                result.Append(r.Next(0, 10));
+            }
+            var rtn = result.ToString();
+            return rtn;
+        }
+        ///<summary>
+        ///生成随机字符串 
+        ///</summary>
+        ///<param name="length">目标字符串的长度</param>
+        ///<param name="useNum">是否包含数字，1=包含，默认为包含</param>
+        ///<param name="useLow">是否包含小写字母，1=包含，默认为包含</param>
+        ///<param name="useUpp">是否包含大写字母，1=包含，默认为包含</param>
+        ///<param name="useSpe">是否包含特殊字符，1=包含，默认为不包含</param>
+        ///<param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
+        ///<returns>指定长度的随机字符串</returns>
+        public static string RandomString(int length, bool useNum = true, bool useLow = true, bool useUpp = true, bool useSpe = true, string custom = "")
+        {
+            byte[] b = new byte[4];
+            new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
+            Random r = new Random(BitConverter.ToInt32(b, 0));
+            string s = null, str = custom;
+            if (useNum == true) { str += "0123456789"; }
+            if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
+            if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
+            if (useSpe == true) { str += "!#$%&*+"; }
+            for (int i = 0; i < length; i++)
+            {
+                s += str.Substring(r.Next(0, str.Length - 1), 1);
+            }
+            return s;
+        }
+
 
         /// <summary>
         /// 調用Exe程序
@@ -570,7 +620,7 @@ namespace EFFC.Frame.Net.Base.Common
 
             }
         }
-        
+
         /// <summary>
         /// 拷贝整个目录
         /// </summary>
@@ -775,29 +825,109 @@ namespace EFFC.Frame.Net.Base.Common
             }
         }
         /// <summary>
-        /// HMAC-sha1加密
+        /// 哈希加密算法
+        /// </summary>
+        /// <param name="hashAlgorithm"> 所有加密哈希算法实现均必须从中派生的基类 </param>
+        /// <param name="input"> 待加密的字符串 </param>
+        /// <param name="encoding"> 字符编码 </param>
+        /// <returns></returns>
+        private static string HashEncrypt(HashAlgorithm hashAlgorithm, string input, Encoding encoding)
+        {
+            var data = hashAlgorithm.ComputeHash(encoding.GetBytes(input));
+
+            return BitConverter.ToString(data).Replace("-", "");
+        }
+        /// <summary>
+        /// HMAC-sha1加密,默认UTF-8编码
         /// </summary>
         /// <param name="text"></param>
         /// <param name="key"></param>
         /// <param name="encode"></param>
         /// <returns></returns>
-        public static string HmacSha1Sign(string text, string key, Encoding encode)
+        public static string HmacSha1Sign(string text, string key, Encoding encode=null)
         {
-            HMACSHA1 hmacsha1 = new HMACSHA1();
-            hmacsha1.Key = encode.GetBytes(key);
-            byte[] dataBuffer = encode.GetBytes(text);
-            byte[] hashBytes = hmacsha1.ComputeHash(dataBuffer);
-            return Convert.ToBase64String(hashBytes);
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(new HMACSHA1(encode.GetBytes(key)), text, encode);
         }
         /// <summary>
-        /// HMAC-sha1加密，采用UTF8编码
+        /// HMAC-sha256哈希加密,默认UTF-8编码
         /// </summary>
         /// <param name="text"></param>
         /// <param name="key"></param>
+        /// <param name="encode"></param>
         /// <returns></returns>
-        public static string HmacSha1Sign(string text, string key)
+        public static string HmacSha256Sign(string text, string key, Encoding encode = null)
         {
-            return HmacSha1Sign(text, key, Encoding.UTF8);
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(new HMACSHA256(encode.GetBytes(key)), text, encode);
+        }
+        /// <summary>
+        /// HMAC-sha384哈希加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="key"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string HmacSha384Sign(string text, string key, Encoding encode = null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(new HMACSHA384(encode.GetBytes(key)), text, encode);
+        }
+        /// <summary>
+        /// HMAC-sha512哈希加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="key"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string HmacSha512Sign(string text, string key, Encoding encode = null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(new HMACSHA512(encode.GetBytes(key)), text, encode);
+        }
+        /// <summary>
+        /// SHA1 16进制哈希算法加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string SHA1hash(string input, Encoding encode = null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(SHA1.Create(), input, encode);
+        }
+        /// <summary>
+        /// SHA256 16进制哈希算法加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string SHA256hash(string input,Encoding encode=null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(SHA256.Create(), input, encode);
+        }
+        /// <summary>
+        /// SHA384 16进制哈希算法加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string SHA384hash(string input, Encoding encode=null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(SHA384.Create(), input, encode);
+        }
+        /// <summary>
+        /// SHA512 16进制哈希算法加密,默认UTF-8编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string SHA512hash(string input, Encoding encode=null)
+        {
+            if (encode == null) encode = Encoding.UTF8;
+            return HashEncrypt(SHA512.Create(), input, encode);
         }
         /// <summary>
         /// Convert Image to Byte[]
@@ -858,7 +988,7 @@ namespace EFFC.Frame.Net.Base.Common
         //    // load a bitmap
         //    var barcodeBitmap = (Bitmap)Image.FromStream(file);
         //    // detect and decode the barcode inside the bitmap
-            
+
         //    var result = reader.Decode(barcodeBitmap)(ImageToBytes(barcodeBitmap), barcodeBitmap.Width, barcodeBitmap.Height, RGBLuminanceSource.BitmapFormat.Unknown);
         //    string decodedString = result.BarcodeFormat.ToString();
         //    return decodedString;
@@ -1118,6 +1248,9 @@ namespace EFFC.Frame.Net.Base.Common
                 }
 
                 return to;
+            }else if (IsAnonymousType(obj.GetType()))
+            {
+                return CloneAnonymousObject(obj);
             }
             else
             {
@@ -1212,5 +1345,235 @@ namespace EFFC.Frame.Net.Base.Common
             }
             return "";
         }
+        /// <summary>
+        /// 获取application的目录
+        /// </summary>
+        /// <returns></returns>
+        public static string GetApplicationRoot()
+        {
+            var exePath = Path.GetDirectoryName(System.Reflection
+                              .Assembly.GetExecutingAssembly().Location);
+            return exePath.Replace("file:\\", "").Replace("file:", "");
+        }
+        /// <summary>
+        /// 获取工程的根目录，非bin目录
+        /// </summary>
+        /// <returns></returns>
+        public static string GetProjectRoot()
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory.Split("bin");
+            if(path!=null && path.Length > 0)
+            {
+                return path[0];
+            }
+            else
+            {
+                return AppDomain.CurrentDomain.BaseDirectory;
+            }
+        }
+        /// <summary>
+        /// 判断是否为base64编码
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        public static bool IsBase64(string o)
+        {
+            try
+            {
+                var a = Base64DeCode(o);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 判断是否为base64，如果是则自动解码，否则返回默认值
+        /// </summary>
+        /// <param name="o">待解码对象</param>
+        /// <param name="defaultvalue">默认值,默认为空串</param>
+        /// <returns></returns>
+        public static string IsBase64Then(string o,string defaultvalue = "")
+        {
+            try
+            {
+                return Base64DeCode(o);
+            }
+            catch
+            {
+                return defaultvalue;
+            }
+        }
+        /// <summary>
+        /// 将IEnumerable转为json
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="isIgnorecase"></param>
+        /// <returns></returns>
+        public static string ToJson(IEnumerable<object> list,bool isIgnorecase=true)
+        {
+            if (list == null) return "";
+            var rtn = "[";
+            var body = "";
+            foreach(var item in list)
+            {
+                FrameDLRObject jsonobj = FrameDLRObject.CreateInstance(item, isIgnorecase ? FrameDLRFlags.None : FrameDLRFlags.SensitiveCase);
+                body += ","+jsonobj.ToJSONString();
+            }
+            body = body == "" ? "" : body.Substring(1);
+            rtn += body + "]";
+            return rtn;
+        }
+
+        /// <summary>
+        /// 获取安全的XML的实例对象，防范xxe攻击
+        /// </summary>
+        /// <returns></returns>
+        public static XmlDocument GetSafeXmlInstance()
+        {
+            var rtn = new XmlDocument();
+            rtn.XmlResolver = null;
+            return rtn;
+        }
+        /// <summary>
+        /// 判断是否为合法格式的URI
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public bool IsValidURI(string url)
+        {
+            return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
+        }
+        /// <summary>
+        /// 判定一个类型是否为匿名对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsAnonymousType(Type type)
+        {
+            if (!type.IsGenericType)
+                return false;
+
+            if ((type.Attributes & TypeAttributes.NotPublic) != TypeAttributes.NotPublic)
+                return false;
+
+            if (!Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false))
+                return false;
+
+            return type.Name.Contains("AnonymousType");
+        }
+        /// <summary>
+        /// 克隆一个匿名对象
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static object CloneAnonymousObject(object obj)
+        {
+            if (!IsAnonymousType(obj.GetType())) return null;
+
+            var type = obj.GetType();
+            var parameters = type.GetConstructors()[0].GetParameters();
+            var args = new object[parameters.Length];
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var propertyInfo = type.GetProperty(parameters[i].Name);
+                var value = propertyInfo.GetValue(obj, null);
+                args[i] = CloneObject(value);
+            }
+
+            var instance = Activator.CreateInstance(type, args);
+            return instance;
+        }
+
+        /// <summary> 
+        /// 计算某日起始日期（礼拜一的日期） 
+        /// </summary> 
+        /// <param name="someDate">该周中任意一天</param> 
+        /// <returns>返回礼拜一日期，后面的具体时、分、秒和传入值相等</returns> 
+        public static DateTime GetMondayDate(DateTime someDate)
+        {
+            int i = someDate.DayOfWeek - DayOfWeek.Monday;
+            if (i == -1) i = 6;// i值 > = 0 ，因为枚举原因，Sunday排在最前，此时Sunday-Monday=-1，必须+7=6。 
+            TimeSpan ts = new TimeSpan(i, 0, 0, 0);
+            return someDate.Subtract(ts);
+        }
+        /// <summary> 
+        /// 计算某日结束日期（礼拜日的日期） 
+        /// </summary> 
+        /// <param name="someDate">该周中任意一天</param> 
+        /// <returns>返回礼拜日日期，后面的具体时、分、秒和传入值相等</returns> 
+        public static DateTime GetSundayDate(DateTime someDate)
+        {
+            int i = someDate.DayOfWeek - DayOfWeek.Sunday;
+            if (i != 0) i = 7 - i;// 因为枚举原因，Sunday排在最前，相减间隔要被7减。 
+            TimeSpan ts = new TimeSpan(i, 0, 0, 0);
+            return someDate.Add(ts);
+        }
+        /// <summary>
+        /// 判断指定的类型 <paramref name="type"/> 是否是指定泛型类型的子类型，或实现了指定泛型接口。
+        /// </summary>
+        /// <param name="type">需要测试的类型。</param>
+        /// <param name="generic">泛型接口类型，传入 typeof(IXxx&lt;&gt;)</param>
+        /// <returns>如果是泛型接口的子类型，则返回 true，否则返回 false。</returns>
+        public static bool IsImplementedRawGeneric(Type type,Type generic)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (generic == null) throw new ArgumentNullException(nameof(generic));
+
+            // 测试接口。
+            var isTheRawGenericType = type.GetInterfaces().Any(IsTheRawGenericType);
+            if (isTheRawGenericType) return true;
+
+            // 测试类型。
+            while (type != null && type != typeof(object))
+            {
+                isTheRawGenericType = IsTheRawGenericType(type);
+                if (isTheRawGenericType) return true;
+                type = type.BaseType;
+            }
+
+            // 没有找到任何匹配的接口或类型。
+            return false;
+
+            // 测试某个类型是否是指定的原始接口。
+            bool IsTheRawGenericType(Type test)
+                => generic == (test.IsGenericType ? test.GetGenericTypeDefinition() : test);
+        }
+        ///// <summary>
+        ///// 获取本机的IPv4地址
+        ///// </summary>
+        ///// <returns></returns>
+        //public static string GetHostIPv4()
+        //{
+        //    string hostName = Dns.GetHostName();   //获取本机名
+        //    var localhost = Dns.GetHostAddresses(hostName);
+        //    if (localhost.Length > 1)
+        //    {
+        //        return localhost[1].ToString();
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
+        ///// <summary>
+        ///// 获取本机的IPv6地址
+        ///// </summary>
+        ///// <returns></returns>
+        //public static string GetHostIPv6()
+        //{
+        //    string hostName = Dns.GetHostName();   //获取本机名
+        //    var localhost = Dns.GetHostAddresses(hostName);
+        //    if (localhost.Length > 0)
+        //    {
+        //        return localhost[0].ToString();
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
     }
 }

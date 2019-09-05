@@ -10,6 +10,7 @@ namespace EFFC.Frame.Net.Unit.DB
     public interface IDBAccessInfo
     {
         DBStatus CurrentStatus { get; }
+        DBType MyType { get; }
         void Open(string connString,params object[] p);
         void Close();
     }

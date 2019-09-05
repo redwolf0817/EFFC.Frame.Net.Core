@@ -1,6 +1,5 @@
 ﻿using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Data.Base;
-using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +13,28 @@ namespace Test
         static void Main(string[] args)
         {
             var dt = DateTime.Now;
-            //TimeCastTest.Test();
+            DllLoadTest.Test();
+            //JSEngineTest.Test();
             //ReflectTest.Test();
             //FrameArrayTest.Test();
             //WebGoTest.Test();
             //SqliteTest.Test();
             //ReflectVersionTest.Test();
 
-            LinqTest.Test();
+            //LinqTest.Test();
+            //InvokeTest.Test();
+            //DaoLinqSqlTest.test();
+            //MobileAPITest.Test();
+            //RazorTest.Test();
             //JWTTest.Test();
-
+            //JiangsuTest.Test();
+            //HWAPITest.Test();
+            //PostgreSqlTest.Test();
+            //OracleTest.Test();
+            //MiniTools.Test();
+            //BaiduTest.test();
+            //NPoiTest.Test();
+            Console.WriteLine("当前应用路径："+ComFunc.GetApplicationRoot());
             Console.WriteLine($"cast time:{(DateTime.Now - dt).TotalMilliseconds}ms");
             Console.Read();
         }

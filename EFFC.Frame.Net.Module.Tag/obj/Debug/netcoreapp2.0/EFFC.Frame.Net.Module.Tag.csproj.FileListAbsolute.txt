@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Tag\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Module.Tag.pdb

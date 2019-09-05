@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EFFC.Frame.Net.Module.Extend.WebGo</id>
+    <version>1.1.2.1</version>
+    <authors>YCH</authors>
+    <owners>YCH</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</projectUrl>
+    <description>E.F.F.C Frame Module Web GoHandler Definition</description>
+    <releaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为Web处理扩展库，包含EFFC框架的基础接口、基本资源API、Go请求处理
+.net core 2.0升级版本
+
+1.0.2:同步base更新
+1.0.3:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.3
+1.0.4:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.4
+1.0.5:引用的EFFC.Frame.Net.Module.Web升级到1.0.6,
+引用的EFFC.Frame.Net.Module.Business升级到1.0.2.5,
+引用库EFFC.Frame.Net.Base升级到1.0.6
+修正Log4Net在多线程下报异常的问题
+1.1.0:升级.netcore到2.1.2
+1.1.1:Base库升级到1.1.1
+1.1.2:Base库升级到1.1.2
+1.1.2.1:修正对静态文件的识别逻辑</releaseNotes>
+    <copyright>Copyright © ItTrending  2017</copyright>
+    <tags>EFFC</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.1">
+        <dependency id="EFFC.Frame.Net.Module.Business" version="1.1.2" exclude="Build,Analyzers" />
+        <dependency id="EFFC.Frame.Net.Module.Razor" version="1.1.2" exclude="Build,Analyzers" />
+        <dependency id="EFFC.Frame.Net.Module.Web" version="1.1.2.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.StaticFiles" version="2.1.1" exclude="Build,Analyzers" />
+        <dependency id="log4net" version="2.0.8" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.WebGo.dll" target="lib\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.WebGo.dll" />
+    <file src="D:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.WebGo.xml" target="lib\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.WebGo.xml" />
+  </files>
+</package>

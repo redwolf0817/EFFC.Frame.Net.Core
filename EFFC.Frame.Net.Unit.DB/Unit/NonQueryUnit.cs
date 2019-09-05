@@ -3,6 +3,7 @@ using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Exceptions;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Parameter;
+using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Unit.DB.Datas;
 using EFFC.Frame.Net.Unit.DB.Parameters;
 using System;
@@ -76,8 +77,32 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
                         }
                     }
                 }
+                try
+                {
+                    dba.ExecuteNoQuery(sql, dbc);
+                }
+                catch (Exception ex)
+                {
+                    FrameDLRObject dp = FrameDLRObject.CreateInstance(Base.Constants.FrameDLRFlags.SensitiveCase);
+                    foreach (var item in dbc)
+                    {
+                        if (item.Value.ParameterValue is DateTime)
+                        {
+                            dp.SetValue(item.Key, DateTimeStd.IsDateTimeThen(item.Value.ParameterValue, "yyyy-MM-dd HH:mm:ss"));
+                        }
+                        else if (item.Value.ParameterValue is DBNull)
+                        {
+                            dp.SetValue(item.Key, null);
+                        }
+                        else
+                        {
+                            dp.SetValue(item.Key, item.Value.ParameterValue);
+                        }
+                    }
+                    GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.ERROR, $"NoQuerySql={sql};\nParameters={dp.ToJSONString()}");
 
-                dba.ExecuteNoQuery(sql, dbc);
+                    throw ex;
+                }
             }
             return rtn;
         }

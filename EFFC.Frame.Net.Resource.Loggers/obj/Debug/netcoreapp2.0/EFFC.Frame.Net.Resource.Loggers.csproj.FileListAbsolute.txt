@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Loggers\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Loggers.pdb

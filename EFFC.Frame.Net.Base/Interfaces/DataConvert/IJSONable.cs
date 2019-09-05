@@ -10,6 +10,6 @@ namespace EFFC.Frame.Net.Base.Interfaces.DataConvert
     {
 
         dynamic ToJSONObject();
-        string ToJSONString();
+        string ToJSONString(bool ispack = false);
     }
 }

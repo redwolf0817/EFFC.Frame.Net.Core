@@ -19,13 +19,14 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Logic
         {
             var validattr = d.InvokeMethod.GetCustomAttributes<EWRAValidAttribute>(true);
             var errormsg = "校验不通过";
-            if (IsValid(p,d, ref errormsg,validattr.ToArray()))
+            if (IsValid(p, d, ref errormsg, validattr.ToArray()))
             {
                 base.DoProcess(p, d);
             }
             else
             {
                 d.StatusCode = RestStatusCode.INVALID_REQUEST;
+
                 d.Error = errormsg;
             }
         }

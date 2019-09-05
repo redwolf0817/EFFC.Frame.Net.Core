@@ -120,14 +120,14 @@ namespace EFFC.Frame.Net.Module.Razor
                 {
                     previous?.Invoke(context);
                     var assembly = this.GetType().GetTypeInfo().Assembly;
-                    //.net编译器会自动将没用到的assembly移除
-                    var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies()
+                        //.net编译器会自动将没用到的assembly移除
+                        var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies()
                                              .Select(x => MetadataReference.CreateFromFile(Assembly.Load(x).Location))
                                              .ToList();
                     assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("mscorlib")).Location));
                     assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.CSharp")).Location));
-                    //不需要System.Private.Corelib，里面的Task会与System.Runtime中的Task重复
-                    assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("System.Private.Corelib")).Location));
+                        //不需要System.Private.Corelib，里面的Task会与System.Runtime中的Task重复
+                        assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("System.Private.Corelib")).Location));
                     assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.ApplicationInsights.AspNetCore")).Location));
                     assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Html.Abstractions")).Location));
                     assemblies.Add(MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Razor")).Location));
@@ -150,13 +150,15 @@ namespace EFFC.Frame.Net.Module.Razor
             services.AddLogging();
             services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             services.AddDistributedMemoryCache();
-            services.AddMvc();
+            //services.AddMvc();
+            var builder = services.AddMvcCore();
+            builder.AddRazorViewEngine();
             services.AddSingleton<RazorViewToStringRenderer>();
             
             
         }
 
-        protected class RazorViewToStringRenderer
+        public class RazorViewToStringRenderer
         {
             private readonly IRazorViewEngine _viewEngine;
             private readonly ITempDataProvider _tempDataProvider;

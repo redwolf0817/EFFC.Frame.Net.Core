@@ -1,4 +1,5 @@
 ﻿using EFFC.Frame.Net.Base.Common;
+using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Module.Web.Parameters;
 using System;
@@ -66,6 +67,10 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Parameters
         {
             get
             {
+                if(this["__AUTHORIZED_TOKEN_PAYLOAD__"] == null)
+                {
+                    this["__AUTHORIZED_TOKEN_PAYLOAD__"] = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+                }
                 return (FrameDLRObject)this["__AUTHORIZED_TOKEN_PAYLOAD__"];
             }
             set

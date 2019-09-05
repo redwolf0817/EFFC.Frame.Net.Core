@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Module.Razor</name>
+    </assembly>
+    <members>
+        <member name="P:EFFC.Frame.Net.Module.Razor.RazorData.RenderText">
+            <summary>
+            渲染完成的结果
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Razor.RazorException">
+            <summary>
+            Razor的异常
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Razor.RazorParam.ViewPath">
+            <summary>
+            准备渲染的cshtml文件路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Razor.RazorParam.CurrentHttpContext">
+            <summary>
+            当前http上下文环境
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Razor.RazorParam.Model">
+            <summary>
+            数据模型
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Razor.RazorParam.ViewList">
+            <summary>
+            ViewData集合
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Razor.RazorViewModule">
+            <summary>
+            呼叫RazorView引擎进行页面解析的模块
+            </summary>
+        </member>
+    </members>
+</doc>

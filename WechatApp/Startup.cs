@@ -12,6 +12,7 @@ using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Common;
 using WechatApp.AppFrameBuilder;
 using EFFC.Frame.Net.Base.Data;
+using static EFFC.Frame.Net.Module.Razor.RazorViewModule;
 
 namespace WeixinTest
 {
@@ -25,7 +26,7 @@ namespace WeixinTest
 
             services.AddSession(options =>
             {
-                options.CookieName = ".AdventureWorks.Session";
+                options.Cookie.Name = ".AdventureWorks.Session";
                 var defaultseconds = 1800;
                 if(IntStd.IsInt(MyConfig.GetConfiguration("EFFC", "SessionTimeOut")))
                 {
@@ -39,7 +40,7 @@ namespace WeixinTest
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseStaticFiles();
-            app.UseSession();
+            //app.UseSession();
             var options = FrameDLRObject.CreateInstance();
             //Logic参数设定
             options.BusinessAssemblyName = "Wechat.Business";

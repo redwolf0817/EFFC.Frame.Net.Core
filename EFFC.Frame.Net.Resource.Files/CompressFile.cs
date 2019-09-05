@@ -22,7 +22,34 @@ namespace EFFC.Frame.Net.Resource.Others
             id = "ZIP_" + Guid.NewGuid().ToString();
 
         }
+        /// <summary>
+        /// 压缩目标目录为指定的文件
+        /// </summary>
+        /// <param name="toZipFilePath">目标zip文件路径，含文件名</param>
+        /// <param name="fromDirectoryPath">来源目录的路径</param>
+        /// <param name="otherFiles">其他需要压缩进去的文件</param>
+        /// <returns></returns>
+        public string CompressDirectory(string toZipFilePath, string fromDirectoryPath, params string[] otherFiles)
+        {
+            ZipArchive zipArchive = null;
+            var path = Path.GetDirectoryName(toZipFilePath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
+            File.Delete(toZipFilePath);
+            ZipFile.CreateFromDirectory(fromDirectoryPath, toZipFilePath);
+            using (zipArchive = ZipFile.Open(toZipFilePath, ZipArchiveMode.Update))
+            {
+                foreach (var item in otherFiles)
+                {
+                    zipArchive.CreateEntryFromFile(item, Path.GetFileName(item));
+                }
+            }
+
+            return toZipFilePath;
+        }
         /// <summary>
         /// 壓縮文件返回壓縮檔名稱
         /// </summary>

@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Sqlite\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Sqlite.pdb

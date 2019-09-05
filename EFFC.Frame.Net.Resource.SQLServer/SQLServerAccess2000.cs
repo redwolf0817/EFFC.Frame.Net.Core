@@ -12,6 +12,7 @@ using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Unit.DB.Parameters;
 using EFFC.Frame.Net.Unit.DB.Datas;
 using EFFC.Frame.Net.Unit.DB;
+using EFFC.Extends.LinqDLR2SQL;
 
 namespace EFFC.Frame.Net.Resource.SQLServer
 {
@@ -101,6 +102,9 @@ namespace EFFC.Frame.Net.Resource.SQLServer
 
         SqlServerExpress _express = new SqlServerExpress();
         public override DBExpress MyDBExpress => _express;
+
+        public override DBType MyType => DBType.SqlServer;
+
         /// <summary>
         /// 釋放連接資源
         /// </summary>
@@ -456,6 +460,17 @@ namespace EFFC.Frame.Net.Resource.SQLServer
             Release();
             GC.SuppressFinalize(this);
         }
-
+        /// <summary>
+        /// 生成一个LinqDLR2SQL对象用于Linq操作
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="alianname"></param>
+        /// <returns></returns>
+        public override LinqDLRTable NewLinqTable(string table, string alianname = "")
+        {
+            var tn = alianname == "" ? table : alianname;
+            LinqDLRTable rtn = LinqDLRTable.New<LinqDLRTable>(new SqlServerLamdaSQLObject(tn, new SqlServerOperatorFlags()), table, alianname, new SqlServerSqlGenerator());
+            return rtn;
+        }
     }
 }

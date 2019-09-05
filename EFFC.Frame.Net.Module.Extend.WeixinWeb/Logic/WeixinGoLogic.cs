@@ -70,8 +70,7 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb.Logic
             p.CallAction = p.CallAction == "" ? "load" : p.CallAction;
             if (_method[Name].ContainsKey(p.CallAction.ToLower()))
             {
-
-                if (!ExposedObjectHelper.TryInvoke(_method[Name][p.CallAction.ToLower()], this, new object[] { ld }, out result))
+                if (!ExposedObjectHelper.TryInvoke(_method[Name][p.CallAction.ToLower()], this, new object[] { ld }, out result, true))
                 {
                     throw new Exception($"方法{Name}.{p.CallAction}执行失败");
                 }
@@ -222,10 +221,6 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb.Logic
         protected virtual object event_subscribe(LogicData arg)
         {
             dynamic re = Weixin.GetUserInfo(Weixin.FromUserName);
-            //            return Weixin.GenResponseNews(FrameDLRObject.CreateInstanceFromat(@"{
-            //title:{0},
-            //picurl:{1}
-            //}", $"新用户\"{re.nickname}\"关注", re.headurl));
             return Weixin.GenResponseText($"新用户<img src='{re.headurl}'/>\"{re.nickname}\"关注");
         }
         /// <summary>
@@ -282,6 +277,21 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb.Logic
         protected virtual object event_scancode_waitmsg(LogicData arg)
         {
             return Weixin.GenResponseText($"点击菜单扫描了某个二维码{Weixin.EventKey}");
+        }
+        /// <summary>
+        /// 事件-扫码推事件且弹出“消息接收中”提示框的事件推送
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        protected virtual object event_scancode_push(LogicData arg)
+        {
+            return Weixin.GenResponseText($"点击菜单扫码推事件且弹出“消息接收中”提示框的事件推送{Weixin.EventKey}");
+        }
+        
+
+        protected virtual object event_templatesendjobfinish(LogicData arg)
+        {
+            return Weixin.GenResponseText($"");
         }
         #endregion
     }

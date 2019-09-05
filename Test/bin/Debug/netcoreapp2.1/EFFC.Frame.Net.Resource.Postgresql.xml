@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Resource.Postgresql</name>
+    </assembly>
+    <members>
+        <member name="F:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.isneedopentrans_in_open">
+            <summary>
+            需要在open的时候开启trans
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.CommandTimeOut">
+            <summary>
+            Command timeout设定为1小时
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.FillParametersToCommand(System.Data.Common.DbCommand,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            依據Dictionary填充Command物件參數集
+            </summary>
+            <param name="command">命令物件</param>
+            <param name="parameters">參數</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.ConvertSQL(System.String)">
+            <summary>
+            PostgreSQL的参数符号为:,但因其:用法很多，故改为其它的符号替代，然后再做sql转换工作
+            </summary>
+            <param name="sourcesql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.ConvertBy(System.Type)">
+            <summary>
+            将Type转化成SqlDbType
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlAccess.NewLinqTable(System.String,System.String)">
+            <summary>
+            生成一个LinqDLR2SQL对象用于Linq操作
+            </summary>
+            <param name="table"></param>
+            <param name="alianname"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlDLRColumn">
+            <summary>
+            PostgreSql专用的DLRColumn
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Resource.Postgresql.PostgreSqlOperatorFlags">
+            <summary>
+            PostgreSql数据相关的操作符
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Resource.Postgresql.PostgreSQLGenerator">
+            <summary>
+            PostgreSQL专属linqDLR2sql生成器
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Postgresql.PostgreSQLGenerator.#ctor">
+            <summary>
+            PostgreSQL专属linqDLR2sql生成器
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <Authors>YCH</Authors>
     <Company>EFFC@ItTrending</Company>
     <Description>E.F.F.C Frame Module Web WeixinHandler Definition</Description>
@@ -9,13 +9,32 @@
     <PackageTags>EFFC</PackageTags>
     <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
 本包为微信处理扩展库，包含EFFC框架的基础接口、基本资源API、微信请求处理
-.net core 2.0升级版本</PackageReleaseNotes>
-    <AssemblyVersion>3.5.2.0</AssemblyVersion>
-    <FileVersion>3.5.2.0</FileVersion>
+.net core 2.0升级版本
+
+1.0.2：跟随Base同步更新
+1.0.3:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.3
+1.0.4:引用的EFFC.Frame.Net.Module.Business升级到1.0.2.4
+1.0.5:引用的EFFC.Frame.Net.Module.Web升级到1.0.6,
+引用的EFFC.Frame.Net.Module.Business升级到1.0.2.5,
+引用库EFFC.Frame.Net.Base升级到1.0.6
+防范xxe攻击
+1.0.6:将集成的微信API解耦为一个独立的模块，本模块专注做web开发
+增加JWT的支持
+1.1.0:升级.netcore到2.1.2
+1.1.1:Base库升级到1.1.1
+1.1.2:Base库升级到1.1.2
+1.1.2.1:新增EWRA对微信的支持</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.Extend.WeixinWeb.key.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.1</Version>
+	<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <Version>1.1.2.1</Version>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -25,12 +44,14 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Module.Extend.WeixinWeb.xml</DocumentationFile>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Extend.WeixinWeb.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EFFC.Extends.JWT\EFFC.Extends.JWT.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.EWRA\EFFC.Frame.Net.Module.Extend.EWRA.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.WeChat\EFFC.Frame.Net.Module.Extend.WeChat.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Module.Go\EFFC.Frame.Net.Module.Extend.WebGo.csproj" />
-    <ProjectReference Include="..\EFFC.Frame.Net.Module.HttpCall\EFFC.Frame.Net.Module.HttpCall.csproj" />
   </ItemGroup>
 
 </Project>

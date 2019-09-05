@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Layout/_layout.cshtml";
+}
+@section css{
+    <link href="~/css/Admin/Pages/login.css" rel="stylesheet" />
+}
+<div class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">后台管理系统</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" id="loginid" class="form-control" placeholder="登录账号" required="" autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="loginpass" class="form-control" placeholder="登录密码" required="">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> 记住账号
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button">登录</button>
+    </form>
+
+</div>
+@section js{
+
+<script src="~/js/pages/login.js"></script>
+}

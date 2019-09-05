@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Dynamic;
-using System.Linq.Expressions;
-using EFFC.Frame.Net.Base.Data.Base;
+﻿using EFFC.Extends.LinqDLR2SQL;
 using EFFC.Frame.Net.Base.Common;
-using System.Reflection;
-using Test.Linq2SQL;
+using EFFC.Frame.Net.Base.Data;
+using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.ResouceManage.DB;
+using EFFC.Frame.Net.Module.HttpCall;
+using EFFC.Frame.Net.Resource.Postgresql;
+using EFFC.Frame.Net.Resource.Sqlite;
+using EFFC.Frame.Net.Resource.SQLServer;
+using EFFC.Frame.Net.Unit.DB;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
-using static Test.LinqTest;
+using System.Text;
 
 namespace Test
 {
@@ -18,6 +19,7 @@ namespace Test
     {
         public static void Test()
         {
+            new APIAccess().Get("xxxvasdfa");
             var dt = DateTime.Now;
             //var b = from t in new CustomTable("logininfo", "a")
             //        where (t.loginid == 2 || t.name.contains("ych") || (t.createtime == DateTime.Now.AddDays(-1) && t.level < 2)) && t.createtime == DateTime.Now
@@ -40,31 +42,20 @@ namespace Test
             //         from t3 in GMyLinqD.New(MyLinqD.New("c"))
             //         from t4 in GMyLinqD.New(MyLinqD.New("d"))
             //         select t.Tables;
-            for (var i = 0; i < 100; i++)
+            var str = new StringBuilder();
+            for (var i = 0; i < 1; i++)
             {
-                var dd = from t in LinqDLRTable.New("a")
-                         from t2 in LinqDLRTable.New("b")
-                         from t3 in LinqDLRTable.New("c")
-                         from t4 in LinqDLRTable.New("d")
-                         where t.uid == t2.puid && (t2.uid == t3.cuid || t.data == DateTime.Now.Ticks)
-                         select new { name = t.name, cash = t4.cash };
 
-                Console.WriteLine($"selectmany cast:{(DateTime.Now - dt).TotalMilliseconds}"); dt = DateTime.Now;
-                var dd2 = from t in LinqDLRTable.New("a")
-                          join t2 in LinqDLRTable.New("b").LeftJoin() on t.id equals t2.pid
-                          join t3 in LinqDLRTable.New("c") on t2.id equals t3.pid
-                          where t.id == "1" & t.uid == t2.puid & (t2.uid == t3.cuid | t.age == new Random().Next())
-                          orderby t.date,t2.id descending,t2.orderbyno
-                          select t;
-                var dd3 = from t in dd2
-                join t1 in LinqDLRTable.New("d").RightJoin() on t.id equals t1.uid
-                select new { t, t1.product };
-                Console.WriteLine($"selectjoin cast:{(DateTime.Now - dt).TotalMilliseconds}"); dt = DateTime.Now;
+                //str.AppendLine(Guid.NewGuid().GetHashCode().ToString());
+                new TestLoop().Run();
             }
-            
-            //var l1 = new List<dynamic>();
+            //File.WriteAllText("e:/random.txt", str.ToString());
+
+            //var l1 = new List<object>();
             //var l2 = new List<dynamic>();
             //var l3 = new List<dynamic>();
+            //var s = (from t in l1
+            //         select t).Distinct();
             //l1.Add(new LamdaSQLObject<LinqDLRColumn>("a"));
             //l1.Add(new LamdaSQLObject<LinqDLRColumn>("b"));
             //l1.Add(new LamdaSQLObject<LinqDLRColumn>("c"));
@@ -88,24 +79,99 @@ namespace Test
             //Console.WriteLine($"join2 cast:{(DateTime.Now - dt).TotalMilliseconds}"); dt = DateTime.Now;
         }
     }
-
-    public static class LinqDLR2SqlExtend
+    public class APIAccess : SimpleRestCallHelper
     {
-        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public string Get(string url)
         {
-            var dt = DateTime.Now;
-            var rtn = new List<TSource>();
-
-            foreach(var item in source)
+            var result = base.Get(url, new
             {
-                var re = predicate.Invoke(item);
-                if (re)
-                    rtn.Add(item);
-            }
-            Console.WriteLine($"IEnumerable Where cast:{(DateTime.Now - dt).TotalMilliseconds}"); dt = DateTime.Now;
-            return rtn;
+                Authorization = $"Bearer xxxx",
+                Sub_System_id = ""
+            });
+            if (result.StartsWith("Failed:")) result = "";
+            return result;
         }
     }
+    public class TestLoop
+    {
+        public void Run()
+        {
+            var dt = DateTime.Now;
+            //var s = from t in new List<object>()
+            //        where t.ToString() == ""
+            //        select t;
+            var ssa = new SQLServerAccess();
+            
+            var lastweek_start = ComFunc.GetMondayDate(DateTime.Now).AddDays(-7);
+            var lastweek_end = ComFunc.GetSundayDate(DateTime.Now).AddDays(-7);
+            var dd = from t in ssa.NewLinqTable("IC_Statistic_Water", "a")
+                     where t.SW_Estate == "1"
+                     && t.todatetime(t.SW_Year.tostring(4).concat("-", (t.SW_Month + 100).tostring(3).substring(2, 2), "-", (t.SW_Day + 100).tostring(3).substring(2, 2))) >= t.todatetime($"{lastweek_start.Year}-{lastweek_start.Month}-{lastweek_start.Day}")
+                     && t.todatetime(t.SW_Year.tostring(4).concat("-", (t.SW_Month + 100).tostring(3).substring(2, 2), "-", (t.SW_Day + 100).tostring(3).substring(2, 2))) <= t.todatetime($"{lastweek_end.Year}-{lastweek_end.Month}-{lastweek_end.Day}")
+                     select new
+                     {
+                         hour = t.SW_Hour,
+                         count = t.SW_Total
+                     };
+            //var filter = "a";
+            //var start_time = "";
+            //var end_time = "";
+            //var s = from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlOperatorFlags())
+            //        where t.notnull(filter, (t.Request_Route.contains(filter) || t.Request_IP.contains(filter) || t.Request_SubSystem_Name.contains(filter)))
+            //        && t.notnull(start_time, t.add_time >= start_time) && t.notnull(end_time, t.add_time <= end_time) && t.start_time.isnull("").within(",1,2,3")
+            //        orderby t.add_time descending
+            //        select t;
+            Console.WriteLine(dd.ToSql());
+            var s = from t in LinqDLRTable.New<LinqDLRColumn>("a", "a", new SqlOperatorFlags())
+                    join t2 in LinqDLRTable.New<LinqDLRColumn>("b", "b", new SqlOperatorFlags()) on t.id equals t2.code
+                    join t3 in LinqDLRTable.New<LinqDLRColumn>("b", "c", new SqlOperatorFlags()) on t.id2 equals t3.code
+                    group t by new { t.a, t.b } into g
+                    select g;
+            var sql = s.ToSql();
+            Console.WriteLine(sql);
+            sql = (from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlOperatorFlags())
+                   orderby t.time descending
+                   select t).ToSql();
+            Console.WriteLine(sql);
+            sql = (from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlOperatorFlags())
+                   orderby t.time descending ,t.id
+                   select new { t.id, t.name }).ToSql();
+            Console.WriteLine(sql);
+            sql = (from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlOperatorFlags())
+                   group t by new { t.a, t.b } into g
+                   select g).ToSql();
+            Console.WriteLine(sql);
+            sql = (from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlOperatorFlags())
+                   from t2 in LinqDLRTable.New<LinqDLRColumn>("b", "", new SqlOperatorFlags())
+                   where t.id == t2.id && t.time == "2018/08/17"
+                   select new
+                   {
+                       t.id,
+                       t2.name
+                   }).ToSql();
+            Console.WriteLine(sql);
+            sql = (from t in LinqDLRTable.New<LinqDLRColumn>("a", "", new SqlServerOperatorFlags())
+                   from t2 in LinqDLRTable.New<LinqDLRColumn>("b", "", new SqlServerOperatorFlags())
+                   from t3 in LinqDLRTable.New<LinqDLRColumn>("c", "", new SqlServerOperatorFlags())
+                   where t.id == t2.id
+                   group new { t,t2,t3} by new
+                   {
+                       t.id,
+                       t2.time
+                   } into g
+                   select new
+                   {
+                       g.t.id,
+                       g.t2.name
+                   }).ToSql();
+            Console.WriteLine(sql);
+            Console.WriteLine($"selectmany cast:{(DateTime.Now - dt).TotalMilliseconds}"); dt = DateTime.Now;
+
+            
+            
+        }
+    }
+    
 }
 
     

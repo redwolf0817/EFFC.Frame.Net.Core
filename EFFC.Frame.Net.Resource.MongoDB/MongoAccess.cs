@@ -387,6 +387,8 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             get { return "mongodb_"+DateTime.Now.ToString("yyyyMMddHHmmssfff"); }
         }
 
+        public DBType MyType => DBType.MongoDB;
+
         public void BeginTransaction()
         {
             BeginTransaction(FrameIsolationLevel.Default);

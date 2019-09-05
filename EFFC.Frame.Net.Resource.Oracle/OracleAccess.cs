@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EFFC.Frame.Net.Base.Interfaces;
-using System.Data.OracleClient;
 using EFFC.Frame.Net.Base.Data;
 using System.Data.Common;
 using System.Data;
@@ -11,9 +10,17 @@ using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Constants;
 using System.Text.RegularExpressions;
 using EFFC.Frame.Net.Base.Common;
+using Oracle.ManagedDataAccess.Client;
+using EFFC.Frame.Net.Unit.DB;
+using EFFC.Frame.Net.Unit.DB.Datas;
+using EFFC.Frame.Net.Unit.DB.Parameters;
+using EFFC.Extends.LinqDLR2SQL;
 
 namespace EFFC.Frame.Net.Base.ResouceManage.DB
 {
+    /// <summary>
+    /// Oracle连接底层封装
+    /// </summary>
     public class OracleAccess : ADBAccess, IResourceEntity, IDisposable
     {
         string _id = "";
@@ -37,6 +44,12 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                 return _id;
             }
         }
+
+        public override string ParameterFlagChar => ":";
+        OracleExpress _express = new OracleExpress();
+        public override DBExpress MyDBExpress => _express;
+
+        public override DBType MyType => DBType.Oracle;
 
         public void Release()
         {
@@ -111,6 +124,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
             OracleCommand cmd;
             DataSetStd ds = new DataSetStd();
+            OracleDataReader ddr = null;
             var sqlarr = ToSQLArray(sql);
             var index = 1;
             foreach (string s in sqlarr)
@@ -124,17 +138,17 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                         //如果事務開啟，則使用事務的方式
                         if (this._s == DBStatus.Begin_Trans)
                             cmd.Transaction = this.tran;
+
+                        //如果有參數
+                        if (dbp != null)
+                        {
+                            FillParametersToCommand(cmd, dbp);
+                        }
+
                         if (s.Trim().ToLower().StartsWith("select") || s.ToLower().IndexOf(" into ") < 0)
                         {
-                            OracleDataAdapter rd = new OracleDataAdapter(cmd);
-                            //如果有參數
-                            if (dbp != null)
-                            {
-                                FillParametersToCommand(cmd, dbp, s);
-                            }
-
-                            rd.Fill(ds, "table" + index);
-
+                            ddr = cmd.ExecuteReader();
+                            ds.Tables.AddRange(DataSetStd.FillData(ddr).Tables);
                             index++;
                         }
                         else
@@ -144,7 +158,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                     }
                     finally
                     {
-                        cmd.Cancel();
+                        cmd.Dispose();
                         cmd = null;
                     }
                 }
@@ -256,11 +270,12 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
         public override void Close()
         {
-            if (conn != null)
+            if (this.conn != null && (this.conn.State == ConnectionState.Open || this.conn.State == ConnectionState.Connecting || this.conn.State == ConnectionState.Executing))
             {
-                conn.Close();
-                this._s = DBStatus.Close;
+                this.conn.Close();
             }
+            this.conn = null;
+            this._s = DBStatus.Close;
         }
 
         public override void BeginTransaction(IsolationLevel level)
@@ -344,74 +359,21 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
                     }
                     finally
                     {
-                        cmd.Cancel();
+                        cmd.Dispose();
                         cmd = null;
                     }
                 }
             }
         }
 
-        public override void Update(System.Data.DataTable data, string selectsql)
+        public override void Update(object data, string selectsql)
         {
-            if (_s == DBStatus.Close)
-            {
-                DoOpen();
-            }
-
-            OracleCommand cmd;
-            using (cmd = new OracleCommand(selectsql, conn))
-            {
-                if (cmd.Connection.State == ConnectionState.Closed)
-                {
-                    cmd.Connection.Open();
-                }
-
-                if (this._s == DBStatus.Begin_Trans)
-                {
-                    cmd.Transaction = this.tran;
-                }
-
-                OracleDataAdapter adt = new OracleDataAdapter(cmd);
-                OracleCommandBuilder builder = new OracleCommandBuilder(adt);
-
-                try
-                {
-                    adt.UpdateCommand = builder.GetUpdateCommand();
-                    adt.Update(data);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    cmd.Cancel();
-                    cmd = null;
-                }
-            }
+           //
         }
 
-        public override void Insert(System.Data.DataTable data, string toTable)
+        public override void Insert(object data, string toTable)
         {
-            //OracleBulkCopy bulk;
-            //if (this._s == DBStatus.Begin_Trans)
-            //    bulk = new OracleBulkCopy(conn, OracleBulkCopyOptions.Default);
-            //else
-            //    bulk = new OracleBulkCopy(conn);
-
-            //try
-            //{
-            //    bulk.DestinationTableName = toTable;
-            //    bulk.WriteToServer(data);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            //finally
-            //{
-            //    bulk.Close();
-            //}
+           
 
         }
         /// <summary>
@@ -419,15 +381,13 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
         /// </summary>
         /// <param name="data"></param>
         /// <param name="toTable"></param>
-        public override void Delete(System.Data.DataTable data, string toTable)
+        public override void Delete(object data, string toTable)
         {
             //
         }
 
         public override DBDataCollection ExcuteProcedure(string sp_name, bool isReturnDataSet, ref DBOParameterCollection dbp)
         {
-            
-
             DBDataCollection rtn = new DBDataCollection();
             rtn.IsSuccess = false;
             if (_s == DBStatus.Close)
@@ -437,6 +397,7 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
             DataSetStd ds = new DataSetStd();
             OracleCommand dc = null;
+            OracleDataReader ddr = null;
             if (this._s == DBStatus.Begin_Trans)
             {
                 dc = new OracleCommand(sp_name, conn);
@@ -453,9 +414,8 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
 
                 if (isReturnDataSet)
                 {
-                    OracleDataAdapter sqlDa = new OracleDataAdapter();
-                    sqlDa.SelectCommand = dc;
-                    sqlDa.Fill(ds);
+                    ddr = dc.ExecuteReader();
+                    ds = DataSetStd.FillData(ddr);
                     rtn.ReturnDataSet = ds;
                 }
                 else
@@ -474,7 +434,12 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
             }
             finally
             {
-                dc.Cancel();
+                if (ddr != null)
+                {
+                    ddr.Close();
+                    ddr.Dispose();
+                }
+                dc.Dispose();
                 dc = null;
             }
 
@@ -541,6 +506,19 @@ namespace EFFC.Frame.Net.Base.ResouceManage.DB
         {
             Release();
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 生成一个LinqDLR2SQL对象用于Linq操作
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="alianname"></param>
+        /// <returns></returns>
+        public override LinqDLRTable NewLinqTable(string table, string alianname = "")
+        {
+            var tn = alianname == "" ? table : alianname;
+            LinqDLRTable rtn = LinqDLRTable.New<LinqDLRTable>(new OracleLamdaSQLObject(tn, new OracleOperatorFlags()), table, alianname, new OracleSqlGenerator());
+            return rtn;
         }
     }
 }

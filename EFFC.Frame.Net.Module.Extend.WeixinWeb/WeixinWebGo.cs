@@ -14,6 +14,7 @@ using EFFC.Frame.Net.Base.Parameter;
 using Microsoft.AspNetCore.Http;
 using EFFC.Frame.Net.Base.Module.Proxy;
 using System.Security.Cryptography;
+using EFFC.Frame.Net.Module.Extend.WeChat;
 
 namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
 {
@@ -28,11 +29,11 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
         {
             if (options != null)
             {
-                if (ComFunc.nvl(options.WeixinHome) != null)
+                if (ComFunc.nvl(options.WeixinHome) != "")
                 {
                     weixinhome = options.WeixinHome;
                 }
-                if (ComFunc.nvl(options.WeixinRootHome) != null)
+                if (ComFunc.nvl(options.WeixinRootHome) != "")
                 {
                     weixinroothome = options.WeixinRootHome;
                 }
@@ -41,9 +42,8 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
             GlobalCommon.Logger.WriteLog(LoggerLevel.INFO,
                         string.Format("WeixinWebGo起始页WeixinHome设定为{0},如要调整，请在ProxyManager.UseProxy中的options参数设定WeixinHome的值", weixinhome));
             GlobalCommon.Logger.WriteLog(LoggerLevel.INFO,
-                        string.Format("WeixinWebGo的RootHome设定为{0},如要调整，请在ProxyManager.UseProxy中的options参数设定WeixinRootHome的值", weixinhome));
+                        string.Format("WeixinWebGo的RootHome设定为{0},如要调整，请在ProxyManager.UseProxy中的options参数设定WeixinRootHome的值", weixinroothome));
             //添加微信远程呼叫模块
-            ma.UseProxy<WeixinHttpCallProxy>("weixinserver", options);
             DoAddProxy(ma, options);
         }
         protected override void LoadConfig(WebParameter p, GoData d)
@@ -97,7 +97,11 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
         }
         protected override void ProcessRequestInfo(WebParameter p, GoData d)
         {
-            base.ProcessRequestInfo(p, d);
+            base.ProcessRequestInfo(p, d); ProcessRequestInfoWeixin(p, d);
+        }
+
+        protected virtual void ProcessRequestInfoWeixin(WebParameter p, GoData d)
+        {
             //微信相关信息
             p.ExtentionObj.weixin = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
             p.ExtentionObj.weixin.signature = ComFunc.nvl(p[DomainKey.QUERY_STRING, "signature"]);
@@ -125,32 +129,33 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
                     var result = wxcpt.DecryptMsg(p.ExtentionObj.weixin.signature, p.ExtentionObj.weixin.timestamp, p.ExtentionObj.weixin.nonce, content, ref msg);
                     content = msg;
                 }
-                AddRequestContentLog(p, content);
-                if (content != "")
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(content);
-                    var root = doc.FirstChild;
-                    foreach (XmlNode node in root.ChildNodes)
-                    {
-                        if (node.Name == "CreateTime")
-                            p[DomainKey.POST_DATA, node.Name] = new DateTime(1970, 1, 1).AddSeconds(int.Parse(node.InnerText));
-                        else
-                            p[DomainKey.POST_DATA, node.Name] = node.InnerText;
+                var contentobj = FrameDLRObject.IsXmlThen(content, null, FrameDLRFlags.SensitiveCase);
 
-                        if (node.HasChildNodes)
+                if (contentobj != null)
+                {
+                    var root = (FrameDLRObject)contentobj.GetValue("xml");
+                    foreach (var item in root.Items)
+                    {
+                        if (item.Key == "CreateTime")
+                            p[DomainKey.POST_DATA, item.Key] = new DateTime(1970, 1, 1).AddSeconds(IntStd.IsNotIntThen(item.Value));
+                        else
+                            p[DomainKey.POST_DATA, item.Key] = item.Value;
+
+                        if (item.Value is FrameDLRObject)
                         {
-                            foreach (XmlNode sub in node.ChildNodes)
+                            foreach (var sub in ((FrameDLRObject)item.Value).Items)
                             {
-                                if (node.Name == "CreateTime")
-                                    p[DomainKey.POST_DATA, sub.Name] = new DateTime(1970, 1, 1).AddSeconds(int.Parse(sub.InnerText));
+                                if (sub.Key == "CreateTime")
+                                    p[DomainKey.POST_DATA, sub.Key] = new DateTime(1970, 1, 1).AddSeconds(IntStd.IsNotIntThen(sub.Value));
                                 else
-                                    p[DomainKey.POST_DATA, sub.Name] = sub.InnerText;
+                                    p[DomainKey.POST_DATA, sub.Key] = sub.Value;
                             }
                         }
 
                     }
                 }
+                //微信推送过来的xml对象
+                p.ExtentionObj.weixin.RecieveXMLObject = contentobj;
                 //事件触发时的action处理
                 if (ComFunc.nvl(p[DomainKey.POST_DATA, "MsgType"]) == "event")
                 {
@@ -164,7 +169,6 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
             }
             else
             {
-                AddRequestContentLog(p, content);
                 //action为api_valid的时候为微信服务器的验证请求
                 p.Action = "api_valid";
             }
@@ -288,7 +292,6 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
                         content = xmlEncrypt;
 
                 }
-                AddResponseContentLog(p, content);
                 
                 var msgbytelength = Encoding.UTF8.GetByteCount(content);
                 CurrentContext.Response.Headers.Add("Content-Length", msgbytelength + "");
@@ -299,7 +302,6 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
             }
             else
             {
-                AddResponseContentLog(p, ComFunc.nvl(d.ResponseData));
                 var msgbytelength = Encoding.UTF8.GetByteCount(ComFunc.nvl(d.ResponseData));
                 CurrentContext.Response.Headers.Add("Content-Length", msgbytelength + "");
                 if (d.ContentType == GoResponseDataType.String)
@@ -323,50 +325,7 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
                 GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, msg);
             }
         }
-        private void AddRequestContentLog(WebParameter p, string content)
-        {
-            var isdebug = p[DomainKey.CONFIG, "DebugMode"] == null ? false : (bool)p[DomainKey.CONFIG, "DebugMode"];
-            if (isdebug)
-            {
-                lock (lockobj)
-                {
-                    var logkey = ComFunc.nvl(p.GetValue("logkey"));
-                    var dobj = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                    dobj.Request = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                    dobj.Request.Head = p.ExtentionObj.weixin;
-                    dobj.Request.Content = content;
-                    logmsg.Add(logkey, dobj);
-                }
-            }
-        }
-        private void AddResponseContentLog(WebParameter p, string content)
-        {
-            var isdebug = p[DomainKey.CONFIG, "DebugMode"] == null ? false : (bool)p[DomainKey.CONFIG, "DebugMode"];
-            if (isdebug)
-            {
-                lock (lockobj)
-                {
-                    var logkey = ComFunc.nvl(p.GetValue("logkey"));
-
-                    if (logmsg.ContainsKey(logkey))
-                    {
-                        dynamic dobj = logmsg[logkey];
-                        dobj.Response = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                        dobj.Response.Head = p.ExtentionObj.weixin;
-                        dobj.Response.Content = content;
-                    }
-                    else
-                    {
-                        dynamic dobj = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                        dobj.Response = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-                        dobj.Response.Head = p.ExtentionObj.weixin;
-                        dobj.Response.Content = content;
-                        logmsg.Add(logkey, dobj);
-                    }
-                }
-            }
-            
-        }
+        
         private bool IsWeixinSignValid(WebParameter p,GoData d)
         {
             var rtn = true;
@@ -424,7 +383,7 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
         private string ToXml(FrameDLRObject obj)
         {
 
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = ComFunc.GetSafeXmlInstance();
             XmlElement root = doc.CreateElement("xml");
             doc.AppendChild(root);
             foreach (var k in obj.Keys)

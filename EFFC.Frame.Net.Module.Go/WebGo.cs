@@ -19,19 +19,23 @@ using System.IO;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Module.Razor;
+using static EFFC.Frame.Net.Module.Razor.RazorViewModule;
 
 namespace EFFC.Frame.Net.Module.Extend.WebGo
 {
     public class WebGo : WebBaseModule<WebParameter, GoData>
     {
         static string startpage = "index";
+        //static RazorViewToStringRenderer _render = null;
+        //static string _excutefilepath = "";
         public override string Name => "webgo";
 
         public override string Description => "go请求处理";
 
         protected override void DoAddProxy(ProxyManager ma, dynamic options)
         {
-
+            //_render = options.RazorEngine;
+            //_excutefilepath = ComFunc.nvl(options.ExcuteFilePath);
             ma.UseProxy<GoBusiProxy>("gobusi", options);
             ma.UseProxy<RazorProxy>("razor", options);
         }
@@ -403,6 +407,7 @@ namespace EFFC.Frame.Net.Module.Extend.WebGo
                     ViewList = d.Domain(DomainKey.VIEW_LIST),
                     HttpContext = p.CurrentHttpContext
                 }).GetAwaiter().GetResult();
+                //var htmlstr =  _render.RenderViewToString(_excutefilepath, d.ViewPath, p.CurrentHttpContext, d.MvcModuleData, d.Domain(DomainKey.VIEW_LIST)).GetAwaiter().GetResult();
                 GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"Razor render cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
                 var msgbytelength = Encoding.UTF8.GetByteCount(htmlstr);
                 CurrentContext.Response.Headers.Add("Content-Length", msgbytelength + "");

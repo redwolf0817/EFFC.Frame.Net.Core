@@ -16,6 +16,10 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
         {
             if (IsValid4Invoke(p, d))
                 base.InvokeAction(p, d);
+            else
+            {
+                throw new Exception("无效访问，可能原因，缺少访问授权信息或密钥不正确");
+            }
 
         }
         /// <summary>
@@ -48,6 +52,21 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
                     p[DomainKey.CONFIG, item.Key] = ComFunc.nvl(item.Value);
                 }
             }
+            foreach (var item in MyConfig.GetConfigurationList("WeixinMP"))
+            {
+                if (bool.TryParse(ComFunc.nvl(item.Value), out bvalue))
+                {
+                    p[DomainKey.CONFIG, item.Key] = bool.Parse(ComFunc.nvl(item.Value));
+                }
+                else if (DateTimeStd.IsDateTime(item.Value))
+                {
+                    p[DomainKey.CONFIG, item.Key] = DateTimeStd.ParseStd(item.Value).Value;
+                }
+                else
+                {
+                    p[DomainKey.CONFIG, item.Key] = ComFunc.nvl(item.Value);
+                }
+            }
         }
 
         protected override void ProcessRequestInfo(WebParameter p, GoData d)
@@ -65,6 +84,13 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
             p.ExtentionObj.weixin.appsecret = ComFunc.nvl(p[DomainKey.CONFIG, "weixin_Appsecret"]);
             p.ExtentionObj.weixin.weixin_mch_ssl_path = ComFunc.nvl(p[DomainKey.CONFIG, "weixin_Mch_SSL_Path"]);
             p.ExtentionObj.weixin.weixin_mch_ssl_pass = ComFunc.nvl(p[DomainKey.CONFIG, "weixin_Mch_SSL_Pass"]);
+            p.ExtentionObj.weixin.agentid = ComFunc.nvl(p[DomainKey.CONFIG, "weixin_AgentId"]);
+
+            p.ExtentionObj.weixinmp = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            p.ExtentionObj.weixinmp.appid = ComFunc.nvl(p[DomainKey.CONFIG, "weixinmp_Appid"]);
+            p.ExtentionObj.weixinmp.appsecret = ComFunc.nvl(p[DomainKey.CONFIG, "weixinmp_Appsecret"]);
+            p.ExtentionObj.weixinmp.weixinmp_mch_ssl_path = ComFunc.nvl(p[DomainKey.CONFIG, "weixinmp_Mch_SSL_Path"]);
+            p.ExtentionObj.weixinmp.weixinmp_mch_ssl_pass = ComFunc.nvl(p[DomainKey.CONFIG, "weixinmp_Mch_SSL_Pass"]);
         }
     }
 }

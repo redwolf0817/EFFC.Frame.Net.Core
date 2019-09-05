@@ -209,9 +209,9 @@ namespace EFFC.Frame.Net.Module.Web.Datas
             return rtn;
         }
 
-        public string ToJSONString()
+        public string ToJSONString(bool islog=false)
         {
-            string rtn = ((FrameDLRObject)ToJSONObject()).ToJSONString();
+            string rtn = ((FrameDLRObject)ToJSONObject()).ToJSONString(islog);
             return rtn;
         }
 
@@ -774,9 +774,9 @@ namespace EFFC.Frame.Net.Module.Web.Datas
             return rtn;
         }
 
-        public string ToJSONString()
+        public string ToJSONString(bool islog)
         {
-            return ((FrameDLRObject)ToJSONObject()).ToJSONString();
+            return ((FrameDLRObject)ToJSONObject()).ToJSONString(islog);
         }
 
         public bool TryParseJSON(object obj)
@@ -1057,9 +1057,9 @@ namespace EFFC.Frame.Net.Module.Web.Datas
             return rtn;
         }
 
-        public string ToJSONString()
+        public string ToJSONString(bool islog)
         {
-            return ((FrameDLRObject)ToJSONObject()).ToJSONString();
+            return ((FrameDLRObject)ToJSONObject()).ToJSONString(islog);
         }
 
         public void Dispose()

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Extends.JWT</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Extends.JWT.JWTHelper">
+            <summary>
+            JWT的呼叫API
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.JWT.JWTHelper.#ctor(System.String,System.String,System.String,System.TimeSpan,System.String,System.String)">
+            <summary>
+            JWTHelper初始化
+            </summary>
+            <param name="server_root_path">key所在的根目录</param>
+            <param name="public_key_save_path">公钥的路径，根目录用~表示</param>
+            <param name="private_key_save_path">私钥的路径，根目录用~表示</param>
+            <param name="expire">超时设定，默认20分钟</param>
+            <param name="issuer">授权者标记</param>
+            <param name="audience">接受者标记</param>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.PublicKeySavePath">
+            <summary>
+            RSA公共秘钥存放目录，如果没有则写入内存中
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.PrivateKeySavePath">
+            <summary>
+            RSA私有秘钥存放目录，如果没有则写入内存中
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.Issuer">
+            <summary>
+            授权者
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.Audience">
+            <summary>
+            接受者
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.Expire">
+            <summary>
+            超时的时长
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.JWT.JWTHelper.ServerRootPath">
+            <summary>
+            应用服务所在的物理路径
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.JWT.JWTHelper.CreateToken(System.String,System.Object)">
+            <summary>
+            根据参数创建JWT Token
+            </summary>
+            <param name="id"></param>
+            <param name="claimparameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.JWT.JWTHelper.IsValid(System.String,System.String@)">
+            <summary>
+            校验用的方法
+            </summary>
+            <param name="token"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.JWT.JWTHelper.GetPayLoadInfoFromToken(System.String)">
+            <summary>
+            从token中获取加载的参数信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.JWT.JWTHelper.GenerateAndSaveKey">
+            <summary>
+            生成并保存 RSA 公钥与私钥
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

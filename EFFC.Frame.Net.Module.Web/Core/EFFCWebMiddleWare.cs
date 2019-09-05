@@ -14,6 +14,9 @@ using Microsoft.Extensions.FileProviders;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Module.Proxy;
 using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Base.Common;
+using EFFC.Frame.Net.Module.Web.Options;
+using System.Reflection;
 
 namespace EFFC.Frame.Net.Module.Web.Core
 {
@@ -26,6 +29,7 @@ namespace EFFC.Frame.Net.Module.Web.Core
         private IHostingEnvironment _hostenv;
         private RequestDelegate _next;
         private ProxyManager pm;
+        private WebMiddleWareProcessOptions _middleware_options = null;
         /// <summary>
         /// EFFC框架中间件基类
         /// </summary>
@@ -34,25 +38,37 @@ namespace EFFC.Frame.Net.Module.Web.Core
         {
             GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, "Web服务启动设定...");
             // This is an HTTP Handler, so no need to store next
-            _static_file_ext.AddRange(new string[]
-                    {
-                        "html",
-                        "htm",
-                        "jpg",
-                        "jpeg",
-                        "jpe",
-                        "png",
-                        "ico",
-                        "bmp",
-                        "gif",
-                        "txt",
-                        "css",
-                        "js"
-                    });
 
             _next = next;
             _hostenv = hostingEnv;
+            Type middlewaretype = typeof(WebMiddleWareProcessOptions);
+            if (options != null)
+            {
+                dynamic dobj = options;
+                
+                if(dobj.MiddleWareOptionsType != null)
+                {
+                    if (dobj.MiddleWareOptionsType is string)
+                    {
+                        middlewaretype = Type.GetType(ComFunc.nvl(dobj.MiddleWareOptionsType));
+                    }
+                    else if (dobj.MiddleWareOptionsType is Type && ((Type)dobj.MiddleWareOptionsType).GetTypeInfo().IsSubclassOf(typeof(WebMiddleWareProcessOptions)))
+                    {
+                        middlewaretype = (Type)dobj.MiddleWareOptionsType;
+                    }
+                    else
+                    {
+                        middlewaretype = typeof(WebMiddleWareProcessOptions);
+                    }
+                }
+            }
+            _middleware_options = (WebMiddleWareProcessOptions)Activator.CreateInstance(middlewaretype, true);
 
+            GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.INFO, $"{this.GetType().Name}：当前启动中间件加载的Options设定为{middlewaretype.Name},如需要修改，请在调用ProxyManager.UseProxy中的options中设定该参数（MiddleWareOptionsType类型为Type类型,必须为WebMiddleWareProcessOptions类型或其子类）");
+            //将以下启动参数下沉到各个module中
+            options.SetValue("PagePath4Forbidden", _middleware_options.PagePath4Forbidden);
+            options.SetValue("PagePath4NotFound", _middleware_options.PagePath4NotFound);
+            options.SetValue("PagePath4Error", _middleware_options.PagePath4Error);
             //各个中间件在此处加载一次代理器
             LoadProxys(GlobalCommon.Proxys, options);
             GlobalCommon.Logger.WriteLog(LoggerLevel.INFO, "Web服务启动设定完成\n");
@@ -66,18 +82,18 @@ namespace EFFC.Frame.Net.Module.Web.Core
         public async Task Invoke(HttpContext context)
         {
             var ext = Path.GetExtension(context.Request.Path).Replace(".", "").ToLower();
-            
-            if (string.IsNullOrEmpty(ext))
-            {
-                ext = "go";
-            }
-            if (ReservedStaticFileExt.Contains(ext))
+
+            ext = _middleware_options.ConvertExtTo(context, ext);
+
+            if (_middleware_options.IsStaticType(context, ext))
             {
                 ProcessStaticFile(context, ext);
                 return;
             }
-
-            DoInvoke(context, ext);
+            else
+            {
+                DoInvoke(context, ext);
+            }
         }
         /// <summary>
         /// 静态文件资源请求处理，可扩展
@@ -86,54 +102,74 @@ namespace EFFC.Frame.Net.Module.Web.Core
         /// <param name="requestExtType"></param>
         protected virtual void ProcessStaticFile(HttpContext context,string requestExtType)
         {
-            IFileProvider provider = new PhysicalFileProvider(_hostenv.ContentRootPath);
-            IFileInfo fileInfo = provider.GetFileInfo(context.Request.Path); // a file under applicationRoot
+            IFileInfo fileInfo = _middleware_options.GetStaticFileInfo(_hostenv.ContentRootPath, context, requestExtType);
 
             if (fileInfo.Exists)
             {
-                if (IsAllowed(context, requestExtType))
+                if (_middleware_options.IsOpenStaticFileType(context, requestExtType))
                 {
                     context.Response.StatusCode = 200;
                     context.Response.ContentType = ResponseHeader_ContentType.Map(requestExtType);
                     context.Response.Headers.Add("Content-Length", fileInfo.Length + "");
+                    //var bytes = ComFunc.StreamToBytes(fileInfo.CreateReadStream());
+                    //context.Response.Body.Write(bytes, 0, bytes.Length);
+                    context.Response.SendFileAsync(fileInfo).Wait();
                 }
                 else
                 {
                     context.Response.StatusCode = 403;
-                    context.Response.Headers.Add("Content-Length", "0");
+                    if(string.IsNullOrEmpty(_middleware_options.PagePath4Forbidden))
+                    {
+                        context.Response.Headers.Add("Content-Length", "0");
+                    }
+                    else
+                    {
+                        var path = _middleware_options.PagePath4Forbidden.Replace("~", _hostenv.ContentRootPath);
+                        if (File.Exists(path))
+                        {
+                            var resultmsg = File.ReadAllText(path);
+                            var msgbytelength = Encoding.UTF8.GetByteCount(resultmsg);
+                            context.Response.ContentType = ResponseHeader_ContentType.html + ";charset=utf-8";
+                            context.Response.Headers.Add("Content-Length", msgbytelength + "");
+                            context.Response.WriteAsync(resultmsg).Wait();
+                        }
+                        else
+                        {
+                            context.Response.Headers.Add("Content-Length", "0");
+                        }
+                    }
+                    
                 }
             }
             else
             {
                 context.Response.StatusCode = 404;
-                context.Response.Headers.Add("Content-Length", "0");
+                if (string.IsNullOrEmpty(_middleware_options.PagePath4NotFound))
+                {
+                    context.Response.Headers.Add("Content-Length", "0");
+                }
+                else
+                {
+                    var path = _middleware_options.PagePath4NotFound.Replace("~", _hostenv.ContentRootPath);
+                    if (File.Exists(path))
+                    {
+                        var resultmsg = File.ReadAllText(path);
+                        var msgbytelength = Encoding.UTF8.GetByteCount(resultmsg);
+                        context.Response.ContentType = ResponseHeader_ContentType.html + ";charset=utf-8";
+                        context.Response.Headers.Add("Content-Length", msgbytelength + "");
+                        context.Response.WriteAsync(resultmsg).Wait();
+                    }
+                    else
+                    {
+                        context.Response.Headers.Add("Content-Length", "0");
+                    }
+                }
             }
             
-            context.Response.SendFileAsync(fileInfo);
-        }
-        /// <summary>
-        /// 根据请求的类型判断是否为允许浏览的资源
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="requestExtType"></param>
-        /// <returns></returns>
-        protected virtual bool IsAllowed(HttpContext context, string requestExtType)
-        {
-            return true;
+            
+            context.Response.Body.Flush();
         }
         protected abstract void DoInvoke(HttpContext context, string requestExtType);
-
-        static List<string> _static_file_ext = new List<string>();
-        /// <summary>
-        /// 静态文件扩展名
-        /// </summary>
-        protected List<string> ReservedStaticFileExt
-        {
-            get
-            {
-                return _static_file_ext;
-            }
-        }
         /// <summary>
         /// 当前应用系统环境参数
         /// </summary>

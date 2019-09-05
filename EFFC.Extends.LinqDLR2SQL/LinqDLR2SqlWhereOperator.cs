@@ -8,7 +8,7 @@ namespace EFFC.Extends.LinqDLR2SQL
     /// <summary>
     /// LinqDLR2Sql的where条件操作，实现and和or的逻辑处理
     /// </summary>
-    public class LinqDLR2SqlWhereOperator : MyDynamicMetaProvider
+    public class LinqDLR2SqlWhereOperator : MyDynamicMetaProvider,IDisposable
     {
         string initOperatorResultString = "";
         public LinqDLR2SqlWhereOperator(string operatorstring, Dictionary<string, object> conditionsParameters)
@@ -92,63 +92,70 @@ namespace EFFC.Extends.LinqDLR2SQL
         {
             if (v is LinqDLR2SqlWhereOperator)
             {
-               
-                var rigthTarget = (LinqDLR2SqlWhereOperator)v;
-                //如果右侧表达式上次操作与本次操作相同
-                if (rigthTarget.LastOperator == "AND")
+
+                using (var rigthTarget = (LinqDLR2SqlWhereOperator)v)
                 {
-                    Result += $" {AndFlag} {rigthTarget.Result}";
-                }
-                else
-                {
-                    //自身的操作等级为0
-                    if(OperatorTreeLevel <= 0)
+
+
+                    //如果右侧的表达式为空则不做处理
+                    if (rigthTarget.Result == "") return this;
+                    //如果右侧表达式上次操作与本次操作相同
+                    var andstr = Result == "" ? "" : AndFlag;
+                    if (rigthTarget.LastOperator == "AND")
                     {
-                        //如果右侧的操作等级也为0
-                        if(rigthTarget.OperatorTreeLevel <= 0)
-                        {
-                            Result += $" {AndFlag} {rigthTarget.Result}";
-                        }
-                        else
-                        {
-                            Result += $" {AndFlag} ({rigthTarget.Result})";
-                        }
+                        Result += $" {andstr} {rigthTarget.Result}";
                     }
                     else
                     {
-                        //如果右侧的操作等级也为0
-                        if (rigthTarget.OperatorTreeLevel <= 0)
+                        //自身的操作等级为0
+                        if (OperatorTreeLevel <= 0)
                         {
-                            //如果上次操作也为AND
-                            if(LastOperator == "AND")
+                            //如果右侧的操作等级也为0
+                            if (rigthTarget.OperatorTreeLevel <= 0)
                             {
-                                Result += $" {AndFlag} {rigthTarget.Result}";
+                                Result += $" {andstr} {rigthTarget.Result}";
                             }
                             else
                             {
-                                Result = $"({Result}) {AndFlag} {rigthTarget.Result}";
+                                Result += $" {andstr} ({rigthTarget.Result})";
                             }
                         }
                         else
                         {
-                            //如果上次操作也为AND
-                            if (LastOperator == "AND")
+                            //如果右侧的操作等级也为0
+                            if (rigthTarget.OperatorTreeLevel <= 0)
                             {
-                                Result += $" {AndFlag} ({rigthTarget.Result})";
+                                //如果上次操作也为AND
+                                if (LastOperator == "AND")
+                                {
+                                    Result += $" {andstr} {rigthTarget.Result}";
+                                }
+                                else
+                                {
+                                    Result = $"({Result}) {andstr} {rigthTarget.Result}";
+                                }
                             }
                             else
                             {
-                                Result = $"({Result}) {AndFlag} ({rigthTarget.Result})";
+                                //如果上次操作也为AND
+                                if (LastOperator == "AND")
+                                {
+                                    Result += $" {andstr} ({rigthTarget.Result})";
+                                }
+                                else
+                                {
+                                    Result = $"({Result}) {andstr} ({rigthTarget.Result})";
+                                }
                             }
                         }
                     }
+
+                    LastOperator = "AND";
+
+                    AddConditions(((LinqDLR2SqlWhereOperator)v).ConditionValues);
+                    OperatorTreeLevel++;
+                    //Console.WriteLine($"{Result}");
                 }
-
-                LastOperator = "AND";
-
-                AddConditions(((LinqDLR2SqlWhereOperator)v).ConditionValues);
-                OperatorTreeLevel++;
-                //Console.WriteLine($"{Result}");
             }
             return this;
         }
@@ -156,45 +163,50 @@ namespace EFFC.Extends.LinqDLR2SQL
         {
             if (v is LinqDLR2SqlWhereOperator)
             {
-                var rigthTarget = (LinqDLR2SqlWhereOperator)v;
+                using (var rigthTarget = (LinqDLR2SqlWhereOperator)v)
+                {
 
-                //自身的操作等级为0
-                if (OperatorTreeLevel <= 0)
-                {
-                    if (rigthTarget.OperatorTreeLevel <= 0)
+
+                    if (rigthTarget.Result == "") return this;
+                    //自身的操作等级为0
+                    var orstr = Result == "" ? "" : OrFlag;
+                    if (OperatorTreeLevel <= 0)
                     {
-                        Result += $" {OrFlag} {rigthTarget.Result}";
-                    }
-                    else
-                    {
-                        Result += $" {OrFlag} ({rigthTarget.Result})";
-                    }
-                }
-                else
-                {
-                    if (rigthTarget.OperatorTreeLevel <= 0)
-                    {
-                        Result += $" {OrFlag} {rigthTarget.Result}";
-                    }
-                    else
-                    {
-                        if(LastOperator == "OR")
+                        if (rigthTarget.OperatorTreeLevel <= 0)
                         {
-                            Result = $"{Result} {OrFlag} ({rigthTarget.Result})";
+                            Result += $" {orstr} {rigthTarget.Result}";
                         }
                         else
                         {
-                            Result = $"({Result}) {OrFlag} ({rigthTarget.Result})";
+                            Result += $" {orstr} ({rigthTarget.Result})";
                         }
-                       
                     }
+                    else
+                    {
+                        if (rigthTarget.OperatorTreeLevel <= 0)
+                        {
+                            Result += $" {orstr} {rigthTarget.Result}";
+                        }
+                        else
+                        {
+                            if (LastOperator == "OR")
+                            {
+                                Result = $"{Result} {orstr} ({rigthTarget.Result})";
+                            }
+                            else
+                            {
+                                Result = $"({Result}) {orstr} ({rigthTarget.Result})";
+                            }
+
+                        }
+                    }
+
+                    LastOperator = "OR";
+
+                    AddConditions(((LinqDLR2SqlWhereOperator)v).ConditionValues);
+                    OperatorTreeLevel++;
+                    //Console.WriteLine($"{Result}");
                 }
-
-                LastOperator = "OR";
-
-                AddConditions(((LinqDLR2SqlWhereOperator)v).ConditionValues);
-                OperatorTreeLevel++;
-                //Console.WriteLine($"{Result}");
             }
             return this;
         }
@@ -206,6 +218,20 @@ namespace EFFC.Extends.LinqDLR2SQL
         protected override bool MetaIsFalse()
         {
             return false;
+        }
+
+        public void Dispose()
+        {
+            if(this.ConditionValues != null)
+            {
+                ConditionValues.Clear();
+                ConditionValues = null;
+            }
+
+            this.AndFlag = null;
+            this.LastOperator = null;
+            this.OrFlag = null;
+            this.Result = null;
         }
     }
 

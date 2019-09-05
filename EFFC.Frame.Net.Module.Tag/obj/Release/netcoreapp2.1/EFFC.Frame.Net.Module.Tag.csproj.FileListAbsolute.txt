@@ -1,0 +1,11 @@
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.deps.json
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.dll
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.pdb
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.xml
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.csprojAssemblyReference.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.AssemblyInfo.cs
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.csproj.CopyComplete
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.dll
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Module.Tag\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Module.Tag.pdb

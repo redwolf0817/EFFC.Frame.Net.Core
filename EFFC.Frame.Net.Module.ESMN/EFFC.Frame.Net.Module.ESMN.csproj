@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Authors>YCH</Authors>
+    <Company>EFFC@EFFCYUN</Company>
+    <Description>E.F.F.C Frame Module Share Message Net</Description>
+    <Copyright>Copyright © EFFCYUN 2019</Copyright>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为共享信息网络，作为EFFC框架下分布式信息同步的解决方案
+
+v1.0.0：版本发布</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Module.ESMN.Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+</Project>

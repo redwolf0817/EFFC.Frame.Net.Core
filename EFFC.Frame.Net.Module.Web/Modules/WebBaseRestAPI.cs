@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using EFFC.Frame.Net.Module.Web.Extentions;
 using Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Common;
+using System.IO;
 
 namespace EFFC.Frame.Net.Module.Web.Modules
 {
@@ -51,7 +52,7 @@ namespace EFFC.Frame.Net.Module.Web.Modules
         }
 
         #region 定义生命周期流程
-        protected virtual void BeforeProcess(TParameter p,TData d)
+        protected virtual void BeforeProcess(TParameter p, TData d)
         {
             //获取请求的资源和参数
             ResourceManage rema = new ResourceManage();
@@ -126,6 +127,28 @@ namespace EFFC.Frame.Net.Module.Web.Modules
 
             //解析请求body数据
             context.Request.LoadEFFCRestParameters<TParameter>(ref p);
+        }
+        #endregion
+
+        #region 公共方法
+        /// <summary>
+        /// 往response流中写入page内容
+        /// </summary>
+        /// <param name="pagepath">page的路径</param>
+        /// <param name="p">参数集</param>
+        /// <param name="d">结果集</param>
+        protected virtual void ResponsePageContent(string pagepath, TParameter p, TData d)
+        {
+            var path = pagepath.Replace("~", ComFunc.nvl(p.GetValue(DomainKey.APPLICATION_ENVIRONMENT, "ServerRootPath")));
+            if (File.Exists(path))
+            {
+                var resultmsg = File.ReadAllText(path);
+                var msgbytelength = Encoding.UTF8.GetByteCount(resultmsg);
+                p.CurrentHttpContext.Response.ContentType = ResponseHeader_ContentType.html + ";charset=utf-8";
+                p.CurrentHttpContext.Response.Headers.Add("Content-Length", msgbytelength + "");
+                p.CurrentHttpContext.Response.WriteAsync(resultmsg).Wait();
+                p.CurrentHttpContext.Response.Body.Flush();
+            }
         }
         #endregion
     }

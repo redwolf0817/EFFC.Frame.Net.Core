@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeixinWeb\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeixinWeb.pdb

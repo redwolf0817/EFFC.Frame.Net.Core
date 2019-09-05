@@ -1,0 +1,722 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Extends.LinqDLR2SQL</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.DLRColumns.SqliteDLRColumn">
+            <summary>
+            Sqlite专用的DLRColumn
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.DLRColumns.SqlServerDLRColumn">
+            <summary>
+            Sqlserver专用的DLRColumn
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator">
+            <summary>
+             LinqDLR2SQL用于sql生成的扩展接口
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoSelectMany``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1})">
+            <summary>
+            执行select many的自定义处理
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="source"></param>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoSelect``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1})">
+            <summary>
+            执行select的自定义处理
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="source"></param>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoJoin``3(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``2},System.Object,System.Object)">
+            <summary>
+            执行join操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TOuterItem"></typeparam>
+            <typeparam name="TInnerItem"></typeparam>
+            <param name="source"></param>
+            <param name="outer"></param>
+            <param name="inner"></param>
+            <param name="outerkey"></param>
+            <param name="innerkey"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoOrderBy``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Object)">
+            <summary>
+            执行orderby
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="key"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoOrderByDescending``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Object)">
+            <summary>
+            执行order by desc
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="key"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoWhere``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlWhereOperator)">
+            <summary>
+            执行where的自定义处理
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="where"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoTake``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Int32)">
+            <summary>
+            执行Take的操作，该操作为top的方式
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoCount``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行count操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoMax``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},``1)">
+            <summary>
+            执行Max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoMax``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行Max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoMin``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},``1)">
+            <summary>
+            执行min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoMin``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoSum``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},``1)">
+            <summary>
+            执行sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoDistinct``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行distinct操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoSum``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoLeftJoin``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            本表join的时候使用left方式
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.DoRightJoin``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            本表join的时候使用right方式
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.ToSql">
+            <summary>
+            转化成sql
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.CurrentOperation">
+            <summary>
+            当前操作类型
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.ILinqDLRSQLGenerator.ConditionValues">
+            <summary>
+            生成sql时转化出来的参数
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LamdaSQLObject`1">
+            <summary>
+            用于LinqDLR2Sql构建动态栏位使用
+            </summary>
+            <typeparam name="TLinqDLRColumn"></typeparam>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LamdaSQLObject`1.ConvertVariableToLinqDLRColumn(System.Object[])">
+            <summary>
+            将c#的变量转化成LinqDLRColumn以便进行相关where操作
+            </summary>
+            <param name="args">args中最少有一个参数，如果有两个参数第一个参数必须为变量名称，第二个才是变量的值，如果只有一个参数则该参数为变量的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LamdaSQLObject`1.ConvertConstaValueToLinqDLRColumn(System.Object[])">
+            <summary>
+            将一个常量转化成LinqDLRColumn以便进行相关where操作
+            </summary>
+            <param name="args">只有一个参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation">
+            <summary>
+            LinqDLR2SQL的操作枚举
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.None">
+            <summary>
+            无操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.Select">
+            <summary>
+            执行了select操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.SelectMany">
+            <summary>
+            执行了select many操作（from多个表)
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.SelectJoin">
+            <summary>
+            执行了join操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.Delete">
+            <summary>
+            执行了delete操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.Update">
+            <summary>
+            执行了update操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.Insert">
+            <summary>
+            执行了insert操作
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLOperation.Where">
+            <summary>
+            执行了Where操作
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1">
+            <summary>
+            LinqDLR2Sql的基类，定义了LinqDLR2Sql的基本结构和已经实现的sql转化操作
+            </summary>
+            <typeparam name="TSource">lamda表达式执行时的动态识别类型，要想使用lamda表达式，此属性必备</typeparam>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.SetGeneratorType(System.Type)">
+            <summary>
+            设定SQLGenerator的类型
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.LinkedDBType">
+            <summary>
+            关联的DB类型
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.Item">
+            <summary>
+            LinqDLR2Sql下的元素对象
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.Table">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.AliasName">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.Me">
+            <summary>
+            自己对象的引用
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.SQLGenerator">
+            <summary>
+            sql生成器的扩展接口
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.CurrentOperationType">
+            <summary>
+            当前的操作类型
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.New``1(`0,System.String,System.String,EFFC.Frame.Net.Base.Constants.DBType)">
+            <summary>
+            创建一个新的LinqDLR2SQL对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item"></param>
+            <param name="table"></param>
+            <param name="aliasName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.DoSelectMany``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行select many的自定义处理
+            </summary>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.DoSelect``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行select的自定义处理
+            </summary>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.DoJoin``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1},System.Object,System.Object)">
+            <summary>
+            执行join操作
+            </summary>
+            <typeparam name="TOuterItem"></typeparam>
+            <typeparam name="TInnerItem"></typeparam>
+            <param name="outerkey"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.DoWhere(EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlWhereOperator)">
+            <summary>
+            执行where的自定义处理
+            </summary>
+            <param name="where"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.ToSql">
+            <summary>
+            转为sql语句
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.LeftJoin">
+            <summary>
+            本表join的时候使用left方式
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql`1.RightJoin">
+            <summary>
+            本表join的时候使用right方式
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend">
+            <summary>
+            LinqDLR2Sql操作扩展实现lamda表达式操作
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.SelectMany``3(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1}},System.Func{``0,``1,``2})">
+            <summary>
+            做多重from筛选结果集
+            lamda推理逻辑：
+            1.lamda根据泛型来进行推算，因此SelectMany的算法只适用于泛型
+            2.因为涉及到多重推算，即多个from，所以lamda会根据返回结果推算运用到参加下一次推算的TSource结构，
+              即从上自下进行from推算，第一个和第二个from根据resultSelector算出了TResult的结构，返回值必须返回一个带TResult的对象，不然后面的推算就会失败，
+              上面算出来的结果会参与到第三个的from运算，lamda根据上次返回的TResult作为这次运算中TSource的结构定义来参与本次运算。
+              后面依次类推。
+              所以resultSelector返回值TResult必须包含在返回值的结构定义中，不然递归推算就断裂
+              所以selectmany只能用泛型来做定义
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TCollector"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="from"></param>
+            <param name="resultSelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Select``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            执行select操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Where``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlWhereOperator})">
+            <summary>
+            执行linqDLR2Sql的where操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.OrderBy``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            正向排序操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.ThenBy``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            正向排序操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.OrderByDescending``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            逆向排序操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.ThenByDescending``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            逆向排序操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Take``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Int32)">
+            <summary>
+            执行Take操作，相当于sql的top
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Count``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行count操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Max``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            执行max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Max``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行max操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Min``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            执行Min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Min``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行Min操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Sum``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.Func{``0,``1})">
+            <summary>
+            执行Sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="source"></param>
+            <param name="selector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Sum``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},System.String)">
+            <summary>
+            执行Sum操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="column"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlExtend.Distinct``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            执行Distinct操作
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator">
+            <summary>
+            LinqDLR2SQL用于sql生成的扩展接口
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator._selectmanytables">
+            <summary>
+            串联的table集合，非join
+            </summary>
+        </member>
+        <member name="F:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator._jointables">
+            <summary>
+            join的table集合
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.ConditionValues">
+            <summary>
+            条件中的值
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.CurrentOperation">
+            <summary>
+            当前操作类型
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoSelectMany``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1})">
+            <summary>
+            执行select many的自定义处理
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="source"></param>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoSelect``2(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1})">
+            <summary>
+            执行select的自定义处理
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TLastItem"></typeparam>
+            <param name="source"></param>
+            <param name="pretable"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoJoin``3(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``1},EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``2},System.Object,System.Object)">
+            <summary>
+            执行join操作
+            </summary>
+            <typeparam name="TOuterItem"></typeparam>
+            <typeparam name="TInnerItem"></typeparam>
+            <param name="outer"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoWhere``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0},EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlWhereOperator)">
+            <summary>
+            执行where的自定义处理
+            </summary>
+            <param name="where"></param>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.ToSql">
+            <summary>
+            转为sql语句
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoLeftJoin``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            本表join的时候使用left方式
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLR2SQLGenerator.DoRightJoin``1(EFFC.Extends.LinqDLR2SQL.LinqDLR2Sql{``0})">
+            <summary>
+            本表join的时候使用right方式
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLR2SqlWhereOperator">
+            <summary>
+            LinqDLR2Sql的where条件操作，实现and和or的逻辑处理
+            </summary>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn">
+            <summary>
+            LinqDLR2Sql中动态对象的元素定义
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.ParamFlag">
+            <summary>
+            参数符号，对应不同类型数据库的标记
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.LinkFlag">
+            <summary>
+            字符串链接符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.NotEqualFlag">
+            <summary>
+            不等于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.EqualFlag">
+            <summary>
+            等于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.GreaterFlag">
+            <summary>
+            大于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.GreaterEqualFlag">
+            <summary>
+            大于等于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.LessFlag">
+            <summary>
+            小于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.LessEqualFlag">
+            <summary>
+            小于等于符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.LikeMatchFlag">
+            <summary>
+            用于like的匹配符号
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.IsNull">
+            <summary>
+            用于sql中is null的语句判断
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.IsNotNull">
+            <summary>
+            用于sql中is not null的语句判断
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.WhereIn(System.Object[])">
+            <summary>
+            执行where中的in操作
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.New``1(System.String,EFFC.Extends.LinqDLR2SQL.LamdaSQLObject{``0})">
+            <summary>
+            获取一个LinqDLRColumn的新实例
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="columnexpress"></param>
+            <param name="belongto"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.BelongToObject">
+            <summary>
+            所属的LamdaSQLObject的对象
+            </summary>
+        </member>
+        <member name="P:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.ColumnExpress">
+            <summary>
+            select出来的栏位表达式，可以为名称，别名或表达式
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.Contains(System.Object[])">
+            <summary>
+            模糊匹配操作
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.StartWith(System.Object[])">
+            <summary>
+            左模糊匹配操作
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.EndWith(System.Object[])">
+            <summary>
+            右模糊匹配操作
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRColumn.Convert2Express(System.Object)">
+            <summary>
+            将右侧值转化成对应的表达式，并添加条件值
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Extends.LinqDLR2SQL.LinqDLRTable">
+            <summary>
+            linq表达式转为sql的table对象，该对象仅用于方便lamda表达式的创建作业，不具备扩展功能
+            </summary>
+        </member>
+        <member name="M:EFFC.Extends.LinqDLR2SQL.LinqDLRTable.New(System.String,System.String,EFFC.Frame.Net.Base.Constants.DBType)">
+            <summary>
+            生成一个LinqDLRTable的实例
+            </summary>
+            <param name="table">实际table的名称</param>
+            <param name="aliasName">table的别名</param>
+            <param name="dbtype">数据库类型</param>
+            <returns>LinqDLRTable</returns>
+        </member>
+    </members>
+</doc>

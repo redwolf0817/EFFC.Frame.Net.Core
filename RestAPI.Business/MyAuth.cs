@@ -52,16 +52,17 @@ LastLoginTime:{1}
 
         protected override bool IsValid(string token, ref string msg)
         {
-            var result = base.IsValid(token, ref msg);
-            if (result)
-            {
-                //此处可以做功能权限验证
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //var result = base.IsValid(token, ref msg);
+            //if (result)
+            //{
+            //    //此处可以做功能权限验证
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return true;
         }
 
         public override string PublicKeySavePath => "~/token/public.json";

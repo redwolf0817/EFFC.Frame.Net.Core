@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Layout/_layout_frame.cshtml";
+}
+@section js{
+    <script src="~/scripts/jquery-treegrid-master/js/jquery.treegrid.min.js"></script>
+    <script src="~/scripts/jquery-treegrid-master/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="~/js/pages/function.js"></script>
+}
+@section css{
+    <link href="~/scripts/jquery-treegrid-master/css/jquery.treegrid.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped tree"></table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <input type="hidden" id="op" />
+        <input type="hidden" id="level" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        菜单操作
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>功能编号：</label>
+                            <input type="text" class="form-control" maxlength="64" id="functionno_parentno" readonly="readonly" />-
+                            <input type="text" class="form-control" maxlength="64" id="functionno_seqno" />
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>功能名称：</label>
+                            <input type="text" class="form-control" maxlength="20" id="functionname"/>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>功能链接：</label>
+                            <input type="text" class="form-control" maxlength="500" id="functionurl" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+                            <input type="text" class="form-control" maxlength="500" id="remark" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="save">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

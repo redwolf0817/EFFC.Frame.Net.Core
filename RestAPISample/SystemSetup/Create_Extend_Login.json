@@ -1,0 +1,76 @@
+﻿{
+  "$acttype": "CreateTable",
+  "$table": "EXTEND_LOGIN",
+  "UID": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": false
+  },
+  "LoginID": {
+    "$datatype": "nvarchar",
+    "$precision": 20,
+    "$isnull": false
+  },
+  "UserNo": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "UserType": {
+    "$datatype": "varchar",
+    "$precision": 20,
+    "$isnull": true
+  },
+  "LoginPass": {
+    "$datatype": "nvarchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "LastLoginIP": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "LastLoginDate": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "ErrorTime": {
+    "$datatype": "int",
+    "$isnull": true
+  },
+  "LastPassword": {
+    "$datatype": "nvarchar",
+    "$precision": 50,
+    "$isnull": true
+  },
+  "add_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "add_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "add_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "last_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "last_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "last_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "$pk": [ "UID" ]
+}

@@ -95,6 +95,10 @@ namespace EFFC.Frame.Net.Base.Constants
         /// </summary>
         public const string doc = "application/msword";
         /// <summary>
+        /// application/msword
+        /// </summary>
+        public const string docx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        /// <summary>
         /// 
         /// </summary>
         public const string dvi = "application/x-dvi";
@@ -600,6 +604,7 @@ namespace EFFC.Frame.Net.Base.Constants
         public const string sse = "text/event-stream";
 
         private static Dictionary<string, string> _dic = null;
+        static object lockobj = new object();
         /// <summary>
         /// 根据属性名称获取对应的值
         /// </summary>
@@ -607,15 +612,19 @@ namespace EFFC.Frame.Net.Base.Constants
         /// <returns></returns>
         public static string Map(string name)
         {
-            if (_dic == null)
+            lock (lockobj)
             {
-                _dic = new Dictionary<string, string>();
-
-                var obj = new ResponseHeader_ContentType();
-                var fs = obj.GetType().GetFields();
-                foreach (var f in fs)
+                if (_dic == null)
                 {
-                    _dic.Add(f.Name, ComFunc.nvl(f.GetValue(obj)));
+
+                    _dic = new Dictionary<string, string>();
+
+                    var obj = new ResponseHeader_ContentType();
+                    var fs = obj.GetType().GetFields();
+                    foreach (var f in fs)
+                    {
+                        _dic.Add(f.Name, ComFunc.nvl(f.GetValue(obj)));
+                    }
                 }
             }
 
@@ -747,6 +756,10 @@ namespace EFFC.Frame.Net.Base.Constants
         /// 应用级域
         /// </summary>
         public const string APPLICATION = "application";
+        /// <summary>
+        /// 黑名单
+        /// </summary>
+        public const string BLACK_LIST = "blacklist";
     }
     /// <summary>
     /// host js架构涉及到的常量参数

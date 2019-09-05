@@ -3,6 +3,7 @@ using EFFC.Frame.Net.Base.Data.Base;
 using EFFC.Frame.Net.Base.Exceptions;
 using EFFC.Frame.Net.Base.Interfaces.Core;
 using EFFC.Frame.Net.Base.Parameter;
+using EFFC.Frame.Net.Global;
 using EFFC.Frame.Net.Unit.DB.Datas;
 using EFFC.Frame.Net.Unit.DB.Parameters;
 using System;
@@ -54,7 +55,7 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
 
                     string presql = sqlobj.presql;
                     DBAPageP dbc = new DBAPageP();
-                    dba.BeginTransaction();
+                    //dba.BeginTransaction();
                     if (!string.IsNullOrEmpty(presql))
                     {
                         tmpsql = presql.Replace("''", "#sp#");
@@ -67,7 +68,32 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
                         {
                             dbc.SQL_Parameters.Add(m.ToString(), up.GetValue(m.ToString()));
                         }
-                        dba.ExecuteNoQuery(presql, dbc.SQL_Parameters);
+                        try
+                        {
+                            dba.ExecuteNoQuery(presql, dbc.SQL_Parameters);
+                        }
+                        catch (Exception ex)
+                        {
+                            FrameDLRObject dp = FrameDLRObject.CreateInstance(Base.Constants.FrameDLRFlags.SensitiveCase);
+                            foreach (var item in dbc.SQL_Parameters)
+                            {
+                                if (item.Value.ParameterValue is DateTime)
+                                {
+                                    dp.SetValue(item.Key, DateTimeStd.IsDateTimeThen(item.Value.ParameterValue, "yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else if (item.Value.ParameterValue is DBNull)
+                                {
+                                    dp.SetValue(item.Key, null);
+                                }
+                                else
+                                {
+                                    dp.SetValue(item.Key, item.Value.ParameterValue);
+                                }
+                            }
+                            GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.ERROR, $"QueryByPage PreSql={presql};\nParameters={dp.ToJSONString()}");
+
+                            throw ex;
+                        }
                     }
                     //执行翻页查询
                     string sql = sqlobj.sql;
@@ -92,16 +118,43 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
                                 dbc.SQL_Parameters.Add(m.ToString(), up.GetValue(m.ToString()));
                             }
                         }
-                        dbc.SQL = sql;
-                        dbc.OrderBy = orderby;
-                        dbc.Count_of_OnePage = up.Count_Of_OnePage;
-                        dbc.CurrentPage = up.CurrentPage;
-                        dba.StartPageByCondition(dbc);
-                        rtn.QueryTable = dba.GoToPage(up.ToPage);
-                        rtn.Count_Of_OnePage = up.Count_Of_OnePage;
-                        rtn.CurrentPage = dba.CurrentPage;
-                        rtn.TotalPage = dba.TotalPage;
-                        rtn.TotalRow = dba.TotalRow;
+                        try
+                        {
+                            dbc.SQL = sql;
+                            dbc.OrderBy = orderby;
+                            dbc.Count_of_OnePage = up.Count_Of_OnePage;
+                            dbc.CurrentPage = up.CurrentPage;
+                            dba.StartPageByCondition(dbc);
+                            rtn.QueryTable = dba.GoToPage(up.ToPage);
+                            rtn.QueryDatas = new DataSetStd();
+                            rtn.QueryDatas.Tables.Add(rtn.QueryTable);
+                            rtn.Count_Of_OnePage = up.Count_Of_OnePage;
+                            rtn.CurrentPage = dba.CurrentPage;
+                            rtn.TotalPage = dba.TotalPage;
+                            rtn.TotalRow = dba.TotalRow;
+                        }
+                        catch (Exception ex)
+                        {
+                            FrameDLRObject dp = FrameDLRObject.CreateInstance(Base.Constants.FrameDLRFlags.SensitiveCase);
+                            foreach (var item in dbc.SQL_Parameters)
+                            {
+                                if (item.Value.ParameterValue is DateTime)
+                                {
+                                    dp.SetValue(item.Key, DateTimeStd.IsDateTimeThen(item.Value.ParameterValue, "yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else if (item.Value.ParameterValue is DBNull)
+                                {
+                                    dp.SetValue(item.Key, null);
+                                }
+                                else
+                                {
+                                    dp.SetValue(item.Key, item.Value.ParameterValue);
+                                }
+                            }
+                            GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.ERROR, $"QueryByPage sql={sql};\n order by={orderby};\nParameters={dp.ToJSONString()}");
+
+                            throw ex;
+                        }
                     }
                     //收尾处理
                     string aftersql = sqlobj.aftersql;
@@ -118,16 +171,40 @@ namespace EFFC.Frame.Net.Unit.DB.Unit
                         {
                             dbc.SQL_Parameters.Add(m.ToString(), up.GetValue(m.ToString()));
                         }
-                        dba.ExecuteNoQuery(aftersql, dbc.SQL_Parameters);
+                        try
+                        {
+                            dba.ExecuteNoQuery(aftersql, dbc.SQL_Parameters);
+                        }catch(Exception ex)
+                        {
+                            FrameDLRObject dp = FrameDLRObject.CreateInstance(Base.Constants.FrameDLRFlags.SensitiveCase);
+                            foreach (var item in dbc.SQL_Parameters)
+                            {
+                                if (item.Value.ParameterValue is DateTime)
+                                {
+                                    dp.SetValue(item.Key, DateTimeStd.IsDateTimeThen(item.Value.ParameterValue, "yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else if (item.Value.ParameterValue is DBNull)
+                                {
+                                    dp.SetValue(item.Key, null);
+                                }
+                                else
+                                {
+                                    dp.SetValue(item.Key, item.Value.ParameterValue);
+                                }
+                            }
+                            GlobalCommon.Logger.WriteLog(Base.Constants.LoggerLevel.ERROR, $"QueryByPage AfterSql={aftersql};\nParameters={dp.ToJSONString()}");
+
+                            throw ex;
+                        }
                     }
 
-                    dba.CommitTransaction();
+                    //dba.CommitTransaction();
 
                 }
                 catch
                 {
-                    if (dba != null)
-                        dba.RollbackTransaction();
+                    //if (dba != null)
+                    //    dba.RollbackTransaction();
                     throw;
                 }
 

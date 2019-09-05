@@ -4,7 +4,7 @@
             $$.Message.ShowMsg('请输入正确的"推荐人电话号码"格式');
             return false;
         }
-        if ($("#recommender_name").val() == "") {
+        if ($("#recommender_name").val() === "") {
             $$.Message.ShowMsg('"推荐人姓名"不可为空');
             return false;
         }

@@ -1,0 +1,1777 @@
+/**************************************头部*/
+header{
+  width:100%;
+}
+/*上部显示的是欢迎部分*/
+.head_welcome{
+  width:100%;
+  background:#212859;
+}
+.head_welcomeInfo{
+  width:1200px;
+  margin:0 auto;
+  height:40px;
+  line-height:40px;
+}
+.head_welcomeInfoLeft{
+  float:left;
+  color:#fff;
+}
+.head_welcomeInfoRight{
+  float:right;
+  color:#fff;
+}
+.head_welcomeInfoRight>img{
+  vertical-align: -6px;
+  margin-right:10px;
+}
+/*logo和导航部分*/
+.head_main{
+  width:1200px;
+  height:100px;
+  margin:0 auto;
+}
+.head_logoImg{
+  float:left;
+  line-height:100px;
+}
+/*右侧的导航部分*/
+.head_navList{
+  float:right;
+}
+.head_navList>li{
+  float:left;
+}
+.head_navList>li>a{
+  display: block;
+  padding:0 15px;
+  text-align:center;
+  height:100px;
+  line-height:100px;
+  font-size:16px;
+  color:#000;
+  font-weight:600;
+}
+.head_navList>li>a.active,
+.head_navList>li>a:hover{
+  background:#089bdb;
+  color:#fff;
+}
+/***************************主体内容部分*/
+section{
+  width:100%;
+}
+/*首页的banner部分*/
+#swiperMain{
+  width:100%;
+  min-width:1200px;
+}
+#swiperMain img{
+  display: block;
+  width:100%;
+}
+#swiperMain .swiper-pagination-bullet-active{
+  background:#089bdb;
+}
+/*外部框部分*/
+.home_outContent{
+  width:100%;
+  background:#f3f3f3;
+}
+/*首页每一块的整体部分*/
+.home_innerContent{
+  width:1200px;
+  margin:0 auto;
+  padding:40px 0 60px 0;
+}
+/*标题部分*/
+.home_mainTitle{
+  width:100%;
+  position:relative;
+}
+.home_mainTitleBg{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:800px;
+  height:27px;
+  margin-left:-400px;
+  margin-top:-13.5px;
+  background:url("../images/mainTitleBg.png") 50% 50%;
+}
+/*标题的内容部分*/
+.home_mainTitleInfo{
+ width:100%;
+  text-align:center;
+}
+.home_mainTitleInfo>li:first-child{
+  width:100%;
+  height:40px;
+  line-height:40px;
+  font-size:20px;
+  font-weight:600;
+}
+.home_mainTitleInfo>li:last-child{
+  color:#999;
+}
+/****************************系部直达部分*/
+.home_directList{
+  width:100%;
+  margin-top:50px;
+}
+.home_directList>li{
+  float:left;
+  width:155px;
+  margin-left:105px;
+}
+.home_directList>li:first-child{
+  margin-left:0;
+}
+.home_directList>li>a{
+  display: block;
+  width:100%;
+}
+/*上部logo部分*/
+.home_directLogoContent{
+  width:100%;
+  text-align:center;
+  height:90px;
+  line-height:40px;
+  color:#333;
+  position:relative;
+}
+.home_directLogoContent>i{
+  font-size:40px;
+}
+.home_directLogo{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:155px;
+  height:53px;
+  background:url("../images/homeDirect01.png") no-repeat 50% 50%;
+}
+/*下部部门名称*/
+.home_directInfo{
+  width:100%;
+  margin-top:20px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  font-size:14px;
+  color:#333;
+}
+/*鼠标移入时的样式*/
+.home_directList>li>a:hover .home_directLogoContent,
+.home_directList>li>a:hover .home_directInfo{
+  color:#089bdb;
+}
+/**********************实训条件部分*/
+.home_trainingList{
+  width:100%;
+  margin-top:50px;
+}
+.home_trainingList>li{
+  float:left;
+  width:284px;
+  margin-left:21px;
+}
+.home_trainingList>li:first-child{
+  margin-left:0;
+}
+.home_trainingList>li>a{
+  display: block;
+  width:100%;
+  border:1px solid #bbb;
+}
+/*图片部分*/
+.home_trainingImg{
+  width:100%;
+  padding:6px 6px 0 6px;
+}
+.home_trainingImg>img{
+  display: block;
+  width:100%;
+}
+/*下部的文字描述*/
+.home_trainingInfo{
+  width:100%;
+  padding:0 6px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  font-size:14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color:#333;
+}
+/*鼠标移入时的样式*/
+.home_trainingList>li>a:hover{
+  border:1px solid #089bdb;
+}
+.home_trainingList>li>a:hover .home_trainingInfo{
+  color:#089bdb;
+}
+/*底部查看更多的按钮*/
+.home_trainingMore{
+  display: block;
+  margin:35px auto 0;
+  width:100px;
+  text-align:center;
+  height:32px;
+  line-height:30px;
+  border:1px solid #bbb;
+  color:#999;
+  font-size:14px;
+  border-radius:17px;
+}
+.home_trainingMore:hover{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+/*****************************新闻动态部分*/
+/*标题下部切换tab的部分*/
+.home_newsChange{
+  width:100%;
+  padding:25px 482px 50px 482px;
+  height:30px;
+}
+.home_newsChange>li{
+  float:left;
+  width:100px;
+  height:30px;
+  line-height:28px;
+  text-align:center;
+  margin-left:36px;
+  border:1px solid #bbb;
+  color:#666;
+  font-size:15px;
+  cursor:pointer;
+}
+.home_newsChange>li:first-child{
+  margin-left:0;
+}
+.home_newsChange>li.active,
+.home_newsChange>li:hover{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+/*主体内容部分*/
+.home_newsContent{
+  width:100%;
+}
+/*左边的图片新闻*/
+#swiperNews{
+  float:left;
+  width:310px;
+  height:380px;
+}
+#swiperNews img{
+  display: block;
+  width:100%;
+  height:100%;
+}
+/*右边的新闻列表部分*/
+.home_newsListContent{
+  float:left;
+  margin-left:40px;
+  width:850px;
+}
+.home_newsList{
+  width:100%;
+}
+.home_newsList>li{
+  width:100%;
+  height:95px;
+  border-bottom:1px solid #bbb;
+}
+.home_newsList>li:nth-child(4n){
+  border-bottom:none;
+}
+/*新闻列表左边的时间*/
+.home_newsListTime{
+  float:left;
+  width:120px;
+  padding-top:20px;
+}
+.home_newsListTime>p{
+  width:100%;
+  text-align:center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.home_newsListTime>p:first-child{
+  color:#666;
+  font-size:20px;
+  height:30px;
+  line-height:30px;
+}
+.home_newsListTime>p:last-child{
+  color:#999;
+  height:24px;
+  line-height:24px;
+}
+.home_newsListTime>p>span:first-child{
+  margin-right:5px;
+}
+/*中间的标题*/
+.home_newsListTitle{
+  float:left;
+  width:580px;
+  margin-left:50px;
+  font-size:14px;
+  line-height:94px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*右边的按钮*/
+.home_newsListLink{
+  float:right;
+  width:100px;
+  text-align: right;
+  font-size:14px;
+  color:#333;
+  line-height:24px;
+  margin-top:35px;
+}
+.home_newsListLink>i{
+  font-size:20px;
+  vertical-align: -2px;
+}
+.home_newsListLink:hover{
+  color:#089bdb;
+}
+/****************************示范学校专栏*/
+.home_schoolColumn{
+  display: block;
+  width:100%;
+  height:270px;
+  background:url("../images/homeSchooldColumn.jpg") no-repeat 50% 50%;
+}
+.home_schoolColumn>p{
+  width:1200px;
+  margin:30px auto 0;
+  font-size:14px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color:#fff;
+}
+.home_schoolColumn>p.home_schoolTitle{
+  font-size:30px;
+  padding-top:60px;
+  margin:0 auto;
+}
+.home_schoolDetail{
+  display: block;
+  margin:35px auto 0;
+  width:100px;
+  text-align:center;
+  height:32px;
+  line-height:30px;
+  border:1px solid #fff;
+  color:#fff;
+  font-size:14px;
+  border-radius:17px;
+}
+.home_schoolColumn:hover .home_schoolDetail{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+/**********************教学教研部分*/
+.home_teachingList{
+  width:100%;
+  margin-top:50px;
+}
+.home_teachingList>li{
+  float:left;
+  width:300px;
+  padding:0 45px;
+  border-right:1px solid #bbb;
+}
+.home_teachingList>li:first-child{
+  border-left:1px solid #bbb;
+}
+/*上部logo*/
+.home_teachingImg{
+  height:50px;
+  width:50px;
+  margin:0 auto;
+}
+.home_teachingImg>img{
+  display: block;
+  width:100%;
+}
+/*日期部分*/
+.home_teachingDate{
+  width:100%;
+  text-align: center;
+  height:24px;
+  line-height:24px;
+  margin:20px 0 10px 0;
+  color:#089bdb;
+  font-weight:600;
+}
+/*标题部分*/
+.home_teachingTitle{
+  width:100%;
+  text-align: center;
+  padding:0 10px;
+  height:24px;
+  line-height:24px;
+  font-size:14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*详细部分*/
+.home_teachingDetail{
+  width:100%;
+  margin:10px 0 ;
+  height:80px;
+  line-height:20px;
+  color:#666;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/*底部的按钮*/
+.home_teachingLink{
+  display: block;
+  width:100px;
+  text-align:right;
+  margin:0 0 10px 108px;
+  height:24px;
+  line-height:24px;
+  color:#000;
+}
+.home_teachingLink>i{
+  font-size:20px;
+  vertical-align: -2px;
+}
+.home_teachingLink:hover{
+  color:#089bdb;
+}
+/************************************学生风采*/
+.home_studentList{
+  width:100%;
+  margin-top:50px;
+}
+.home_studentList>li{
+  float:left;
+  width:385px;
+  height:310px;
+  margin:22px 22px 0 0 ;
+}
+.home_studentList>li:first-child{
+  width:680px;
+  margin:0 30px 0 0 ;
+}
+.home_studentList>li:nth-child(2){
+  width:490px;
+  margin:0;
+}
+.home_studentList>li:last-child{
+  margin-right:0;
+}
+.home_studentList>li>a{
+  display: block;
+  width:100%;
+  height:100%;
+  overflow: hidden;
+  position: relative;
+}
+/*图片展示时*/
+.home_studentList>li img{
+  display: block;
+  width:100%;
+  height:100%;
+}
+/*背面的样式*/
+.home_stuBack{
+  position:absolute;
+  top:310px;
+  left:0;
+  width:100%;
+  height:310px;
+  padding:10px;
+  background:rgba(255,255,255,.8);
+  transition:all linear .7s;
+  -webkit-transition:all linear .7s;
+  -o-transition:all linear .7s;
+  -moz-transition:all linear .7s;
+}
+.home_stuOutBorder{
+  width:100%;
+  height:100%;
+  padding:10px;
+  border:1px solid #089bdb;
+}
+.home_stuInnerBorder{
+  width:100%;
+  height:100%;
+  padding-top:70px;
+  border:1px solid #fff;
+}
+.home_stuInnerBorder>P{
+  height:24px;
+  line-height:24px;
+  text-align:center;
+  width:100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/*上面的文字描述*/
+.home_stuTitle{
+  font-size:14px;
+  color:#089bdb;
+  font-weight:600;
+}
+.home_stuTitleEn{
+  color:#666;
+  margin-top:10px;
+}
+.home_stuLink{
+  display: block;
+  margin:20px auto 0;
+  width:100px;
+  text-align:center;
+  height:32px;
+  line-height:30px;
+  background:#eee;
+  color:#666;
+  border-radius:17px;
+}
+.home_stuLink:hover{
+  color:#089bdb;
+}
+/*鼠标移入图片时*/
+.home_studentList>li>a:hover .home_stuBack{
+  top:0;
+}
+/*******************************德育天地*/
+/*背景颜色*/
+.home_educationBg{
+  background:url('../images/homeEduBg.png') no-repeat 50% 60%;
+}
+.home_educationList{
+  width:100%;
+}
+.home_educationList>li{
+  float:left;
+  width:500px;
+  height:80px;
+  margin:50px 0 0 200px;
+}
+.home_educationList>li:nth-child(odd){
+  margin-left:0;
+}
+/*左边的图片信息*/
+.home_eductionLogo{
+  float:left;
+  width:55px;
+  height:80px;
+  margin-right:25px;
+  background:url('../images/homeEdu.png') no-repeat 50% 50%;
+}
+.home_educationList>li:hover .home_eductionLogo{
+  background:url('../images/homeEduHover.png') no-repeat 50% 50%;
+}
+.home_eductionLogo>p{
+  color:#fff;
+  width:100%;
+  text-align:center;
+  line-height:15px;
+}
+.home_eductionLogo>p.home_eductionId{
+  height:30px;
+  line-height:30px;
+  font-size:18px;
+}
+/*右边的信息*/
+.home_educationContent{
+  float:left;
+  width:420px;
+}
+.home_educationTitle{
+  display: block;
+  height:30px;
+  line-height:30px;
+  width:100%;
+  color:#000;
+  font-size:14px;
+  font-weight:600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.home_educationTitle:hover{
+  color:#089bdb;
+}
+.home_educationDetail{
+  width:100%;
+  height:48px;
+  line-height:24px;
+  margin-top:2px;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/******************************学校公告*/
+.home_noticeList{
+  width:100%;
+  margin-top:50px;
+}
+.home_noticeList>li{
+  float:left;
+  width:284px;
+  margin-left:21px;
+}
+.home_noticeList>li:first-child{
+  margin-left:0;
+}
+/*上部图片*/
+.home_noticeImg{
+  display: block;
+  width:100%;
+  height:284px;
+}
+.home_noticeImg>img{
+  display: block;
+  width:100%;
+  transition:all linear .5s;
+  -webkit-transition:all linear .5s;
+  -o-transition:all linear .5s;
+  -moz-transition:all linear .5s;
+}
+.home_noticeImg:hover img{
+  transform: scale(1.1);
+  -ms-transform:scale(1.1);
+  -webkit-transform:scale(1.1);
+  -moz-transform:scale(1.1);
+  -o-transform:scale(1.1);
+}
+/*标题部分*/
+.home_noticeTitle{
+  display: block;
+  width:100%;
+  height:50px;
+  padding:5px 40px;
+  line-height:40px;
+  text-align:center;
+  font-size:14px;
+  color:#000;
+  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.home_noticeTitle:hover{
+  color:#089bdb;
+}
+/*公告详细部分*/
+.home_noticeDetail{
+  width:100%;
+  padding:0 30px;
+  height:72px;
+  line-height:24px;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/*底部的按钮*/
+.home_noticeMore{
+  display: block;
+  margin:35px auto 0;
+  width:100px;
+  text-align:center;
+  height:32px;
+  line-height:30px;
+  border:1px solid #bbb;
+  color:#999;
+  font-size:14px;
+  border-radius:17px;
+}
+.home_noticeMore:hover{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+/*****************友情链接部分*/
+.home_linkList{
+  width:100%;
+  margin-top:50px;
+}
+.home_linkList>li{
+  float:left;
+  width:285px;
+  height:60px;
+  margin-left:20px;
+  position:relative;
+}
+.home_linkList>li:first-child{
+  margin-left:0;
+}
+/*链接的内容部分*/
+.home_linkContent{
+  width:100%;
+  height:60px;
+  line-height:58px;
+  border:1px solid #bbb;
+  cursor:pointer;
+}
+/*左边的logo*/
+.home_linkLogo{
+  float:left;
+  width:50px;
+  height:58px;
+  text-align:center;
+}
+.home_linkLogo>i{
+  font-size:26px;
+  vertical-align: -2px;
+}
+/*右边的箭头*/
+.home_linkIcon{
+  float:right;
+  width:50px;
+  height:58px;
+  text-align:center;
+}
+.home_linkIcon>i{
+  font-size:22px;
+  vertical-align: -2px;
+}
+/*内容部分*/
+.home_linkTitle{
+  float:left;
+  width:180px;
+  font-size:14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/*下拉部分*/
+.home_linkItem{
+  position:absolute;
+  bottom:60px;
+  left:0;
+  width:285px;
+  height:0;
+  border:0;
+  background:#fff;
+  overflow: hidden;
+  transition:height linear .5s;
+  -webkit-transition:height linear .5s;
+  -o-transition:height linear .5s;
+  -moz-transition:height linear .5s;
+}
+.home_linkItem a{
+  display: block;
+  height:30px;
+  line-height:30px;
+  padding-left:50px;
+  color:#333;
+  width:100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home_linkItem a:hover{
+  color:#089bdb;
+}
+/*鼠标移入时*/
+.home_linkList>li:hover .home_linkContent{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+.home_linkList>li:hover .home_linkItem{
+  border:1px solid #bbb;
+  border-bottom:none;
+  height:121px;
+  overflow-y: auto;
+}
+/*******************************************************二级页面部分*/
+/*************************背景图*/
+.common_bgContent{
+  width:100%;
+  min-width:1200px;
+  height:382px;
+}
+/*学校概况*/
+.common_bgContentBrief{
+  background:url("../images/schoolBriefBg.jpg") no-repeat center top;
+}
+/*教学教研*/
+.common_bgContentExchange{
+  background:url("../images/exchangeBg.jpg") no-repeat center top;
+}
+/*招生就业*/
+.common_bgContentAdmissions{
+  background:url("../images/admissionsBg.jpg") no-repeat center top;
+}
+/*联系我们*/
+.common_bgContentContact{
+  background:url("../images/contactBg.jpg") no-repeat center top;
+}
+/**********面包屑导航*/
+.common_breadNav{
+  width:100%;
+  height:40px;
+  border-bottom:1px solid #ddd;
+}
+.common_breadNavInfo{
+  width:1200px;
+  margin:0 auto;
+  line-height:39px;
+  font-size:14px;
+  color:#089bdb;
+}
+.common_breadNavInfo>span:first-child{
+  color:#000;
+}
+.common_breadNavInfo>a{
+  color:#333;
+}
+.common_breadNavInfo>a:hover{
+  color:#089bdb;
+}
+/*****************************内容展示的区域*/
+.common_mainContent{
+  width:1200px;
+  margin:0 auto;
+  padding:20px 0 50px 0;
+}
+/******************左边部分*/
+.common_leftContent{
+  float:left;
+  width:200px;
+}
+/*上部导航部分*/
+.common_subNav{
+  width:100%;
+}
+/*标题*/
+.common_subNavTitle{
+  width:100%;
+  text-align:center;
+  height:75px;
+  line-height:75px;
+  font-size:16px;
+  color:#000;
+  background:url("../images/subTitleBg.jpg") no-repeat;
+}
+/*下部的导航列表*/
+.common_subNavList{
+  width:100%;
+  border-left:1px solid #ddd;
+  border-right:1px solid #ddd;
+}
+.common_subNavList>li>a{
+  display: block;
+  width:100%;
+  height:50px;
+  line-height:49px;
+  text-align: center;
+  font-size:14px;
+  border-bottom:1px solid #ddd;
+  border-right:3px solid transparent;
+  color:#333;
+}
+.common_subNavList>li>a.active,
+.common_subNavList>li>a:hover{
+  color:#089bdb;
+  border-right:3px solid #089bdb;
+}
+/**********************下部的系部直达*/
+.common_linkContent{
+  width:100%;
+  margin-top:40px;
+}
+/*标题*/
+.common_linkTitle{
+  width:100%;
+  color:#fff;
+  height:50px;
+  line-height:50px;
+  text-align:center;
+  font-size:16px;
+  background: #089bdb;
+}
+/*下部的列表*/
+.common_linkList{
+  width:100%;
+}
+.common_linkList>li>a{
+  display: block;
+  width:100%;
+  height:50px;
+  line-height:49px;
+  padding-left:45px;
+  font-size:14px;
+  color:#333;
+  border:1px solid #ddd;
+  border-top:none;
+}
+.common_linkList>li>a>i{
+  font-size:20px;
+  vertical-align: -2px;
+  margin-right:10px;
+}
+.common_linkList>li>a:hover{
+  color:#089bdb;
+}
+/*************************右边部分*/
+.common_rightContent{
+  float:right;
+  width:965px;
+}
+/*标题部分*/
+.common_rightTitle{
+  width:100%;
+  height:37px;
+  line-height:36px;
+  border-bottom:1px solid #ddd;
+  color:#666;
+  font-size:14px;
+}
+.common_rightTitle>span{
+  color:#089bdb;
+  font-size:16px;
+}
+/*切换tab的部分*/
+.common_tabList{
+  width:100%;
+  padding:20px 0 0 182px;
+}
+.common_tabList>li{
+  float:left;
+  width:100px;
+  margin-left:150px;
+  cursor:pointer;
+}
+.common_tabList>li:first-child{
+  margin-left:0;
+}
+/*上部的icon*/
+.common_tabIconContent{
+  width:100%;
+  height:100px;
+  padding:25px;
+  background:#eef6f6;
+  border-radius:50%;
+  transition:all linear .5s;
+  -webkit-transition:all linear .5s;
+  -o-transition:all linear .5s;
+  -moz-transition:all linear .5s;
+}
+.common_tabIcon{
+  width:100%;
+  height:50px;
+  line-height:50px;
+  border-radius:59%;
+  text-align:center;
+  background:#089bdb;
+  color:#fff;
+  transition:all linear .5s;
+  -webkit-transition:all linear .5s;
+  -o-transition:all linear .5s;
+  -moz-transition:all linear .5s;
+}
+.common_tabIcon>i{
+  font-size:30px;
+}
+.common_tabIcon>i.icon-zhengce{
+  font-size:32px;
+}
+/*下部的文字*/
+.common_tabInfo{
+  width:100%;
+  text-align:center;
+  height:30px;
+  line-height:30px;
+  margin-top:10px;
+  font-size:14px;
+  color:#000;
+}
+/*当选中或者鼠标移入时*/
+.common_tabList>li:hover .common_tabInfo,
+.common_tabList>li.active .common_tabInfo{
+  color:#089bdb;
+}
+.common_tabList>li:hover .common_tabIconContent,
+.common_tabList>li.active .common_tabIconContent{
+  background:#089bdb;
+}
+.common_tabList>li:hover .common_tabIcon,
+.common_tabList>li.active .common_tabIcon{
+  background:#fff;
+  color:#089bdb;
+}
+.common_tabList>li:hover .common_tabIcon{
+   transform: rotate(360deg);
+   -ms-transform: rotate(360deg);
+   -webkit-transform: rotate(360deg);
+   -moz-transform: rotate(360deg);
+   -o-transform: rotate(360deg);
+}
+/*每个tab下对应一个内容*/
+.common_tabContent{
+  width:100%;
+}
+/*图片区域*/
+.common_rightPic{
+  width:100%;
+  height:200px;
+  margin:20px 0 10px 0;
+}
+.common_rightPic>img{
+  display: block;
+  width:100%;
+}
+/**************文字信息部分*/
+/*文字标题*/
+.common_rightInfoTitle{
+  width:100%;
+  height:30px;
+  margin:20px 0 10px 0;
+  border-bottom:1px solid #c7e9f8;
+}
+.common_rightBorder{
+  float:left;
+  width:5px;
+  height:27px;
+  background:#089bdb;
+  margin-right:10px;
+}
+.common_rightInfoTitle>p{
+  float:left;
+  width:950px;
+  height:29px;
+  line-height:24px;
+  color:#089bdb;
+  font-size:16px;
+}
+/*主标题部分*/
+.common_totalTitle{
+  width:100%;
+  height:30px;
+  line-height:30px;
+  font-size:16px;
+  color:#000;
+  font-weight:bold;
+  text-align:center;
+  margin:20px 0 10px 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*标题下部的发表时间*/
+.common_publishDate{
+  width:100%;
+  text-align:center;
+  height:24px;
+  line-height:24px;
+  margin-bottom:10px;
+}
+/*二级标题部分*/
+.common_secondTitle{
+  width:100%;
+  height:30px;
+  line-height:30px;
+  font-size:14px;
+  color:#000;
+  font-weight:600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.common_rightIcon{
+  float:left;
+  height:30px;
+  width:30px;
+  color:#089bdb;
+}
+.common_rightIcon>i{
+  font-size:20px;
+}
+.common_secondTitle>p{
+  float:left;
+  width:935px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*文字内容*/
+.common_rightInfo{
+  width:100%;
+  line-height:28px;
+  text-indent: 2em;
+  font-size:14px;
+}
+/*大的图片展示*/
+.common_detailLargePic{
+  width:100%;
+  text-align:center;
+  margin:10px 0;
+}
+/****************信息列表部分*/
+.common_infoList{
+  width:100%;
+  margin-top:20px;
+}
+.common_infoList>li{
+  width:100%;
+  padding-left:10px;
+  height:91px;
+  border-bottom:1px solid #ddd;
+}
+.common_infoList>li:last-child{
+  margin-bottom:20px;
+}
+/*左边的logo*/
+.common_infoListLogo{
+  float:left;
+  width:26px;
+  height:100%;
+  background:url("../images/commonInfoList.jpg") no-repeat 50% 50%;
+}
+/*时间部分*/
+.common_infoListDate{
+  float:left;
+  width:100px;
+  margin:0 20px 0 40px;
+  height:100%;
+  padding-top:21px;
+}
+.common_infoListDate>p{
+  float:left;
+  height:24px;
+  line-height:24px;
+  width:100%;
+}
+.common_infoListDate>p>span{
+  color:#089bdb;
+  font-size:18px;
+  margin-right:5px;
+}
+.common_infoListDate>p:last-child{
+  font-size:14px;
+  color:#666;
+}
+/*标题部分*/
+.common_infoListTitle{
+  float:left;
+  max-width:680px;
+  height:90px;
+  line-height:90px;
+  font-size:14px;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+/*右侧的按钮*/
+.common_infoListBtn{
+  float:right;
+  width:70px;
+  margin-top:30px;
+  height:30px;
+  line-height:28px;
+  border:1px solid #aaa;
+  text-align:center;
+  font-size:14px;
+  color:#666;
+  cursor:pointer;
+}
+.common_infoListBtn:hover{
+  color:#089bdb;
+  border:1px solid #089bdb;
+}
+/*********************表格部分*/
+.common_tableContent{
+  width:100%;
+  margin-top:20px;
+  font-size:14px;
+}
+/*表格的区域*/
+.main_publicTable{
+  width:100%;
+  border-collapse:collapse !important;
+}
+.main_publicTable th,
+.main_publicTable td{
+  border:1px solid #ddd;
+  text-align:center;
+}
+.main_publicTable tr{
+  height:50px;
+  line-height:24px;
+}
+/*表头部分*/
+.main_publicTable thead{
+  background:#f1f1fa;
+}
+/*表主体部分*/
+.main_publicTable tbody tr:nth-child(odd){
+  background:#fff;
+}
+.main_publicTable tbody tr:nth-child(even){
+  background:#f7f7fb;
+}
+.main_publicTable td.teacherPosition{
+  color:#212859;
+}
+/*************************************三级页面底部的切换以及返回列表的部分*/
+/*底部切换的按钮*/
+.common_changeDetail{
+  width:100%;
+  margin-top:30px;
+}
+/*上部一个返回的按钮*/
+.common_changeReturnContent{
+  width:100%;
+  height:24px;
+  line-height:24px;
+  text-align:right;
+}
+.common_changeReturn{
+  color:#333;
+  font-size:14px;
+}
+.common_changeReturn>i{
+  font-size:20px;
+  margin-right:5px;
+  vertical-align: -1px;
+}
+/*鼠标移入时*/
+.common_changeReturn:hover{
+  color:#089bdb;
+}
+/*上下篇切换的按钮*/
+.common_changePage{
+  margin-top:20px;
+  width:100%;
+  height:24px;
+  line-height:24px;
+}
+.common_changePageContent{
+  font-size:14px;
+  cursor:pointer
+}
+/*小图标*/
+.common_changePageContent>i{
+  font-size:18px;
+}
+/*切换的内容部分*/
+.common_changePageContent>span.common_changePageInfo{
+  max-width:390px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/*当没有内容时*/
+.common_changePageContent.noPage{
+  cursor:default;
+  color:#333 !important;
+}
+/*鼠标移入时*/
+.common_changePageContent:hover{
+  color:#089bdb;
+}
+
+
+
+
+
+
+/**********************************1.学校概况*/
+/*地图部分*/
+#brief_campusMap{
+  width:100%;
+  height:650px;
+  margin-top:20px;
+}
+/*校园风光的图片*/
+.brief_campusSceneryList{
+  width:100%;
+  margin-top:20px;
+}
+.brief_campusSceneryList>li{
+  float:left;
+  width:308px;
+  margin:0 0 20px 20px;
+}
+.brief_campusSceneryList>li:nth-child(3n+1){
+  margin:0 0 20px 0;
+}
+/*图片区域*/
+.brief_campusSceneryPic{
+  width:100%;
+  height:255px;
+}
+.brief_campusSceneryPic>img{
+  display: block;
+  width:100%;
+  height:100%;
+  transition:all linear .5s;
+  -webkit-transition:all linear .5s;
+  -o-transition:all linear .5s;
+  -moz-transition:all linear .5s;
+}
+.brief_campusSceneryPic>img:hover{
+  transform: scale(1.05);
+  -ms-transform:scale(1.05);
+  -webkit-transform:scale(1.05);
+  -moz-transform:scale(1.05);
+  -o-transform:scale(1.05);
+}
+/*下部的文字描述*/
+.brief_campusSceneryInfo{
+  width:100%;
+  text-align:center;
+  height:30px;
+  line-height:30px;
+  font-size:14px;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+/************************************2.教学教研----名师风采*/
+.exchange_teacherList{
+  width:100%;
+  margin-top:20px;
+}
+.exchange_teacherList>li{
+  float:left;
+  width:305px;
+  height:310px;
+  padding:39px 0;
+  border:1px solid #ddd;
+  margin:0 0 25px 25px;
+  cursor:pointer;
+}
+.exchange_teacherList>li:nth-child(3n+1){
+  margin:0 0 25px 0;
+}
+/*图片*/
+.exchange_teacherPic{
+  width:110px;
+  height:110px;
+  margin:0 auto;
+}
+.exchange_teacherPic>img{
+  display: block;
+  width:100%;
+}
+/*姓名*/
+.exchange_teacherName{
+  width:100%;
+  height:24px;
+  line-height:24px;
+  margin-top:16px;
+  font-size:16px;
+  color:#000;
+  font-weight:600;
+  text-align:center;
+}
+.exchange_teacherNameEn{
+  width:100%;
+  color:#666;
+  text-align:center;
+  height:30px;
+  line-height:30px;
+}
+.exchange_teacherStatus{
+  width:100%;
+  text-align:center;
+  color:#000;
+  font-size:14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.exchange_teacherStatus>span{
+  display: inline-block;
+  height:40px;
+  line-height:40px;
+  position:relative;
+}
+.exchange_teacherStatus>span:before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left:-35px;
+  height: 3px;
+  width: 70px;
+  background:#212859;
+}
+/*鼠标移入时的效果*/
+.exchange_teacherList>li:hover{
+  background:#089bdb;
+}
+.exchange_teacherList>li:hover p{
+  color:#fff;
+}
+/**************名师风采的三级页面*/
+.exchange_teacherDetail{
+  width:100%;
+  margin:20px 0;
+}
+/*左边老师的图片*/
+.exchange_teacherDetailPic{
+  float:left;
+  width:120px;
+  height:170px;
+}
+.exchange_teacherDetailPic>img{
+  display: block;
+  width:100%;
+  height:100%;
+}
+/*右边老师的信息列表*/
+.exchange_teacherDetailList{
+  float:right;
+  width:825px;
+}
+.exchange_teacherDetailList>li{
+  width:100%;
+  line-height:28px;
+  font-size:14px;
+}
+.exchange_teacherDetailList>li>span:first-child{
+  color:#000;
+  font-weight:600;
+}
+/*教学活动下面的图片展示*/
+#exchange_activitySwiper{
+  width:910px;
+  height:95px;
+  margin:0 auto;
+}
+
+/*********************************************就业招生*/
+.admissions_tailList{
+  width:100%;
+  margin-top:30px;
+}
+.admissions_tailList>li{
+  float:left;
+  width:305px;
+  margin:75px 0 30px 25px;
+  position:relative;
+  /*padding-top:75px;*/
+  transition:all linear .5s;
+  -webkit-transition:all linear .5s;
+  -o-transition:all linear .5s;
+  -moz-transition:all linear .5s;
+}
+.admissions_tailList>li:nth-child(3n+1){
+  margin:75px 0 30px 0;
+}
+/*图片部分*/
+.admissions_tailPic{
+  position:absolute;
+  top:-75px;
+  left:50%;
+  width:150px;
+  height:150px;
+  margin-left:-75px;
+}
+.admissions_tailPic>img{
+  display: block;
+  width:100%;
+}
+/*信息部分*/
+.admissions_tailInfo{
+  width:100%;
+  height:300px;
+  padding-top:100px;
+  border:1px solid #ddd;
+}
+.admissions_tailName{
+  width:100%;
+  height:40px;
+  text-align:center;
+  margin-bottom:20px;
+}
+.admissions_tailName>span{
+  display: inline-block;
+  height:40px;
+  line-height:40px;
+  font-size:14px;
+  font-weight:600;
+  position: relative;
+}
+.admissions_tailName>span:before{
+  position: absolute;
+  content:"";
+  width:100%;
+  bottom:0;
+  left:0;
+  height:3px;
+  background:#212859;
+}
+.admissions_tailInfo>p{
+  height:28px;
+  line-height:28px;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+}
+.admissions_tailInfo>p.admissions_tailStatus{
+  color:#089bdb;
+}
+/*鼠标移入的效果*/
+.admissions_tailList>li:hover{
+  transform: scale(1.09);
+  -ms-transform:scale(1.09);
+  -webkit-transform:scale(1.09);
+  -moz-transform:scale(1.09);
+  -o-transform:scale(1.09);
+}
+.admissions_tailList>li:hover .admissions_tailInfo{
+  box-shadow:0 0 2px 2px #ddd;
+  -moz-box-shadow:0 0 2px 2px #ddd;
+  -webkit-box-shadow:0 0 2px 2px #ddd;
+}
+/******************************************联系方式*/
+.contact_contactList{
+  width:100%;
+  margin-top:20px;
+}
+.contact_contactList>li{
+  height:32px;
+  margin-bottom:35px;
+}
+.contact_contactList>li:nth-child(odd){
+  float:left;
+  width:550px;
+}
+.contact_contactList>li:nth-child(odd) .contact_contactInfo{
+  max-width:490px;
+}
+.contact_contactList>li:nth-child(even){
+  float:right;
+  width:410px;
+}
+.contact_contactList>li:nth-child(even) .contact_contactInfo{
+  max-width:350px;
+}
+/*左边的图标*/
+.contact_contactIcon{
+  float:Left;
+  width:32px;
+  height:32px;
+  border:1px solid #089bdb;
+  color:#089bdb;
+  font-weight:600;
+  text-align:center;
+  line-height:30px;
+}
+.contact_contactIcon>i{
+  font-size:20px;
+}
+/*右边的文字描述*/
+.contact_contactInfo{
+  float:left;
+  margin-left:28px;
+  line-height:32px;
+  font-size:14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/*地图部分*/
+#contact_mapContent{
+  width:100%;
+  height:430px;
+  margin:5px 0 40px 0;
+}
+/*乘车线路部分*/
+.contact_driveTitle{
+  width:100%;
+  height:30px;
+  line-height:28px;
+  border-bottom:2px solid #ddd;
+  font-size:14px;
+  color:#000;
+  font-weight:600;
+}
+.contact_driveList{
+  width:100%;
+  margin-top:30px;
+}
+.contact_driveList>li{
+  width:100%;
+  height:70px;
+  margin-bottom:45px;
+}
+.contact_driveList>li:last-child{
+  margin-bottom:0;
+}
+.contact_driveIcon{
+  float:left;
+  width:70px;
+  height:70px;
+  line-height:68px;
+  text-align:center;
+  border:1px solid #089bdb;
+  color:#089bdb;
+}
+.contact_driveIcon>i{
+  font-size:30px;
+}
+.contact_driveInfo{
+  float:left;
+  margin-left:35px;
+  font-size:14px;
+  width:850px;
+  height:70px;
+  line-height:70px;
+}
+.contact_driveList>li:last-child .contact_driveInfo{
+  padding:5px 0;
+  line-height:30px;
+}
+
+/*******************返回顶部的样式*/
+.toTop{
+  position:fixed;
+  bottom:100px;
+  right:10px;
+  width:40px;
+  height:40px;
+  text-align:center;
+  line-height:40px;
+  background:rgba(0,0,0,.7);
+  cursor:pointer;
+  color:#fff;
+  display: none;
+  z-index:1000;
+}
+.toTop>i{
+  font-size:30px;
+}
+.toTop:hover{
+  background:#089bdb;
+}
+/**************页码的样式*/
+.page_outContent{
+  width:100%;
+  height:30px;
+  position:relative;
+}
+/*页码样式需要居中*/
+.page_innerContent{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+}
+.page_innerContent>p{
+  float:left;
+  height:30px;
+  line-height:28px;
+  border:1px solid #dcdcdc;
+  text-align:center;
+}
+/*上下页切换*/
+.page_previousPage,
+.page_nextPage{
+  width:60px;
+  margin-right:10px;
+  cursor:pointer;
+}
+.page_previousPage:hover,
+.page_nextPage:hover{
+  background:#089bdb;
+  color:#fff;
+  border:1px solid #089bdb;
+}
+/*页码部分*/
+.page_pageList{
+  float:left;
+}
+.page_pageList>li{
+  float:left;
+  height:30px;
+  line-height:28px;
+  border:1px solid #dcdcdc;
+  text-align:center;
+  width:30px;
+  margin-right:10px;
+  cursor:pointer;
+}
+.page_pageList>li.active,
+.page_pageList>li:hover{
+  background:#089bdb;
+  color:#fff;
+  border:1px solid #089bdb;
+}
+/*页码总数部分*/
+.page_innerContent>p.page_totalPage{
+  line-height:30px;
+  border:none;
+  margin-right:10px;
+}
+/*到第几页的部分*/
+.page_innerContent>p.page_changePage{
+  line-height:30px;
+  border:none;
+  margin:0 15px 0 5px;
+}
+.page_inputPage{
+  height:30px;
+  border:1px solid #dcdcdc;
+  padding:0 0 0 5px;
+  width:40px;
+  margin:0 5px;
+}
+/*确定的按钮*/
+.page_submitBtn{
+  width:48px;
+  cursor:pointer;
+}
+.page_submitBtn:hover{
+  background:#089bdb;
+  color:#fff;
+  border:1px solid #089bdb;
+}
+
+/*****************************页面底部*/
+/*页面底部*/
+footer{
+  width:100%;
+  height:90px;
+  padding:15px 0;
+  background:#212859;
+}
+.footerInfo{
+  width:1200px;
+  margin:0 auto;
+}
+.footerInfo>p{
+  height:30px;
+  line-height:30px;
+  width:100%;
+  text-align:center;
+  color:#fff;
+}
+.footerInfo>p>span{
+  margin-right:10px;
+}

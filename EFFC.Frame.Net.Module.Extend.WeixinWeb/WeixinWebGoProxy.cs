@@ -17,7 +17,7 @@ namespace EFFC.Frame.Net.Module.Extend.WeixinWeb
         protected override void MyUsed(ProxyManager ma, dynamic options)
         {
             var TypeName_WeixinModule = "";
-            if (ComFunc.nvl(options.WeixinModuleName) != null)
+            if (ComFunc.nvl(options.WeixinModuleName) != "")
             {
                 TypeName_WeixinModule = ComFunc.nvl(options.WeixinModuleName);
             }

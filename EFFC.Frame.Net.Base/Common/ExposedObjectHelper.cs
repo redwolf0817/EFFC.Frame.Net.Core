@@ -64,15 +64,31 @@ namespace EFFC.Frame.Net.Base.Common
             return false;
         }
 
-        public static bool TryInvoke(MethodInfo methodInfo, object target, object[] args, out object result)
+        public static bool TryInvoke(MethodInfo methodInfo, object target, object[] args, out object result, bool isthrowexception = false)
         {
             try
             {
                 result = methodInfo.Invoke(target, args);
                 return true;
             }
-            catch (TargetInvocationException) { }
-            catch (TargetParameterCountException) { }
+            catch (TargetInvocationException tie) {
+                if (isthrowexception)
+                {
+                    if (tie.InnerException != null)
+                        throw tie.InnerException;
+                    else
+                        throw tie;
+                }
+            }
+            catch (TargetParameterCountException tpce) {
+                if (isthrowexception)
+                {
+                    if (tpce.InnerException != null)
+                        throw tpce.InnerException;
+                    else
+                        throw tpce;
+                }
+            }
 
             result = null;
             return false;

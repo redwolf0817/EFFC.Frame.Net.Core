@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EFFC.Extends.LinqDLR2SQL\EFFC.Extends.LinqDLR2SQL.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Module.Business\EFFC.Frame.Net.Module.Business.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Module.Extend.EWRA\EFFC.Frame.Net.Module.Extend.EWRA.csproj" />
     <ProjectReference Include="..\EFFC.Frame.Net.Resource.Sqlite\EFFC.Frame.Net.Resource.Sqlite.csproj" />

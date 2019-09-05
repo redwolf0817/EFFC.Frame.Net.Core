@@ -15,6 +15,7 @@ namespace EFFC.Frame.Net.Module.Extend.WebGo.Log
     /// </summary>
     public class Log4Net : ILogger
     {
+        static object lockobj = new object();
         ILoggerRepository repository = null;
         log4net.ILog logInfo = null;
         log4net.ILog logDebug = null;
@@ -30,6 +31,7 @@ namespace EFFC.Frame.Net.Module.Extend.WebGo.Log
         {
             repository = LogManager.CreateRepository("NETCoreRepository");
             XmlConfigurator.Configure(repository, new FileInfo(configpath));
+            Init();
         }
 
         private void Init()
@@ -46,59 +48,46 @@ namespace EFFC.Frame.Net.Module.Extend.WebGo.Log
         /// <param name="msg"></param>
         public void WriteLog(string msg)
         {
-            Init();
             if (logError.IsErrorEnabled)
             {
                 logError.Error(msg);
             }
-            logError = null;
-
         }
 
         public void debug(string message)
         {
-            Init();
             if (logDebug.IsDebugEnabled)
             {
                 logDebug.Debug(message);
             }
-            logDebug = null;
         }
         public void error(string message)
         {
-            Init();
             if (logError.IsErrorEnabled)
             {
                 logError.Error(message);
             }
-            logError = null;
         }
         public void fatal(string message)
         {
-            Init();
             if (logFatal.IsFatalEnabled)
             {
                 logFatal.Fatal(message);
             }
-            logFatal = null;
         }
         public void info(string message)
         {
-            Init();
             if (logInfo.IsInfoEnabled)
             {
                 logInfo.Info(message);
             }
-            logInfo = null;
         }
         public void warn(string message)
         {
-            Init();
             if (logWarn.IsWarnEnabled)
             {
                 logWarn.Warn(message);
             }
-            logWarn = null;
         }
 
         #region ILogger 成員

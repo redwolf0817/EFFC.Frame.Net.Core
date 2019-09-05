@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>#v(title)</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_761537_gj7hkccluac.css">
+    <link rel="stylesheet" href="css/basic.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/swiper-4.2.2.min.css">
+</head>
+<body>
+    <!--头部-->
+    <header>
+        <!--欢迎部分-->
+        <div class="head_welcome">
+            <div class="head_welcomeInfo clear">
+                <div class="head_welcomeInfoLeft">#v(welcome)</div>
+                <div class="head_welcomeInfoRight clear">
+                    <img src="images/headerPhone.png" alt="">
+                    <span>400-100-1917</span>
+                </div>
+            </div>
+        </div>
+        <!--logo部分-->
+        <div class="head_main clear">
+            <a href="index.html" class="head_logoImg"><img src="images/logo.png" alt=""></a>
+            <!--导航部分-->
+            <ul class="head_navList clear">
+                <li><a href="index.html" class="active">学校首页</a></li>
+                <li><a href="schoolBrief.html">学校概况</a></li>
+                <li><a href="education.html">教育教学</a></li>
+                <li><a href="teaching.html">管理与教学</a></li>
+                <li><a href="moralEducation.html">德育天地</a></li>
+                <li><a href="union.html">党群工作</a></li>
+                <li><a href="discipline.html">纪委监察</a></li>
+                <li><a href="admissions.html">招生就业</a></li>
+                <li><a href="open.html">校务公开</a></li>
+                #foreach(d,data){
+                <li><a href="#v(d.id)">#v(d.name)</a></li>
+                }
+            </ul>
+        </div>
+    </header>
+    <!--主体内容部分-->
+    <section>
+        <!--banner部分-->
+        <div class="swiper-container" id="swiperMain">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/slider01.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/slider01.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="images/slider01.jpg" alt=""></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <!--校园新闻-->
+        <div class="home_innerContent">
+            <!--标题部分-->
+            <div class="home_mainTitle clear">
+                <!--标题的背景图部分-->
+                <div class="home_mainTitleBg"></div>
+                <ul class="home_mainTitleInfo">
+                    <li>校园新闻</li>
+                    <li>CAMPUS NEWS</li>
+                </ul>
+            </div>
+            <!--内容部分-->
+            <div class="home_newsContent clear">
+                <!--左边的图片新闻-->
+                <div class="swiper-container" id="swiperNews">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/homeNewsSlider01.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/homeNewsSlider01.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/homeNewsSlider01.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/homeNewsSlider01.jpg" alt=""></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <!--新闻列表部分-->
+                <div class="home_newsListContent">
+                    <ul class="home_newsList">
+                        <li class="clear">
+                            <!--左边新闻的时间-->
+                            <div class="home_newsListTime">
+                                <p>08.23</p>
+                                <p>
+                                    <span>SUNDAY</span>
+                                    <span>14:20</span>
+                                </p>
+                            </div>
+                            <!--中间展示的是新闻的标题-->
+                            <p class="home_newsListTitle">我校隆重举行“校园梦 师生情”2015年迎新文艺汇演</p>
+                            <!--右侧的查看详细的链接-->
+                            <a href="javascript:void(0)" class="home_newsListLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                        </li>
+                        <li class="clear">
+                            <!--左边新闻的时间-->
+                            <div class="home_newsListTime">
+                                <p>08.23</p>
+                                <p>
+                                    <span>THURSDAY</span>
+                                    <span>14:20</span>
+                                </p>
+                            </div>
+                            <!--中间展示的是新闻的标题-->
+                            <p class="home_newsListTitle">我校隆重举行庆祝第三十一个教师节暨表彰大会</p>
+                            <!--右侧的查看详细的链接-->
+                            <a href="javascript:void(0)" class="home_newsListLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                        </li>
+                        <li class="clear">
+                            <!--左边新闻的时间-->
+                            <div class="home_newsListTime">
+                                <p>08.23</p>
+                                <p>
+                                    <span>WEDNESDAY</span>
+                                    <span>14:20</span>
+                                </p>
+                            </div>
+                            <!--中间展示的是新闻的标题-->
+                            <p class="home_newsListTitle">我校新生国防教育开营仪式在红心基地隆重举行</p>
+                            <!--右侧的查看详细的链接-->
+                            <a href="javascript:void(0)" class="home_newsListLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                        </li>
+                        <li class="clear">
+                            <!--左边新闻的时间-->
+                            <div class="home_newsListTime">
+                                <p>08.23</p>
+                                <p>
+                                    <span>TUESDAY</span>
+                                    <span>14:20</span>
+                                </p>
+                            </div>
+                            <!--中间展示的是新闻的标题-->
+                            <p class="home_newsListTitle">2015年武汉市中等职业学校“嘉博汇杯”电工电子技术技能比赛在我校隆重举办</p>
+                            <!--右侧的查看详细的链接-->
+                            <a href="javascript:void(0)" class="home_newsListLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 学校公告 -->
+        <div class="home_outContent">
+            <div class="home_innerContent">
+                <!--标题部分-->
+                <div class="home_mainTitle clear">
+                    <!--标题的背景图部分-->
+                    <div class="home_mainTitleBg"></div>
+                    <ul class="home_mainTitleInfo">
+                        <li>学校公告</li>
+                        <li>SCHOOL ANNOUNCEMENT</li>
+                    </ul>
+                </div>
+                <!--内容部分-->
+                <ul class="home_noticeList clear">
+                    <li>
+                        <!--上部图片-->
+                        <a href="javascript:void(0)" class="home_noticeImg">
+                            <img src="images/homeNotice01.png" alt="">
+                        </a>
+                        <!--标题-->
+                        <a href="javascript:void(0)" class="home_noticeTitle">温暖工程教育移民项目2015级受资助学生名单公示</a>
+                        <div class="home_noticeDetail">
+                            中共中央、国务院在《中国农村扶贫开发纲要（2011-2020年）》中把六盘山区、大别山区等区域的连片特困地区作为扶贫攻坚主战场。中华职业教育社、中华温暖工程基金会2013年决定在六盘山区、大别山区以及中央苏区启动实施“温暖工程教育移民项目”。今年湖北省“温暖工程教育移民项目”的扶贫指标中我校分配到80个名额。
+                        </div>
+                    </li>
+                    <li>
+                        <!--上部图片-->
+                        <a href="javascript:void(0)" class="home_noticeImg">
+                            <img src="images/homeNotice02.png" alt="">
+                        </a>
+                        <!--标题-->
+                        <a href="javascript:void(0)" class="home_noticeTitle">温暖工程武陵山区助学项目2015级受资助学生名单公示</a>
+                        <div class="home_noticeDetail">
+                            中共中央办公厅、国务院在《关于贯彻落实“中国农村扶贫开发纲要（2011-2020年）”重要政策措施分工方案》中明确将武陵山区作为中央统战部等中央国家机关部门帮扶的地区之一。根据国务院有关文件精神的指示，中华职教社在武陵山区实施“同心温暖工程武陵山区助学项目”。
+                        </div>
+                    </li>
+                    <li>
+                        <!--上部图片-->
+                        <a href="javascript:void(0)" class="home_noticeImg">
+                            <img src="images/homeNotice03.png" alt="">
+                        </a>
+                        <!--标题-->
+                        <a href="javascript:void(0)" class="home_noticeTitle">武汉市仪表电子学校2015年公开招聘面试成绩公示</a>
+                        <div class="home_noticeDetail">
+                            我校2015年公开招聘面试工作已完成,根据工作程序，现将面试成绩予以公示。公示时间：5月10—19日（共7个工作日）。监督电话：52237901，欢迎社会各界监督、查询公示信息。
+                        </div>
+                    </li>
+                    <li>
+                        <!--上部图片-->
+                        <a href="javascript:void(0)" class="home_noticeImg">
+                            <img src="images/homeNotice04.png" alt="">
+                        </a>
+                        <!--标题-->
+                        <a href="javascript:void(0)" class="home_noticeTitle">武汉市仪表电子学校公开招教师拟录用人员公示</a>
+                        <div class="home_noticeDetail">
+                            公示七个工作日，公示期为2014年5月26--6月3日，如有异议致电52237901。备注：笔试成绩、面试成绩、综合成绩按照《武汉市事业单位公开招聘考试结果表》中填写。笔试、面试成绩为原始分数不折合，综合成绩为折合后的最终成绩。
+                        </div>
+                    </li>
+                </ul>
+                <!--查看更多的按钮-->
+                <a href="javascript:void(0)" class="home_noticeMore">查看更多</a>
+            </div>
+        </div>
+        <!--媒体关注-->
+        <div class="home_innerContent">
+            <!--标题部分-->
+            <div class="home_mainTitle clear">
+                <!--标题的背景图部分-->
+                <div class="home_mainTitleBg"></div>
+                <ul class="home_mainTitleInfo">
+                    <li>媒体关注</li>
+                    <li>MEDIA ATTENTION</li>
+                </ul>
+            </div>
+            <!--内容部分-->
+            <div class="home_media clear">
+                <!--左边-->
+                <div class="home_mediaLeft clear">
+                    <a href="javascript:void(0)" class="home_mediaLeftPic"><img src="images/major_homeSchool01.jpg" alt=""></a>
+                    <div class="home_mediaLeftInfo">
+                        <a href="javascript:void(0)" class="home_mediaTitle"><span>校企合作</span></a>
+                        <div class="home_mediaLeftDetail">
+                            校企合作、工学结合是中职教育改革的方向，是中职学校办出特色、办出活力的关键。目前电信专业部，与智邦、联想、电信器件等企业进行校企合作，通过这种方式使专业与企业岗位完全对接，同时可以提前占据企业优质岗位，为学生今后在企业稳定的发展奠定基础。
+                        </div>
+                    </div>
+                </div>
+                <!--右边部分-->
+                <ul class="home_mediaList">
+                    <li>
+                        <a href="javascript:void(0)" class="home_mediaRightPic"><img src="images/major_homeSchool02.jpg" alt=""></a>
+                        <div class="home_mediaRightInfo">
+                            <a href="javascript:void(0)" class="home_mediaTitle"><span>示范校教学内容改革</span></a>
+                            <div class="home_mediaRightDetail">
+                                在专业核心课程上，对一体化课程进行内容和教法进行改革，以校企合作的方式开发多门实训课程，如：DSP贴片收音机、多媒体MP3功放、蓝牙控制智能循迹小车等递进式实训项目，既实现学生知识和技能的螺旋提高，又通过实训让学生了解企业新知识、新方法、新工艺。在专业方向课程上让楚天名师、企业技术人员参与到我们教学中来，开发了《SMT质量与现场管理实习》、《SMT技术与设备实训》等课程。
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="home_mediaRightPic"><img src="images/major_homeSchool02.jpg" alt=""></a>
+                        <div class="home_mediaRightInfo">
+                            <a href="javascript:void(0)" class="home_mediaTitle"><span>示范校建设成果</span></a>
+                            <div class="home_mediaRightDetail">
+                                在示范校建设过程中开发了《电子技术基础与技能》、《单片机技术应用》、《电子产品结构与工艺》、《传感器技术应用》4门核心课程，并完成教材的出版工作以及《电子工艺技术》教学资源库的出版工作,与企业共同研发实训载体项目-智能小车等。其中《电子技术基础与技能》被评为国家规划新教材、全国机械行业优秀教材，获机械行指委技工系统优秀教材一等奖。此外，为了配合当前新技术、新工艺以及职业素养内容，开发了多本校本教材。
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--底部一个查看更多的按钮-->
+            <a href="javascript:void(0)" class="home_noticeMore">查看更多</a>
+        </div>
+        <!--职教动态-->
+        <div class="home_outContent">
+            <div class="home_innerContent">
+                <!--标题部分-->
+                <div class="home_mainTitle clear">
+                    <!--标题的背景图部分-->
+                    <div class="home_mainTitleBg"></div>
+                    <ul class="home_mainTitleInfo">
+                        <li>职教动态</li>
+                        <li>VOCATIONAL EDUCATION DYNAMIC</li>
+                    </ul>
+                </div>
+                <!--内容部分-->
+                <ul class="home_teachingList clear">
+                    <li>
+                        <div class="home_teachingImg"><img src="images/homeTeaching01.png" alt=""></div>
+                        <p class="home_teachingDate">2017.12.03</p>
+                        <p class="home_teachingTitle">师生上阵齐操炼 维修活动进教研</p>
+                        <div class="home_teachingDetail">
+                            9月13日下午，机电专业部电类教研组在组长刘倩的组织下，开展了一次别样的教研活动。组员老师带领十几位机电部12级学生一起来到维修电工实训室，大家顶着高温、拿着维修工具认真地对每一台实训电柜进行检查，修理摆放工具凳，维修更换电器元件，师生携手“做中教、做中学”，将满载教学任务的多个实训室修整一新，为后续教学活动提供了有力保障。
+                        </div>
+                        <a href="javascript:void(0)" class="home_teachingLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                    </li>
+                    <li>
+                        <div class="home_teachingImg"><img src="images/homeTeaching01.png" alt=""></div>
+                        <p class="home_teachingDate">2017.12.03</p>
+                        <p class="home_teachingTitle">我校教科研取得丰硕成果</p>
+                        <div class="home_teachingDetail">
+                            在武汉市第十二届职业教育与成人教育优秀科研成果评选中，邓国平校长的《武汉市中职区域性实训基地建设与管理研究》论文荣获一等奖；邵莉芬老师的《从学生实习看质量意识的提高》论文荣获二等奖；郝小琳老师的《中职教育一体化模块教学模式浅析》论文和胡峥老师的《专业课教学中渗透职业生涯教育探析》论文荣获优秀奖。
+                        </div>
+                        <a href="javascript:void(0)" class="home_teachingLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                    </li>
+                    <li>
+                        <div class="home_teachingImg"><img src="images/homeTeaching01.png" alt=""></div>
+                        <p class="home_teachingDate">2017.12.03</p>
+                        <p class="home_teachingTitle">示范引领，优质课堂</p>
+                        <div class="home_teachingDetail">
+                            11月2日上午，电信专业部赵洪老师讲授了一堂《用指针式万用表测量电阻》的示范课，示范课上，学生积极参与课堂教学进行实践操作，过程中赵洪老师特别注重学生的规范操作，并且教学优质高效，获得了老师和学生的高度认同和赞赏，对电信专业部年轻教师有很大的启发。课后，当老师询问学生对这堂课的教学感想时，学生表示非常喜欢赵洪老师的课，用他亲切、幽默的教学语言，把知识讲授得浅显易懂。
+                        </div>
+                        <a href="javascript:void(0)" class="home_teachingLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                    </li>
+                    <li>
+                        <div class="home_teachingImg"><img src="images/homeTeaching01.png" alt=""></div>
+                        <p class="home_teachingDate">2017.12.03</p>
+                        <p class="home_teachingTitle">获奖喜报</p>
+                        <div class="home_teachingDetail">
+                            在2012年武汉市中职学校“多媒体课程资源库暨制作”竞赛中，郭婉、金米玲、朱晓辉老师制作的《趣味孔明锁的加工》作品荣获一等奖；芮俊、孟婕老师制作的《汽车灯光系统》作品荣获二等奖；李莉、魏稳老师制作的《发型设计——盘发》作品荣获三等奖；刘晓竹、樊帆老师制作的《激光内雕》作品荣获三等奖；程娟、邵莉芬老师制作的《光纤熔接机》作品荣获三等奖。
+                        </div>
+                        <a href="javascript:void(0)" class="home_teachingLink">查看详细<i class="iconfont icon-arrow_you"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--实训条件-->
+        <div class="home_innerContent">
+            <!--标题部分-->
+            <div class="home_mainTitle clear">
+                <!--标题的背景图部分-->
+                <div class="home_mainTitleBg"></div>
+                <ul class="home_mainTitleInfo">
+                    <li>实训条件</li>
+                    <li>TRAINING CONDITION</li>
+                </ul>
+            </div>
+            <!--内容部分-->
+            <ul class="home_trainingList clear">
+                <li>
+                    <a href="javascript:void(0)">
+                        <!--图片部分-->
+                        <div class="home_trainingImg">
+                            <img src="images/homeTraining01.jpg" alt="">
+                        </div>
+                        <!--下部文字描述-->
+                        <p class="home_trainingInfo">学生教室</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <!--图片部分-->
+                        <div class="home_trainingImg">
+                            <img src="images/homeTraining02.jpg" alt="">
+                        </div>
+                        <!--下部文字描述-->
+                        <p class="home_trainingInfo">学生教室</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <!--图片部分-->
+                        <div class="home_trainingImg">
+                            <img src="images/homeTraining03.jpg" alt="">
+                        </div>
+                        <!--下部文字描述-->
+                        <p class="home_trainingInfo">学生教室</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <!--图片部分-->
+                        <div class="home_trainingImg">
+                            <img src="images/homeTraining04.jpg" alt="">
+                        </div>
+                        <!--下部文字描述-->
+                        <p class="home_trainingInfo">学生教室</p>
+                    </a>
+                </li>
+            </ul>
+            <!--底部一个查看更多的按钮-->
+            <a href="javascript:void(0)" class="home_noticeMore">查看更多</a>
+        </div>
+        <!-- 联系我们 -->
+        <div class='home_outContent'>
+            <div class='home_innerContent'>
+                <!--标题部分-->
+                <div class="home_mainTitle clear">
+                    <!--标题的背景图部分-->
+                    <div class="home_mainTitleBg"></div>
+                    <ul class="home_mainTitleInfo">
+                        <li>联系我们</li>
+                        <li>CONTACT US</li>
+                    </ul>
+                </div>
+                <div class='home_contactContent clear'>
+                    <!--联系方式的列表-->
+                    <ul class="home_contactList">
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-dianhua"></i></span>
+                            <div class="home_contactInfo">电话：027-52237988 &nbsp;&nbsp;15202743596</div>
+                        </li>
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-dizhi"></i></span>
+                            <div class="home_contactInfo">地址：武汉市东湖高新技术开发区流芳园路1号</div>
+                        </li>
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-youxiang"></i></span>
+                            <div class="home_contactInfo">邮箱：YDXX-ZHAOBAN@163.COM</div>
+                        </li>
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-wangzhi"></i></span>
+                            <div class="home_contactInfo">网址：www.ydxx.org.cn</div>
+                        </li>
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-ren"></i></span>
+                            <div class="home_contactInfo">联系人：孙老师 黄老师 熊老师 吴老师</div>
+                        </li>
+                        <li>
+                            <span class="home_contactIcon"><i class="iconfont icon-youbian"></i></span>
+                            <div class="home_contactInfo">邮编：430205</div>
+                        </li>
+                    </ul>
+                    <!--位置的地图-->
+                    <div id="home_mapContent"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 平安校园 -->
+        <div class="home_innerContent">
+            <!--标题部分-->
+            <div class="home_mainTitle clear">
+                <!--标题的背景图部分-->
+                <div class="home_mainTitleBg"></div>
+                <ul class="home_mainTitleInfo">
+                    <li>平安校园</li>
+                    <li>CAMPUS SAFETY</li>
+                </ul>
+            </div>
+            <div class="swiper-container" id="home_campusSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="images/teachActivitySlider01.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/teachActivitySlider02.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/teachActivitySlider01.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/teachActivitySlider02.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/teachActivitySlider01.jpg" alt=""></div>
+                    <div class="swiper-slide"><img src="images/teachActivitySlider02.jpg" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--底部-->
+    <footer>
+        <div class="footerInfo">
+            <p>
+                <span>版权所有@武汉市仪表电子学校</span>
+                <span>技术支持：武汉飞加网络科技有限公司</span>
+                <span>地址：武汉市东湖高新技术开发区流芳园路1号</span>
+                <span>招办传真：027-52237986</span>
+            </p>
+            <P>
+                电话：<span>027-52237988</span><span>027-87403681</span><span>13071265257</span>
+            </P>
+        </div>
+    </footer>
+    <!--返回顶部按钮-->
+    <div class="toTop" title="返回顶部"><i class="iconfont icon-up"></i></div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/swiper-4.2.2.min.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=k67kcblzt4bhnYnXtBBZljMWYhASohZt"></script>
+<script src="js/public.js"></script>
+<script>
+    // 图片轮播部份
+    var swiper01 = new Swiper('#swiperMain', {
+        pagination: {
+            el: '.swiper-pagination',
+            clickable:true
+        },
+        speed:1000,
+        autoplay: {
+            disableOnInteraction: false
+            },
+        loop: true
+    });
+
+    //图片新闻部分
+    var swiper02 = new Swiper('#swiperNews', {
+        pagination: {
+            el: '.swiper-pagination',
+            clickable:true
+        },
+        speed:1000,
+        autoplay: {
+            disableOnInteraction: false
+        },
+        loop: true
+    });
+
+    // 平安校园部分
+    var swiper03 = new Swiper('#home_campusSwiper', {
+        slidesPerView: 6,
+        spaceBetween: 15,
+        speed:1000,
+        autoplay: {
+            disableOnInteraction: false
+        },
+        loop: true
+    });
+
+    // 校园地图部分
+    (function initMap(){
+        // 百度地图API功能
+        var map = new BMap.Map("home_mapContent"),    // 创建Map实例
+            point=new BMap.Point(114.450865,30.471312);
+        map.centerAndZoom(point, 19);  // 初始化地图,设置中心点坐标和地图级别
+        var opts={
+                position:point,//指定文本标注所在的地理位置
+                offset:new BMap.Size(-10,40)//设置文本偏移量
+            },
+            label=new BMap.Label("武汉市仪表电子学校",opts),
+            marker=new BMap.Marker(point);//创建标注
+        label.setStyle({
+            color:"red",
+            fontSize:"14px",
+            height:"24px",
+            lineHeight:"24px",
+            fontFamily:"微软雅黑"
+        });
+        map.addOverlay(marker);//将标注添加到地图中
+        marker.setLabel(label);
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        map.setCurrentCity("武汉");//设置地图显示的城市
+        map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
+        map.addTileLayer(new BMap.PanoramaCoverageLayer());//覆盖区域图层测试
+        var stCtrl=new BMap.PanoramaControl();//构造全景控件
+        stCtrl.setOffset(new BMap.Size(20,20));
+        map.addControl(stCtrl);//添加全景控件
+        var top_left_control=new BMap.NavigationControl();
+        map.addControl(top_left_control);//左上角添加默认缩放平移控件
+    })()
+</script>
+</body>
+</html>

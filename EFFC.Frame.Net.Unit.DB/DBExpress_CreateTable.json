@@ -1,0 +1,13 @@
+{
+  "$acttype": "CreateTable",
+  "$table": "table的名称",
+  "column1": {
+    "$datatype": "数据类型，固定为varchar,nvarchar,int,numberic,bit,datetime,text",
+    "$precision": "数据精度，int类型，当数据类型varchar，nvarchar，numberic有效",
+    "$scale": "比例标准，int类型，仅numberic类型有效",
+    "$default": "默认值或表达式，当前支持的标准表达式为:now()(mysql,sqlite不支持),increament(整数)(oracle,sqlite不支持)",
+    "$isnull": "是否允许为空，为bool类型"
+  },
+  "$pk": [ "column1", "column2" ] //PK设定，为字符串数组，值为上面定义的栏位名称
+}
+

@@ -1,0 +1,17 @@
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.deps.json
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.pdb
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Base.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Global.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.HttpCall.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Global.pdb
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Global.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.HttpCall.pdb
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Module.HttpCall.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\bin\Release\netcoreapp2.0\EFFC.Frame.Net.Base.pdb
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Module.Extend.WeChat\obj\Release\netcoreapp2.0\EFFC.Frame.Net.Module.Extend.WeChat.pdb

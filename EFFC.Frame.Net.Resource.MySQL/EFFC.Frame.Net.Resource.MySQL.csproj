@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <Authors>YCH</Authors>
     <Company>EFFC@ItTrending</Company>
     <Product>EFFC.Frame.Net.Resource.MySQL</Product>
@@ -10,21 +10,41 @@
     <PackageTags>EFFC</PackageTags>
     <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
 本包为基础库包含EFFC框架的基础接口和基本资源API
-.net core 2.0升级版本</PackageReleaseNotes>
-    <AssemblyVersion>3.5.2.0</AssemblyVersion>
-    <FileVersion>3.5.1.0</FileVersion>
+.net core 2.0升级版本
+
+1.0.2：基础库Base更新
+1.0.3:   DBExpress更新
+1.0.3.1:Unit.DB更新,DBAccess中的CommandTimeout的设定调整
+1.0.3.2:解决BulkInsert在Centos下导入只有一笔的问题
+1.0.3.3:解决在执行sql操作时发生异常抛出的异常不清晰的问题，将commandtimeout时间设为1小时
+1.0.3.4:解决BulkInsert对于linq转化出来的匿名对象不识别导致的异常
+1.0.3.5:引用库EFFC.Frame.Net.Base升级到1.0.6
+1.1.0:升级.netcore到2.1.2
+1.1.1:ADBAccess引入NewLinqTable，可以通过该方法获取对应LinqDLR2SQL的实例，实现该抽象方法
+Base库升级到1.1.1
+MySqlExpress新增CreateTable指令的重载
+1.1.2：EFFC.Frame.Net.Unit.DB升级到1.1.2
+新增MySqlLamdaSQLObject
+1.1.2.1:Mysql.Data升级到8.0.15</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>EFFC.Frame.Net.Resource.MySQL.Key.snk</AssemblyOriginatorKeyFile>
-    <Version>1.0.1</Version>
+	<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <Version>1.1.2.1</Version>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DocumentationFile>..\Frame.Net.Release\netcoreapp1.1\EFFC.Frame.Net.Resource.MySQL.xml</DocumentationFile>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.MySQL.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="6.10.4" />
+    <PackageReference Include="MySql.Data" Version="8.0.15" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Resouces.Others.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Resource.Files\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Resource.Others.pdb

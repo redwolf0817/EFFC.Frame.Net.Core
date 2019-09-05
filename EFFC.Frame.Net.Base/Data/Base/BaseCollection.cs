@@ -400,6 +400,25 @@ namespace EFFC.Frame.Net.Base.Data.Base
             Remove(domain + "." + key);
         }
         /// <summary>
+        /// 判断是否含有key
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool ContainsKey(string domain,string key)
+        {
+            return ContainsKey(domain + "." + key);
+        }
+        /// <summary>
+        /// 判断是否含有key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool ContainsKey(string key)
+        {
+            return Keys.Contains(key);
+        }
+        /// <summary>
         /// 扩展属性
         /// </summary>
         public dynamic ExtentionObj

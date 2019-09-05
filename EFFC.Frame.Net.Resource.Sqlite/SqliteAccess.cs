@@ -5,12 +5,14 @@ using System.Text;
 using EFFC.Frame.Net.Unit.DB.Datas;
 using EFFC.Frame.Net.Unit.DB.Parameters;
 using EFFC.Frame.Net.Base.Interfaces.Core;
-using Microsoft.Data.Sqlite;
+
 using EFFC.Frame.Net.Base.Constants;
 using System.Data.Common;
 using EFFC.Frame.Net.Base.Common;
 using System.Data;
 using EFFC.Frame.Net.Base.Data;
+using Microsoft.Data.Sqlite;
+using EFFC.Extends.LinqDLR2SQL;
 
 namespace EFFC.Frame.Net.Resource.Sqlite
 {
@@ -27,8 +29,8 @@ namespace EFFC.Frame.Net.Resource.Sqlite
         public override string ParameterFlagChar => "$";
         SqliteExpress _express = new SqliteExpress();
         public override DBExpress MyDBExpress => _express;
+        public override DBType MyType => DBType.Sqlite;
 
-        
 
         public override void BeginTransaction(System.Data.IsolationLevel level)
         {
@@ -87,7 +89,7 @@ namespace EFFC.Frame.Net.Resource.Sqlite
             {
                 dc = new SqliteCommand(sp_name, this.sqlconn);
             }
-            dc.CommandTimeout = 90;
+            //dc.CommandTimeout = 90;
             dc.CommandType = CommandType.StoredProcedure;
             FillParametersToCommand(dc, dbp);
             SqliteDataReader ddr = null;
@@ -133,7 +135,7 @@ namespace EFFC.Frame.Net.Resource.Sqlite
             if (sqlcomm == null)
             {
                 sqlcomm = new SqliteCommand(sql, this.sqlconn);
-                sqlcomm.CommandTimeout = 90;
+                //sqlcomm.CommandTimeout = 90;
             }
             else
             {
@@ -195,7 +197,7 @@ namespace EFFC.Frame.Net.Resource.Sqlite
             if (sqlcomm == null)
             {
                 sqlcomm = new SqliteCommand(sql, this.sqlconn);
-                sqlcomm.CommandTimeout = 90;
+                //sqlcomm.CommandTimeout = 90;
             }
             else
             {
@@ -386,5 +388,19 @@ select * from (" + sql + @") order by "+ orderby4page + @" limit " + count_of_pa
 
             return columnsName4PageOrder;
         }
+
+        /// <summary>
+        /// 生成一个LinqDLR2SQL对象用于Linq操作
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="alianname"></param>
+        /// <returns></returns>
+        public override LinqDLRTable NewLinqTable(string table, string alianname = "")
+        {
+            var tn = alianname == "" ? table : alianname;
+            LinqDLRTable rtn = LinqDLRTable.New<LinqDLRTable>(new SqliteLamdaSQLObject(tn, new SqliteOperatorFlags()), table, alianname, new SqliteSqlGenerator());
+            return rtn;
+        }
+
     }
 }

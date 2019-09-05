@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Unit.DataObjectDefine</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Frame.Net.Unit.DataObjectDefine.Datas.DOCollection">
+            <summary>
+            DataObject的数据集定义
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Datas.DOCollection.PropertyValue">
+            <summary>
+            获取的属性值
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Datas.DOCollection.ListValue">
+            <summary>
+            获取的列表值
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DataObjectDefine.DODUnitProxy">
+            <summary>
+            DODUnit呼叫Proxy
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.DODUnitProxy.CallDOD``1(EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter)">
+            <summary>
+            呼叫DOD
+            </summary>
+            <typeparam name="TDODUnit"></typeparam>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.DODUnitProxy.GetDOD(System.String,EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter)">
+            <summary>
+            获取Unit实例
+            </summary>
+            <param name="unitname"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter">
+            <summary>
+            DataObject的参数集定义
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter.UnitAssembly">
+            <summary>
+            DOD Unit所在的Assembly名称
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit">
+            <summary>
+            DOD作业主要针对各种查询操作，因此在开发时注意使用with(nolock)模式以解决事务锁的问题
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.Configs">
+            <summary>
+            Config操作
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.Init(EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter)">
+            <summary>
+            初始化
+            当属性值从cache中获取时则不会调用
+            </summary>
+            <param name="p"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.UUID">
+            <summary>
+            唯一ID标识
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.GetSourceDefinition(System.String)">
+            <summary>
+            获取属性来源定义
+            </summary>
+            <param name="propertyname"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.InstanceID">
+            <summary>
+            获取实例编号
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.After(EFFC.Frame.Net.Unit.DataObjectDefine.Parameters.DODParameter)">
+            <summary>
+            结尾处理
+            当属性值从cache中获取时则不会调用
+            </summary>
+            <param name="p"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.SetCache(System.String,EFFC.Frame.Net.Unit.DataObjectDefine.Datas.DOCollection,System.DateTime,System.TimeSpan)">
+            <summary>
+            写入缓存
+            </summary>
+            <param name="propertyname"></param>
+            <param name="value"></param>
+            <param name="expiration"></param>
+            <param name="sliding_expiration"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.GetCache(System.String)">
+            <summary>
+            获取缓存的属性数据
+            </summary>
+            <param name="propertyname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.RemoveCache(System.String)">
+            <summary>
+            移除缓存
+            </summary>
+            <param name="propert"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.CacheSetting.IsCache">
+            <summary>
+            是否缓存，默认为是
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.CacheSetting.CacheExpiration">
+            <summary>
+            在指定的时间过期，默认为永不过期
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.CacheSetting.CacheSlidingExpiration">
+            <summary>
+            多长时间不用就会过期，默认为30分钟
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.Query``1(System.String,System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            DB资料查询
+            自动识别sql中的参数，并从传入的参数集中找对应的参数，如果没有，则需补充自定义的参数定义
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="connstr"></param>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.Query``1(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            DB资料查询，连接串使用默认框架默认连接
+            自动识别sql中的参数，并从传入的参数集中找对应的参数，如果没有，则需补充自定义的参数定义
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.NonQuery``1(System.String,System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            DB资料非查询
+            自动识别sql中的参数，并从传入的参数集中找对应的参数，如果没有，则需补充自定义的参数定义
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="connstr"></param>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.NonQuery``1(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+             DB资料非查询，连接串使用默认框架默认连接
+            自动识别sql中的参数，并从传入的参数集中找对应的参数，如果没有，则需补充自定义的参数定义
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="param"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.ExcuteSP``1(System.String,System.String,System.Boolean,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            执行sp
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="connstr"></param>
+            <param name="spname"></param>
+            <param name="isreturnds"></param>
+            <param name="dbp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.ExcuteSP``1(System.String,System.Boolean,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            执行SP，连接串使用默认框架默认连接
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="spname"></param>
+            <param name="isreturnds"></param>
+            <param name="dbp"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.InputP">
+            <summary>
+            传入参数操作
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Unit.DataObjectDefine.Unit.DODBaseUnit.InputPHelper.CurrentPropertyName">
+            <summary>
+            当前需要的属性名称
+            </summary>
+        </member>
+    </members>
+</doc>

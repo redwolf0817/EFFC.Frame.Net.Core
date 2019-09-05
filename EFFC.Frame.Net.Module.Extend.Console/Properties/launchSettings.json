@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "EFFC.Frame.Net.Module.Extend.EConsole": {
+      "commandName": "Executable"
+    }
+  }
+}

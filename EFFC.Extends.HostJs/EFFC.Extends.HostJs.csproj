@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>YCH</Authors>
+    <Company>EFFC@EFFCYun</Company>
+    <Description>E.F.F.C Extends Lib</Description>
+    <Copyright>Copyright © EFFCYun  2019</Copyright>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <PackageTags>EFFC</PackageTags>
+    <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为扩展库包含较为HostJs扩展模块
+1.0.0:将EFFC.Base下的HostJs相关内容迁移到本库中</PackageReleaseNotes>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>EFFC.Extends.HostJs.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Frame.Net.Release\EFFC.Extends.HostJs.xml</DocumentationFile>
+    <OutputPath>..\Frame.Net.Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFFC.ChakraCore" Version="1.1.0" />
+    <PackageReference Include="EFFC.VRoomJs" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFFC.Frame.Net.Global\EFFC.Frame.Net.Global.csproj" />
+  </ItemGroup>
+
+</Project>

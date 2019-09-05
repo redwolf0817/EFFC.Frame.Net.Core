@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Module.Tag</name>
+    </assembly>
+    <members>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Datas.TagData.ParsedText">
+            <summary>
+            解析完成之后的结果对象
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Datas.TagData.Context">
+            <summary>
+            标签解析的上下文
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.ITagParser">
+            <summary>
+            标签解析器
+            </summary>
+            <typeparam name="P"></typeparam>
+            <typeparam name="D"></typeparam>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.TagName">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.Category">
+            <summary>
+            标签分类，可以为多种，每种用逗号分隔。
+            种类为base的会最优先执行，而且为base类的标签是最基本的，不会需要其他的标签辅助
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.ArgNames">
+            <summary>
+            参数集名称列表
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.Priority">
+            <summary>
+            优先级序号，数字越小越优先
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.ITagParser.DoParse(EFFC.Frame.Net.Module.Tag.Parameters.TagParameter,EFFC.Frame.Net.Module.Tag.Datas.TagData)">
+            <summary>
+            进行文本解析
+            </summary>
+            <param name="p"></param>
+            <param name="d"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.IsNeedBrace">
+            <summary>
+            是否需要大括号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.ITagParser.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.ITagParser.ToJsonObject">
+            <summary>
+            将本Tag的相关信息转化成json对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter">
+            <summary>
+            标签的参数集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter.Text">
+            <summary>
+            待解析文本
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter.RootPath">
+            <summary>
+            rootpath对应的物理路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter.CommonLibPath">
+            <summary>
+            公共库的物理路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter.RunTimeLibPath">
+            <summary>
+            运行时库的物理路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Parameters.TagParameter.BindObject">
+            <summary>
+             待绑定的对象
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.TagCallModule">
+            <summary>
+            标签解析模块
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagCallModule.Init(EFFC.Frame.Net.Module.Tag.Parameters.TagParameter,EFFC.Frame.Net.Module.Tag.Datas.TagData)">
+            <summary>
+            初始化上下文，为后续处理加载对应的解析器,可重载
+            </summary>
+            <param name="tp"></param>
+            <param name="td"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.TagCallModule.TTagEntity.TTag">
+            <summary>
+            Tag类型
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.TagCallModule.TTagEntity.TagName">
+            <summary>
+            Tag名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.TagCallModule.TTagEntity.Priority">
+            <summary>
+            加载优先级
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.TagContext">
+            <summary>
+            标签上下文
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.AddTagParser(EFFC.Frame.Net.Module.Tag.ITagParser)">
+            <summary>
+            新增一个解析器
+            </summary>
+            <param name="key"></param>
+            <param name="parser"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.GetTagParser(System.String)">
+            <summary>
+            根据标签名称获取标签解析器实例
+            </summary>
+            <param name="tagname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.GetTagParsers(System.String)">
+            <summary>
+            按照分类获取标签解析器
+            </summary>
+            <param name="categoryname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.GetAllTagParsers">
+            <summary>
+            获取所有的标签解析器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.TagContext.TagNames">
+            <summary>
+            获取所有已经注册的标签
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.SetParsedContent(EFFC.Frame.Net.Module.Tag.ITagParser,System.String,System.Object)">
+            <summary>
+            将中间解析内容写入context
+            </summary>
+            <param name="parser"></param>
+            <param name="key"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.GetParsedContent(System.String,System.String)">
+            <summary>
+            获取中间解析内容
+            </summary>
+            <param name="tagname"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.AddBindObject(System.String,System.Object)">
+            <summary>
+            添加绑定的对象
+            </summary>
+            <param name="name"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.TagContext.GetBindObject(System.String)">
+            <summary>
+            获取绑定的对象
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.TagSimpleProxy">
+            <summary>
+            Tag的简易呼叫代理器
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Tags.BaseTag">
+            <summary>
+            基类-标签解析器
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.regstrwithbrace">
+            <summary>
+            带大括号的标签文本
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.regstrwithoutbrace">
+            <summary>
+            不带大括号的标签文本
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.regArgs">
+            <summary>
+            找出args
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.regcontent">
+            <summary>
+            找出括号中的content
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.CurrentContext">
+            <summary>
+            当前呼叫环境下的Tag Context
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.TagName">
+            <summary>
+            标签名字
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.Category">
+            <summary>
+            标签类别
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.ArgNames">
+            <summary>
+            参数名称集合
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.IsNeedBrace">
+            <summary>
+            是否需要大括号
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.BaseTag.Priority">
+            <summary>
+            加载优先级，正数，数字越小优先加载
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Tags.CopyParser">
+            <summary>
+            将ref标记的内容拷贝到本标签位置
+            参数：ref_p:ref标记的名称
+                  times：拷贝次数
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Tags.LoadParser">
+            <summary>
+            将文本中所有的Load标签都转化成对应的文本加载进来，提供给全局标签解析器解析
+            如果发现加载的文本中依然有load标签则递归找下去，直到没有一个load标签为止
+            参数只有一个就是文本路径，路径可以使用~作为rootpath,该参数由module中的TagParameter.RootPath提供
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.LoadParser.regstr">
+            <summary>
+            找出load标签的文本
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.LoadParser.regArgs">
+            <summary>
+            找出args
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.Tags.LoadParser.DoParse(EFFC.Frame.Net.Module.Tag.Parameters.TagParameter,EFFC.Frame.Net.Module.Tag.Datas.TagData)">
+            <summary>
+            解析
+            </summary>
+            <param name="p"></param>
+            <param name="d"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.Tags.LoadParser.LoadTextFromArgs(System.String,EFFC.Frame.Net.Module.Tag.Parameters.TagParameter,EFFC.Frame.Net.Module.Tag.Datas.TagData)">
+            <summary>
+            自定义扩展:通过传入的参数来获取要加载后的文本
+            </summary>
+            <param name="tagstr">被解析后的标签串（含参数），格式为#load(xxx)</param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Tags.RefParser">
+            <summary>
+            引用文本解析，将引用的文本用传入的参数做标记，提供给其它标签使用，引用的文本不做任何改动
+            参数:
+            flag:引用的名称
+            isreserve:是否保留文本内容,默认为true
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Tag.Tags.RefParser.DoProcess(System.Object,System.String)">
+            <summary>
+            进行ref标签解析
+            </summary>
+            <param name="args"></param>
+            <param name="content"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.RefParser.TagName">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.RefParser.Category">
+            <summary>
+            标签种类
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.RefParser.ArgNames">
+            <summary>
+            标签参数
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Tag.Tags.RefParser.IsNeedBrace">
+            <summary>
+            是否含有大括号
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Tag.Tags.TagsParser">
+            <summary>
+            标签解析器
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.TagsParser.regstr">
+            <summary>
+            全标签解析正则
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.TagsParser.regTagName_args">
+            <summary>
+            抓取标签名称和参数
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.TagsParser.regTagName">
+            <summary>
+            标签的名称
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Tag.Tags.TagsParser.regTagArgs">
+            <summary>
+            标签的参数
+            </summary>
+        </member>
+    </members>
+</doc>

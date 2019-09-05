@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EFFC.Extends.JWT</id>
+    <version>1.1.0</version>
+    <authors>YCH</authors>
+    <owners>YCH</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</projectUrl>
+    <description>E.F.F.C Extends Lib-JWT</description>
+    <releaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为扩展库包含较为独立的工具使用扩展模块
+
+1.0.0:新增JWTHelper
+1.1.0:升级.netcore到2.1.2</releaseNotes>
+    <copyright>Copyright © ItTrending  2018</copyright>
+    <tags>EFFC</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.1">
+        <dependency id="EFFC.Frame.Net.Global" version="1.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="E:\work\EFFC\3.5.3\EFFC.Extends.JWT\bin\Release\netcoreapp2.1\EFFC.Extends.JWT.dll" target="lib\netcoreapp2.1\EFFC.Extends.JWT.dll" />
+  </files>
+</package>

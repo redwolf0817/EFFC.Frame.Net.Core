@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EFFC.Frame.Net.Resource.MySQL</id>
+    <version>1.1.2</version>
+    <authors>YCH</authors>
+    <owners>YCH</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</projectUrl>
+    <description>E.F.F.C Frame Resource MySQL Lib</description>
+    <releaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
+本包为基础库包含EFFC框架的基础接口和基本资源API
+.net core 2.0升级版本
+
+1.0.2：基础库Base更新
+1.0.3:   DBExpress更新
+1.0.3.1:Unit.DB更新,DBAccess中的CommandTimeout的设定调整
+1.0.3.2:解决BulkInsert在Centos下导入只有一笔的问题
+1.0.3.3:解决在执行sql操作时发生异常抛出的异常不清晰的问题，将commandtimeout时间设为1小时
+1.0.3.4:解决BulkInsert对于linq转化出来的匿名对象不识别导致的异常
+1.0.3.5:引用库EFFC.Frame.Net.Base升级到1.0.6
+1.1.0:升级.netcore到2.1.2
+1.1.1:ADBAccess引入NewLinqTable，可以通过该方法获取对应LinqDLR2SQL的实例，实现该抽象方法
+Base库升级到1.1.1
+MySqlExpress新增CreateTable指令的重载
+1.1.2：EFFC.Frame.Net.Unit.DB升级到1.1.2
+新增MySqlLamdaSQLObject</releaseNotes>
+    <copyright>Copyright © ItTrending  2017</copyright>
+    <tags>EFFC</tags>
+    <dependencies>
+      <group targetFramework=".NETCoreApp2.1">
+        <dependency id="EFFC.Frame.Net.Unit.DB" version="1.1.2" exclude="Build,Analyzers" />
+        <dependency id="MySql.Data" version="6.10.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/netcoreapp2.1/app.config.transform" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlCommand.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlCommandBuilder.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlConnection.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlConnectionStringBuilder.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlDataAdapter.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlDataReader.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlException.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlHelper.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlParameter.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlParameterCollection.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/MySqlTransaction.xml" buildAction="Content" />
+      <files include="any/netcoreapp2.1/web.config.transform" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.MySQL.dll" target="lib\netcoreapp2.1\EFFC.Frame.Net.Resource.MySQL.dll" />
+    <file src="E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.MySQL.xml" target="lib\netcoreapp2.1\EFFC.Frame.Net.Resource.MySQL.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\app.config.transform" target="content\app.config.transform" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\app.config.transform" target="contentFiles\any\netcoreapp2.1\app.config.transform" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlCommand.xml" target="content\MySqlCommand.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlCommand.xml" target="contentFiles\any\netcoreapp2.1\MySqlCommand.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlCommandBuilder.xml" target="content\MySqlCommandBuilder.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlCommandBuilder.xml" target="contentFiles\any\netcoreapp2.1\MySqlCommandBuilder.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlConnection.xml" target="content\MySqlConnection.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlConnection.xml" target="contentFiles\any\netcoreapp2.1\MySqlConnection.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlConnectionStringBuilder.xml" target="content\MySqlConnectionStringBuilder.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlConnectionStringBuilder.xml" target="contentFiles\any\netcoreapp2.1\MySqlConnectionStringBuilder.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlDataAdapter.xml" target="content\MySqlDataAdapter.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlDataAdapter.xml" target="contentFiles\any\netcoreapp2.1\MySqlDataAdapter.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlDataReader.xml" target="content\MySqlDataReader.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlDataReader.xml" target="contentFiles\any\netcoreapp2.1\MySqlDataReader.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlException.xml" target="content\MySqlException.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlException.xml" target="contentFiles\any\netcoreapp2.1\MySqlException.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlHelper.xml" target="content\MySqlHelper.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlHelper.xml" target="contentFiles\any\netcoreapp2.1\MySqlHelper.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlParameter.xml" target="content\MySqlParameter.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlParameter.xml" target="contentFiles\any\netcoreapp2.1\MySqlParameter.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlParameterCollection.xml" target="content\MySqlParameterCollection.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlParameterCollection.xml" target="contentFiles\any\netcoreapp2.1\MySqlParameterCollection.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlTransaction.xml" target="content\MySqlTransaction.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\docs\MySqlTransaction.xml" target="contentFiles\any\netcoreapp2.1\MySqlTransaction.xml" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\web.config.transform" target="content\web.config.transform" />
+    <file src="C:\Users\admin\.nuget\packages\mysql.data\6.10.4\contentFiles\any\netstandard1.3\web.config.transform" target="contentFiles\any\netcoreapp2.1\web.config.transform" />
+  </files>
+</package>

@@ -1,0 +1,43 @@
+﻿{
+  "$acttype": "CreateTable",
+  "$table": "EXTEND_ROLE_LOGIN",
+  "RoleNo": {
+    "$datatype": "varchar",
+    "$precision": 20,
+    "$isnull": false
+  },
+  "LoginUID": {
+    "$datatype": "varchar",
+    "$precision": 50,
+    "$isnull": false
+  },
+  "add_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "add_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "add_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "last_id": {
+    "$datatype": "varchar",
+    "$precision": 10,
+    "$isnull": true
+  },
+  "last_ip": {
+    "$datatype": "varchar",
+    "$precision": 15,
+    "$isnull": true
+  },
+  "last_time": {
+    "$datatype": "datetime",
+    "$isnull": true
+  },
+  "$pk": [ "RoleNo", "LoginUID" ]
+}

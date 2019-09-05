@@ -1,6 +1,8 @@
 ﻿using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
+using EFFC.Frame.Net.Base.Data;
 using EFFC.Frame.Net.Base.Data.Base;
+using EFFC.Frame.Net.Unit.DB;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,779 +12,356 @@ using System.Threading.Tasks;
 
 namespace EFFC.Frame.Net.Base.ResouceManage.DB
 {
-    public class OracleExpress : DBExpress
+    public class OracleExpress : SqlTypeDBExpress
     {
-        const string pflag = ":";
-        const string linkflag = "||";
-        //table别名列表
-        List<string> alianeName = new List<string>();
-        //变量编号列表
-        Dictionary<string, int> _nodic = new Dictionary<string, int>();
-        protected override FrameDLRObject ParseExpress(FrameDLRObject obj)
+        protected override string ParameterFlag => ":";
+
+        protected override string LinkFlag => "||";
+        protected override string Column_Quatation => "{0}";
+
+        protected override string IfTableEmptyThen4Query()
+        {
+            return "from dual";
+        }
+
+        protected override dynamic ParseCopyData(FrameDLRObject obj)
         {
             var rtn = FrameDLRObject.CreateInstance();
+            var table = ComFunc.nvl(obj.GetValue("$table"));
+            var to_table = ComFunc.nvl(obj.GetValue("$to_table"));
+            var if_not_exists = BoolStd.IsNotBoolThen(obj.GetValue("$if_not_exists"), false);
+            var filter = obj.GetValue("$where");
+            var sql = "INSERT INTO #new_table_name##columns_to# SELECT #columns_from# FROM #table_name# #where#";
+            var not_exists_filter = $"NOT EXISTS(SELECT 1 FROM {to_table} #where#)";
+            var columns_to = "";
+            var columns_from = "";
             var datacollection = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
-            var sql = "";
-            var cols = "";
             var where = "";
-            var table = "";
-            var orderby = "";
-            var prefix = "";
-            switch (CurrentAct)
-            {
-                case ActType.Query:
-                    sql = @"select #prefix#
-    #cols# 
-    from #table# 
-    #where# 
-    #orderby# ";
-                    break;
-                case ActType.Delete:
-                    sql = @"delete 
-    from #table# 
-    #where# ";
-                    break;
-                case ActType.Insert:
-                    sql = @"insert into #table##cols# ";
-                    break;
-                case ActType.Update:
-                    sql = @"update #table# 
-    set #cols# 
-    #where# ";
-                    break;
-            }
-            foreach (var k in obj.Keys)
-            {
-                if (k.StartsWith("$"))
-                {
-                    if (k.ToLower() == "$where")
-                    {
-                        where = SqlWhere((FrameDLRObject)obj.GetValue(k), datacollection);
-                    }
-                    else if (k.ToLower() == "$table")
-                    {
-                        table = Table(obj.GetValue(k), datacollection);
-                    }
-                    else if (k.ToLower() == "$orderby")
-                    {
-                        orderby = OrderBy(obj.GetValue(k));
-                        orderby = orderby.Length > 0 ? "order by " + orderby : orderby;
-                    }
-                    //$distinct由$prefix替代，不再使用 deleted by chuan.yin in 2015/11/11
-                    //else if (k.ToLower() == "$distinct")
-                    //{
-                    //    if (obj.GetValue(k) is bool
-                    //        && (bool)obj.GetValue(k))
-                    //    {
-                    //        prifix = "distinct";
-                    //    }
-                    //}
-                    else if (k.ToLower() == "$prefix")
-                    {
-                        if (obj.GetValue(k) is string)
-                        {
-                            prefix = ComFunc.nvl(obj.GetValue(k));
-                        }
-                    }
-                }
-                else
-                {
-                    var v = obj.GetValue(k);
-                    if (this.CurrentAct == ActType.Query)
-                    {
-                        if (v is bool)
-                        {
-                            var isdislpay = (bool)v;
-                            if (isdislpay)
-                            {
-                                cols += (cols.Length > 0 ? "," : "") + k;
-                            }
-                        }
-                        else if (v is string)
-                        {
-                            if (ComFunc.nvl(v).StartsWith("#sql:"))
-                            {
-                                var asexpress = ComFunc.nvl(v).Replace("#sql:", "") + " as " + k;
-                                cols += (cols.Length > 0 ? "," : "") + asexpress;
-                            }
-                            else
-                            {
-                                cols += (cols.Length > 0 ? "," : "") + "'" + v + "' as " + k;
-                            }
-                        }
-                        else if (v is int || v is double)
-                        {
-                            cols += (cols.Length > 0 ? "," : "") + "" + v + " as " + k;
-                        }
-                        else if (v is DateTime)
-                        {
-                            cols += (cols.Length > 0 ? "," : "") + "to_date('" + ((DateTime)v).ToString("yyyy-MM-dd HH24:mi:ss") + "','yyyy-MM-dd HH24:mi:ss') as " + k;
-                        }
-                    }
-                    else if (CurrentAct == ActType.Insert)
-                    {
-                        var colstr = "{0}#nextcol#";
-                        var valuesstr = "{0}#nextvlaue#";
-                        if (v is string || v is int || v is double || v is DateTime || v is bool)
-                        {
-                            var pkey = GetParameterSerialno(k);
-                            var realdata = ConvertObject(v);
-                            if (realdata.DataType == DataType.Value)
-                            {
-                                datacollection.SetValue(pkey, realdata.Content);
+            var not_exists_where = where;
 
-                                if (cols == "")
-                                {
-                                    cols = string.Format("({0})values({1})", string.Format(colstr, k), string.Format(valuesstr, pflag + pkey));
-                                }
-                                else
-                                {
-                                    cols = cols.Replace("#nextcol#", "," + string.Format(colstr, k)).Replace("#nextvlaue#", "," + string.Format(valuesstr, pflag + pkey));
-                                }
-                            }
-                            else
-                            {
-                                if (cols == "")
-                                {
-                                    cols = string.Format("({0})values({1})", string.Format(colstr, k), string.Format(valuesstr, realdata.Content));
-                                }
-                                else
-                                {
-                                    cols = cols.Replace("#nextcol#", "," + string.Format(colstr, k)).Replace("#nextvlaue#", "," + string.Format(valuesstr, realdata.Content));
-                                }
-                            }
-                        }
-                    }
-                    else if (CurrentAct == ActType.Update)
-                    {
-                        if (v is string || v is int || v is double || v is DateTime || v is bool)
-                        {
-                            var pkey = GetParameterSerialno(k);
-                            var realdata = ConvertObject(v);
-                            var fstr = "{0}={1}";
-                            if (realdata.DataType == DataType.Value)
-                            {
-                                datacollection.SetValue(pkey, realdata.Content);
-                                if (cols == "")
-                                {
-                                    cols = string.Format(fstr, k, pflag + pkey);
-                                }
-                                else
-                                {
-                                    cols += "," + string.Format(fstr, k, pflag + pkey);
-                                }
-                            }
-                            else
-                            {
-                                if (cols == "")
-                                {
-                                    cols = string.Format(fstr, k, realdata.Content);
-                                }
-                                else
-                                {
-                                    cols += "," + string.Format(fstr, k, realdata.Content);
-                                }
-                            }
-                        }
-                    }
-                }
+            if (filter != null && filter is FrameDLRObject)
+            {
+                where = SqlWhere((FrameDLRObject)filter, datacollection);
+                not_exists_where = where;
+            }
+            foreach (var k in obj.Keys.Where(w => !w.StartsWith("$")))
+            {
+                columns_from += $",{ColumnFormat(k)} AS {ColumnFormat(ComFunc.nvl(obj.GetValue(k)))}";
+                columns_to += $",{ColumnFormat(ComFunc.nvl(obj.GetValue(k)))}";
+                not_exists_where = not_exists_where.Replace(k, ComFunc.nvl(obj.GetValue(k)));
             }
 
-            if (CurrentAct == ActType.Query)
+            columns_to = string.IsNullOrEmpty(columns_to) ? "" : $"({columns_to.Substring(1)})";
+            columns_from = string.IsNullOrEmpty(columns_from) ? "*" : columns_from.Substring(1);
+            if (if_not_exists)
             {
-                cols = cols.Length > 0 ? cols : "*";
+                not_exists_filter = !string.IsNullOrEmpty(not_exists_where) ? not_exists_filter.Replace("#where#", $"WHERE {not_exists_where}") : not_exists_filter.Replace("#where#", "");
+                where = string.IsNullOrEmpty(where) ? not_exists_filter : where + " AND " + not_exists_filter;
             }
-            else if (CurrentAct == ActType.Insert)
-            {
-                cols = cols.Replace("#nextcol#", "").Replace("#nextvlaue#", "");
-            }
+            where = !string.IsNullOrEmpty(where) ? "WHERE " + where : "";
 
 
+            sql = sql.Replace("#table_name#", table)
+                .Replace("#new_table_name#", to_table)
+                .Replace("#where#", where)
+                .Replace("#columns_to#", columns_to)
+                .Replace("#columns_from#", columns_from);
 
-            where = where.Length > 0 ? "where" + where : "";
-            if (CurrentAct != ActType.QueryByPage)
-            {
-                sql = sql.Replace("#table#", table).Replace("#cols#", cols).Replace("#where#", where).Replace("#orderby#", orderby).Replace("#distinct#", prefix);
-            }
-            else
-            {
-                sql = sql.Replace("#table#", table).Replace("#cols#", cols).Replace("#where#", where).Replace("#distinct#", prefix);
-            }
-
-            rtn.table = table;
             rtn.sql = sql;
+            rtn.table = table;
             rtn.data = datacollection;
-            rtn.orderby = orderby;
             return rtn;
         }
-        #region Table
-        string Table(object obj, FrameDLRObject data)
+        protected override dynamic ParseCopyTable(FrameDLRObject obj)
         {
-            var rtn = "";
-            if (CurrentAct != ActType.Query && CurrentAct != ActType.QueryByPage)
+            var rtn = FrameDLRObject.CreateInstance();
+            var table = ComFunc.nvl(obj.GetValue("$table"));
+            var to_table = ComFunc.nvl(obj.GetValue("$to_table"));
+            var with_data = BoolStd.IsNotBoolThen(obj.GetValue("$with_data"));
+            var sql = "CREATE TABLE #new_table_name# AS SELECT * FROM #table_name# #where#";
+            var where = "";
+            if (!with_data)
             {
-                if (obj is string)
-                {
-                    rtn = ComFunc.nvl(obj);
-                }
-            }
-            else
-            {
-                if (obj is string)
-                {
-                    rtn = ComFunc.nvl(obj);
-                }
-                else if (obj is FrameDLRObject)
-                {
-                    var dobj = (FrameDLRObject)obj;
-                    foreach (var k in dobj.Keys)
-                    {
-                        var joinstr = Table(k, dobj.GetValue(k), data);
-                        if (joinstr.StartsWith("join")
-                            || joinstr.StartsWith("left join")
-                            || joinstr.StartsWith("right join"))
-                        {
-                            rtn += (rtn.Length > 0 ? " " : "") + joinstr;
-                        }
-                        else
-                        {
-                            rtn += (rtn.Length > 0 ? "," : "") + joinstr;
-                        }
-                    }
-                }
-            }
-            return rtn;
-        }
-        string Table(string key, object obj, FrameDLRObject data)
-        {
-            var rtn = "";
-            var join = "#join# #tablename# #on#";
-            var asname = "";
-            if (!key.StartsWith("$"))
-            {
-                if (obj is string)
-                {
-                    rtn += (rtn.Length > 0 ? " " : "") + key + " " + ComFunc.nvl(obj);
-                    if (!alianeName.Contains(ComFunc.nvl(obj) + "."))
-                    {
-                        alianeName.Add(ComFunc.nvl(obj) + ".");
-                    }
-                }
-                else if (obj is FrameDLRObject)
-                {
-                    var dobj = (FrameDLRObject)obj;
-                    foreach (var k in dobj.Keys)
-                    {
-                        if (k.ToLower() == "$as")
-                        {
-                            asname = ComFunc.nvl(dobj.GetValue(k));
-                            join = join.Replace("#tablename#", key + " " + ComFunc.nvl(dobj.GetValue(k)));
-                            if (!alianeName.Contains(asname + "."))
-                            {
-                                alianeName.Add(asname + ".");
-                            }
-                        }
-                        else if (k.StartsWith("$") && k.ToLower().IndexOf("join") > 0)
-                        {
-                            var by = "";
-                            if (k.ToLower() == "$join")
-                            {
-                                join = join.Replace("#join#", "join");
-                            }
-                            else if (k.ToLower() == "$joinl")
-                            {
-                                join = join.Replace("#join#", "left join");
-                            }
-                            else if (k.ToLower() == "$joinr")
-                            {
-                                join = join.Replace("#join#", "right join");
-                            }
-                            if (dobj.GetValue(k) is FrameDLRObject)
-                            {
-                                var joinobj = (FrameDLRObject)dobj.GetValue(k);
-                                //找出join表的别名
-                                foreach (var jkey in joinobj.Keys)
-                                {
-                                    if (jkey.ToLower() == "$by")
-                                    {
-                                        if (joinobj.GetValue(jkey) is string)
-                                        {
-                                            by = ComFunc.nvl(joinobj.GetValue(jkey));
-                                        }
-                                        break;
-                                    }
-                                }
-                                foreach (var jkey in joinobj.Keys)
-                                {
-                                    if (jkey.ToLower() == "$on")
-                                    {
-                                        var onstr = "";
-                                        if (joinobj.GetValue(jkey) is FrameDLRObject)
-                                        {
-                                            var onobj = (FrameDLRObject)joinobj.GetValue(jkey);
-                                            onstr = SqlWhere(onobj, data);
-                                        }
-                                        join = join.Replace("#on#", onstr.Length > 0 ? "on " + onstr : onstr);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    rtn = join;
-                }
-            }
-            return rtn;
-        }
-        #endregion
-        string Columns(string key, object obj, FrameDLRObject data)
-        {
-            var rtn = "";
-            if (CurrentAct == ActType.Query)
-            {
-                if (obj is bool)
-                {
-                    var isdislpay = (bool)obj;
-                    if (isdislpay)
-                    {
-                        rtn = key;
-                    }
-                }
-            }
-            else if (CurrentAct == ActType.Insert)
-            {
-
+                where = "1=2";
             }
 
+            sql = sql.Replace("#table_name#", table)
+                .Replace("#new_table_name#", to_table)
+                .Replace("#where#", where);
+
+            rtn.sql = sql;
+            rtn.table = table;
             return rtn;
         }
-
-        string OrderBy(object obj)
+        protected override dynamic ParseAlterColumn(FrameDLRObject obj)
         {
-            var rtn = "";
-            if (obj is string)
+            var rtn = FrameDLRObject.CreateInstance();
+            var table = "";
+            var alter_add_template = @"Alter Table #table# Add(#column_name# #data_type# #default# #null#);";
+            var alter_modify_template = @"Alter Table #table# Modify(#column_name# #data_type# #null#);";
+            var alter_drop_template = @"Alter Table #table# Drop Column #column_name#;";
+            var alter_rename_template = @"Alter Table #table# Rename Column #column_name# To #new_column_name#;";
+            var alter_drop_add_template = @"Alter Table #table# Drop Column #column_name#;
+Alter Table #table# Add(#column_name# #data_type# #default# #null#);";
+            var sql = new StringBuilder();
+
+            var columns = new List<FrameDLRObject>();
+            table = ComFunc.nvl(obj.GetValue("$table"));
+
+            foreach (var item in obj.Items.Where(d => d.Key.StartsWith("$") == false))
             {
-                rtn = ComFunc.nvl(obj);
-            }
-            else if (obj is FrameDLRObject)
-            {
-                var dobj = (FrameDLRObject)obj;
-                foreach (var k in dobj.Keys)
+                FrameDLRObject col = (FrameDLRObject)item.Value;
+                var column_name = item.Key;
+                if (col != null)
                 {
-                    if (!k.StartsWith("$"))
+                    var alter_action = ComFunc.nvl(col.GetValue("$alter_action"));
+                    var new_name = ComFunc.nvl(col.GetValue("$new_name"));
+                    var datatype = ComFunc.nvl(col.GetValue("$datatype"));
+                    var precision = IntStd.IsNotIntThen(col.GetValue("$precision"), -1);
+                    var scale = IntStd.IsNotIntThen(col.GetValue("$scale"), -1);
+                    var default_value = ComFunc.nvl(col.GetValue("$default"));
+                    var is_null = BoolStd.IsNotBoolThen(col.GetValue("$isnull"), true);
+
+                    switch (alter_action)
                     {
-                        var v = dobj.GetValue(k);
-                        if (v is string)
-                        {
-                            rtn += (rtn.Length > 0 ? "," : "") + k + " " + ComFunc.nvl(v);
-                        }
+                        case "rename":
+                            if (new_name != "")
+                                sql.AppendLine(alter_rename_template.Replace("#table#", table).Replace("#column_name#", column_name).Replace("#new_column_name#", new_name));
+                            break;
+                        case "add":
+                            sql.AppendLine(alter_add_template
+                                .Replace("#table#", table)
+                                .Replace("#column_name#", column_name)
+                                .Replace("#data_type#", datatype)
+                                .Replace("#null#", is_null ? "null" : "not null")
+                                .Replace("#default#", convertExpressDefault2DBDefault(default_value, datatype)));
+                            break;
+                        case "modify":
+                            sql.AppendLine(alter_modify_template
+                                .Replace("#table#", table)
+                                .Replace("#column_name#", column_name)
+                                .Replace("#data_type#", datatype)
+                                .Replace("#null#", is_null ? "null" : "not null"));
+                            break;
+                        case "drop":
+                            sql.AppendLine(alter_drop_template
+                                .Replace("#table#", table)
+                                .Replace("#column_name#", column_name));
+                            break;
+                        case "drop_add":
+                            sql.AppendLine(alter_drop_add_template
+                                .Replace("#table#", table)
+                                .Replace("#column_name#", column_name)
+                                .Replace("#data_type#", datatype)
+                                .Replace("#null#", is_null ? "null" : "not null")
+                                .Replace("#default#", convertExpressDefault2DBDefault(default_value, datatype)));
+                            break;
+                        default:
+                            break;
                     }
+
                 }
             }
 
+
+            rtn.sql = sql;
+            rtn.table = table;
             return rtn;
         }
-        #region Where
-        string SqlWhere(FrameDLRObject obj, FrameDLRObject data)
+        protected override dynamic ParseCreateTable(FrameDLRObject obj)
         {
-            var rtn = "";
+            var rtn = FrameDLRObject.CreateInstance();
+            var table = "";
+            var columns = "";
+            var pk = "";
+            var pk_template = @",CONSTRAINT #pkname# PRIMARY KEY  (#pkcolumns#)";
+            var sql = $@"CREATE TABLE #table#(
+#columns#
+#pk#
+,);
+";
             foreach (var k in obj.Keys)
             {
-                var v = obj.GetValue(k);
                 if (k.StartsWith("$"))
                 {
-                    switch (k.ToLower())
+                    if (k.ToLower() == "$table")
                     {
-                        case "$or":
-                            if (v is object[])
-                            {
-                                var arr = (object[])v;
-                                var orstr = "";
-                                foreach (var item in arr)
-                                {
-                                    if (item is FrameDLRObject)
-                                    {
-                                        var condition = SqlWhere((FrameDLRObject)item, data);
-                                        if (condition.Length > 0)
-                                        {
-                                            orstr += (orstr.Length > 0 ? " or " : "") + "(" + condition + ")";
-                                        }
-                                    }
-                                }
-                                orstr = orstr.Trim().Length > 0 ? "(" + orstr + ")" : "";
-                                if (orstr.Length > 0)
-                                    rtn += (rtn.Length > 0 ? " and " : "") + orstr;
-                            }
-                            break;
-                        case "$and":
-                            if (v is object[])
-                            {
-                                var arr = (object[])v;
-                                var orstr = "";
-                                foreach (var item in arr)
-                                {
-                                    if (item is FrameDLRObject)
-                                    {
-                                        orstr += (orstr.Length > 0 ? " or " : "") + SqlWhere((FrameDLRObject)item, data);
-                                    }
-                                }
-                                orstr = orstr.Trim().Length > 0 ? "(" + orstr + ")" : "";
-                                rtn += (rtn.Length > 0 ? " and " : "") + orstr;
-                            }
-                            break;
+                        table = ComFunc.nvl(obj.GetValue(k));
                     }
-                }
-                else
-                {
-                    var re = SqlWhere(k, v, data);
-                    if (re.Trim().Length > 0)
+                    else if (k.ToLower() == "$pk")
                     {
-                        rtn += (rtn.Length > 0 ? " and " : "") + re;
-                    }
-                }
-            }
-            return rtn;
-        }
-
-        string SqlWhere(string key, object obj, FrameDLRObject data)
-        {
-
-            var rtn = "";
-            if (!key.StartsWith("$"))
-            {
-                if (obj is FrameDLRObject)
-                {
-                    var dobj = (FrameDLRObject)obj;
-                    foreach (var k in dobj.Keys)
-                    {
-                        var v = dobj.GetValue(k);
-                        switch (k.ToLower())
+                        var pkobj = obj.GetValue(k);
+                        var pkcolumns = "";
+                        if (pkobj != null && pkobj is IEnumerable<object>)
                         {
-                            case "$eq":
-                                if (v is string || v is double || v is int || v is DateTime || v is bool)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$neq":
-                                if (v is string || v is double || v is int || v is DateTime || v is bool)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<>" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<>" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$lt":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$gt":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + ">" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + ">" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$lte":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<=" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "<=" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$gte":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + ">=" + pflag + pkey;
-                                    }
-                                    else
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + ">=" + realdata.Content;
-                                    }
-                                }
-                                break;
-                            case "$like":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " like '%'" + linkflag + pflag + pkey + linkflag + "'%'";
-                                    }
-                                }
-                                break;
-                            case "$likel":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " like ''" + linkflag + pflag + pkey + linkflag + "'%'";
-                                    }
-                                }
-                                break;
-                            case "$liker":
-                                if (v is string || v is double || v is int || v is DateTime)
-                                {
-                                    var pkey = GetParameterSerialno(key);
-                                    var realdata = ConvertObject(v);
-                                    if (realdata.DataType == DataType.Value)
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " like '%'" + linkflag + pflag + pkey + linkflag + "''";
-                                    }
-                                }
-                                break;
-                            case "$in":
-                                if (v is object[])
-                                {
-                                    var arr = (object[])v;
-                                    var pkey = GetParameterSerialno(key);
-                                    var index = 0;
-                                    var instr = "";
-                                    foreach (var item in arr)
-                                    {
-                                        if (item is string || item is int || item is double)
-                                        {
-                                            var itemkey = pkey + "_in_" + index;
-                                            data.SetValue(itemkey, item);
-                                            instr += (instr.Length > 0 ? "," : "") + pflag + itemkey;
-                                            index++;
-                                        }
-                                    }
-                                    if (instr.Length > 0)
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " in (" + instr + ")";
-                                    }
-                                }
-                                else if (v is string)
-                                {
-                                    if (ComFunc.nvl(v).StartsWith("#sql:"))
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " in (" + ComFunc.nvl(v).Replace("#sql:", "") + ")";
-                                    }
-                                }
-                                break;
-                            case "$nin":
-                                if (v is object[])
-                                {
-                                    var arr = (object[])v;
-                                    var pkey = GetParameterSerialno(key);
-                                    var index = 0;
-                                    var instr = "";
-                                    foreach (var item in arr)
-                                    {
-                                        if (item is string || item is int || item is double)
-                                        {
-                                            var itemkey = pkey + "_in_" + index;
-                                            data.SetValue(itemkey, item);
-                                            instr = (instr.Length > 0 ? "," : "") + pflag + itemkey;
-                                        }
-                                    }
-                                    if (instr.Length > 0)
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " not in (" + instr + ")";
-                                    }
-                                }
-                                else if (v is string)
-                                {
-                                    if (ComFunc.nvl(v).StartsWith("#sql:"))
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " not in (" + ComFunc.nvl(v).Replace("#sql:","") + ")";
-                                    }
-                                }
-                                break;
+                            var pklist = (IEnumerable<object>)pkobj;
+                            foreach (var s in pklist)
+                            {
+                                pkcolumns += $"{s},";
+                            }
+                        }
+                        if (pkcolumns != "")
+                        {
+                            pk = pk_template.Replace("#pkcolumns#", pkcolumns.Substring(0, pkcolumns.Length - 1));
                         }
                     }
                 }
                 else
                 {
-                    if (obj is string || obj is double || obj is int || obj is DateTime || obj is bool)
+                    if (obj.GetValue(k) is FrameDLRObject)
                     {
-                        var pkey = GetParameterSerialno(key);
-                        var realdata = ConvertObject(obj);
+                        columns += $"{parseColumnExpress(k, (FrameDLRObject)obj.GetValue(k))},";
+                    }
 
-                        if (realdata.DataType == DataType.Value)
+                }
+            }
+            if (columns != "")
+            {
+                columns = columns.Substring(0, columns.Length - 1);
+            }
+            pk = pk.Replace("#pkname#", $"PK_{table}");
+            sql = sql.Replace("#table#", table).Replace("#columns#", columns).Replace("#pk#", pk);
+            rtn.sql = sql;
+            rtn.table = table;
+            return rtn;
+        }
+
+        private string parseColumnExpress(string columnname, FrameDLRObject column)
+        {
+            var rtn = "#name# #datatype# #default# #isnull#";
+            var datatype = "";
+            var oridatatype = "";
+            var precision = -1;
+            var scale = -1;
+            var defaultvalue = "";
+            var nullexpress = "";
+            foreach (var k in column.Keys)
+            {
+                if (k.StartsWith("$"))
+                {
+                    if (k.ToLower() == "$datatype")
+                    {
+                        oridatatype = ComFunc.nvl(column.GetValue(k));
+                        datatype = convertExpressDataType2DBType(ComFunc.nvl(column.GetValue(k)));
+                    }
+                    else if (k.ToLower() == "$precision")
+                    {
+                        //file和picture类型默认给长度1000
+                        if (ComFunc.nvl(column.GetValue("$datatype")).ToLower() == "file")
                         {
-                            if (obj is string)
-                            {
-                                //右方有[别名.]开头的需要特别处理
-                                var sarr = ComFunc.nvl(obj).Split('.');
-                                if (sarr.Length == 2)
-                                {
-                                    var asname = sarr[0];
-                                    if (alianeName.Contains(asname + "."))
-                                    {
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + ComFunc.nvl(obj);
-                                    }
-                                    else
-                                    {
-                                        data.SetValue(pkey, realdata.Content);
-                                        rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + pflag + pkey;
-                                    }
-                                }
-                                else
-                                {
-                                    data.SetValue(pkey, realdata.Content);
-                                    rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + pflag + pkey;
-                                }
-
-                            }
-                            else
-                            {
-                                data.SetValue(pkey, realdata.Content);
-                                rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + pflag + pkey;
-                            }
+                            precision = 1000;
+                        }
+                        else if (ComFunc.nvl(column.GetValue("$datatype")).ToLower() == "picture")
+                        {
+                            precision = 1000;
+                        }
+                        else if (ComFunc.nvl(column.GetValue("$datatype")).ToLower() == "guid")
+                        {
+                            precision = 50;
+                        }
+                        else if (ComFunc.nvl(column.GetValue("$datatype")).ToLower() == "map_xy")
+                        {
+                            precision = 500;
+                        }
+                        else if (ComFunc.nvl(column.GetValue("$datatype")).ToLower() == "pic_xy")
+                        {
+                            precision = 500;
                         }
                         else
                         {
-                            rtn += (rtn.Length > 0 ? " and " : " ") + key + "=" + realdata.Content;
+                            precision = IntStd.IsNotIntThen(column.GetValue(k), -1);
                         }
                     }
-                    else if (obj == null)
+                    else if (k.ToLower() == "$scale")
                     {
-                        rtn += (rtn.Length > 0 ? " and " : " ") + key + " is null";
+                        scale = IntStd.IsNotIntThen(column.GetValue(k), -1);
                     }
-                    else
+                    else if (k.ToLower() == "$default")
                     {
-
+                        defaultvalue = ComFunc.nvl(column.GetValue(k));
+                    }
+                    else if (k.ToLower() == "$isnull")
+                    {
+                        var isnull = true;
+                        if (column.GetValue(k) is bool)
+                        {
+                            isnull = (bool)column.GetValue(k);
+                        }
+                        nullexpress = isnull ? "" : "NOT NULL";
                     }
                 }
             }
+            defaultvalue = convertExpressDefault2DBDefault(defaultvalue, oridatatype);
+            //datatype类型判断，添加precision和scale
+            if (new string[] { "varchar", "nvarchar", "guid", "random", "random_code", "map_xy", "pic_xy" }.Contains(oridatatype.ToLower()))
+            {
+                if (precision > -1)
+                {
+                    datatype = $"{datatype}({precision})";
+                }
+            }
+            else if (new string[] { "numberic" }.Contains(oridatatype.ToLower()))
+            {
+                if (precision > -1)
+                {
+                    datatype = $"{datatype}({precision},{(scale > -1 ? scale : 0)})";
+                }
+            }
+            else if (new string[] { "file", "picture" }.Contains(oridatatype.ToLower()))
+            {
+                if (precision > -1)
+                {
+                    datatype = $"{datatype}({precision})";
+                }
+            }
+            rtn = rtn.Replace("#name#", columnname).Replace("#datatype#", datatype).Replace("#default#", defaultvalue).Replace("#isnull#", nullexpress);
             return rtn;
         }
-        #endregion
-        /// <summary>
-        /// 获取参数名称
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        string GetParameterSerialno(string key)
+
+        private string convertExpressDataType2DBType(string type)
         {
-            var tkey = key.Replace("(", "").Replace(")", "").Replace("'", "").Replace("\"", "").Replace("[", "").Replace("]", "").Replace(".", "").Replace("'", "").Replace(",", "");
-            var rtn = "";
-            if (_nodic.ContainsKey(tkey))
+            var dic = new Dictionary<string, string>();
+            dic.Add("varchar", "varchar2");
+            dic.Add("nvarchar", "nvarchar2");
+            dic.Add("int", "int");
+            dic.Add("numberic", "number");
+            dic.Add("bit", "number(1)");
+            dic.Add("datetime", "date");
+            dic.Add("text", "clob");
+            dic.Add("file", "nvarchar2");
+            dic.Add("picture", "nvarchar2");
+            dic.Add("guid", "varchar2");
+            dic.Add("random", "nvarchar2");
+            dic.Add("random_code", "nvarchar2");
+            dic.Add("map_xy", "nvarchar2");
+            dic.Add("pic_xy", "nvarchar2");
+            dic.Add("json", "clob");
+            return dic.ContainsKey(type) ? dic[type] : "";
+        }
+        private string convertExpressDefault2DBDefault(string express, string oridatatype)
+        {
+            if (string.IsNullOrEmpty(express)) return "";
+
+            if (express.ToLower() == "now()")
             {
-                rtn = tkey + (_nodic[tkey] + 1);
-                _nodic[tkey] = _nodic[tkey] + 1;
+                return "DEFAULT sysdate";
+            }
+            else if (express.ToLower().StartsWith("increament("))
+            {
+                //oracle没有自增长
+                return "";
             }
             else
             {
-                rtn = tkey + "0";
-                _nodic.Add(tkey, 0);
-            }
-            return rtn;
-        }
-        /// <summary>
-        /// 将json中的特殊数据做转化
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        ConvertData ConvertObject(object v)
-        {
-            var rtn = new ConvertData();
-            if (v is string)
-            {
-                if (ComFunc.nvl(v).StartsWith("#2:"))
+                if (new string[] { "varchar", "nvarchar" }.Contains(oridatatype.ToLower()))
                 {
-                    var bstr = ComFunc.Base64DeCode(ComFunc.nvl(v));
-                    var bytes = Encoding.UTF8.GetBytes(bstr);
-                    MemoryStream ms = new MemoryStream(bytes);
-                    rtn.Content = ms;
-                }
-                else if (ComFunc.nvl(v).StartsWith("#sql:"))
-                {
-                    rtn.DataType = DataType.Express;
-                    rtn.Content = ComFunc.nvl(v).Replace("#sql:", "");
+                    return $"DEFAULT '{express}'";
                 }
                 else
                 {
-                    rtn.Content = v;
+                    return $"DEFAULT {express}";
                 }
-            }
-            else
-            {
-                rtn.Content = v;
-            }
-            return rtn;
-        }
-        protected enum DataType
-        {
-            Value,
-            Express
-        }
-        protected sealed class ConvertData
-        {
-            public ConvertData()
-            {
-                DataType = DataType.Value;
-            }
-            public DataType DataType
-            {
-                get;
-                set;
-            }
 
-            public object Content
-            {
-                get;
-                set;
             }
         }
     }

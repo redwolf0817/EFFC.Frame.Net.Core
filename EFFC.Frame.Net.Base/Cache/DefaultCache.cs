@@ -1,4 +1,5 @@
-﻿using EFFC.Frame.Net.Base.Interfaces.System;
+﻿using EFFC.Frame.Net.Base.Common;
+using EFFC.Frame.Net.Base.Interfaces.System;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace EFFC.Frame.Net.Base.Cache
         {
             _cache = new MemoryCache(new MemoryCacheOptions()
             {
-
+                ExpirationScanFrequency = TimeSpan.FromSeconds(10),
             });
         }
         public object Get(string key)
@@ -46,7 +47,10 @@ namespace EFFC.Frame.Net.Base.Cache
         {
             lock (lockobj)
             {
-                _cache.Set(key, obj, expira);
+                _cache.Set(key, obj, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = expira
+                });
             }
         }
 
@@ -54,7 +58,10 @@ namespace EFFC.Frame.Net.Base.Cache
         {
             lock (lockobj)
             {
-                _cache.Set(key, obj, slide);
+                _cache.Set(key, obj, new MemoryCacheEntryOptions
+                {
+                    SlidingExpiration = slide
+                });
             }
         }
     }

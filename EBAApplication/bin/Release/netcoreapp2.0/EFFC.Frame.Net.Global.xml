@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Global</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Frame.Net.Global.GlobalCommon">
+            <summary>
+            框架全局应用参数和API设置
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Global.GlobalCommon.Logger">
+            <summary>
+            Logger
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Global.GlobalCommon.ExceptionProcessor">
+            <summary>
+            異常處理
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Global.GlobalCommon.ApplicationCache">
+            <summary>
+            框架cache
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Global.GlobalCommon.Proxys">
+            <summary>
+            模块代理管理器
+            </summary>
+        </member>
+    </members>
+</doc>

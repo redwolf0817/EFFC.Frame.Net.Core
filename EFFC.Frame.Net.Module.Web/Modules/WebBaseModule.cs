@@ -131,6 +131,7 @@ namespace EFFC.Frame.Net.Module.Web.Modules
             var td = (TData)d;
 
             _context = tp.CurrentHttpContext;
+            
             //var startdt = DateTime.Now;
             //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, string.Format("Before {0} Process Request Memory:{1}", _requesturi.AbsoluteUri, ComFunc.GetProcessUsedMemory()));
             var dt = DateTime.Now;
@@ -141,14 +142,14 @@ namespace EFFC.Frame.Net.Module.Web.Modules
             dt = DateTime.Now;
             //业务逻辑操作
             InvokeAction(tp, td);
-            GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" InvokeAction cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
+            //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" InvokeAction cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
             //session和cookie等的设置必须在response回写之前处理，否则会报异常
             AfterProcess(tp, td);
             //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" AfterProcess cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); 
-            dt = DateTime.Now;
+            //dt = DateTime.Now;
             //进行response的回写
             SetResponseContent(tp, td);
-            GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" SetResponseContent cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
+            //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" SetResponseContent cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
             //收尾作业
             FinishedProcess(tp, td);
             //GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute:{_context.Request.Method} \"{tp.RequestUri}\" FinishedProcess cast time:{(DateTime.Now - dt).TotalMilliseconds}ms "); dt = DateTime.Now;
@@ -181,7 +182,8 @@ namespace EFFC.Frame.Net.Module.Web.Modules
             p.TransTokenList.Add(defaulttoken);
             p.SetValue(ParameterKey.TOKEN, defaulttoken);
             p.SetValue("IsAjaxAsync", IsAjaxAsync);
-            p.RequestUri = new Uri($"{p.CurrentHttpContext.Request.Scheme}://{p.CurrentHttpContext.Request.Host}{p.CurrentHttpContext.Request.Path}{p.CurrentHttpContext.Request.QueryString}");
+            p.RequestUri = new Uri($"{p.CurrentHttpContext.Request.Scheme}://{p.CurrentHttpContext.Request.Host}{p.CurrentHttpContext.Request.Path}{(p.CurrentHttpContext.Request.QueryString.Value)}");
+            GlobalCommon.Logger.WriteLog(LoggerLevel.DEBUG, $"excute request URI:{CurrentContext.Request.Method} \"{p.RequestUri}\"");
 
             ProcessRequestPath(p, d);
             ProcessRequestHeader(p, d);
@@ -297,43 +299,55 @@ namespace EFFC.Frame.Net.Module.Web.Modules
         protected virtual void ProcessRequestSession(TParameter p,TData d)
         {
             var context = p.CurrentHttpContext;
+            try
+            {
+                if (context.Session == null) return;
+            }
+            catch (Exception ex)
+            {
+                GlobalCommon.Logger.WriteLog(LoggerLevel.WARN, "当前session无法使用，不做session处理，错误信息：" + ex.Message);
+                return;
+            }
             var sessionid = ComFunc.nvl(context.Request.Cookies["ASP.NET_SessionId"]);
+            
             lock (lockobj)
             {
                 //websocket下无session
                 //因websocket无session需要将cache中的数据域与session中同步一下
-                if (sessionid != "" && GlobalCommon.ApplicationCache.Get("__frame_session__" + sessionid) != null)
+                if (sessionid != "")
                 {
-                    var sessionobj = (FrameDLRObject)GlobalCommon.ApplicationCache.Get("__frame_session__" + sessionid);
-                    foreach (var key in sessionobj.Keys)
+                    if (GlobalCommon.ApplicationCache.Get("__frame_session__" + sessionid) != null)
                     {
-                        context.Session.SetObject(key, sessionobj.GetValue(key));
-                    }
-                    var sessionkeys = context.Session.Keys.Cast<string>().ToArray(); ;
-                    var removekeys = new List<string>();
-                    foreach (string s in sessionkeys)
-                    {
-                        if (sessionobj.GetValue(s) == null)
+                        var sessionobj = (FrameDLRObject)GlobalCommon.ApplicationCache.Get("__frame_session__" + sessionid);
+                        foreach (var key in sessionobj.Keys)
                         {
-                            removekeys.Add(s);
+                            context.Session.SetObject(key, sessionobj.GetValue(key));
+                        }
+                        var sessionkeys = context.Session.Keys.Cast<string>().ToArray(); ;
+                        var removekeys = new List<string>();
+                        foreach (string s in sessionkeys)
+                        {
+                            if (sessionobj.GetValue(s) == null)
+                            {
+                                removekeys.Add(s);
+                            }
+                        }
+                        foreach (var s in removekeys)
+                        {
+                            context.Session.Remove(s);
                         }
                     }
-                    foreach (var s in removekeys)
+
+                    var skeys = context.Session.Keys.Cast<string>().ToArray();
+                    foreach (string s in skeys)
                     {
-                        context.Session.Remove(s);
+                        //深度复制session中的对象，防止p在最后释放时导致session对象丢失
+                        p[DomainKey.SESSION, s] = ComFunc.CloneObject(context.Session.GetObject(s));
                     }
+                    p[DomainKey.SESSION, "SessionID"] = sessionid;
                 }
-                var skeys = context.Session.Keys.Cast<string>().ToArray();
-                foreach (string s in skeys)
-                {
-                    //深度复制session中的对象，防止p在最后释放时导致session对象丢失
-                    p[DomainKey.SESSION, s] = ComFunc.CloneObject(context.Session.GetObject(s));
-                }
-            }
-
-            
-
-            p[DomainKey.SESSION, "SessionID"] = sessionid;
+                
+            }            
         }
         /// <summary>
         /// 处理Request中的cookie数据
@@ -367,6 +381,15 @@ namespace EFFC.Frame.Net.Module.Web.Modules
         /// <param name="d"></param>
         protected virtual void ProcessResponseSeesion(TParameter p, TData d)
         {
+            try
+            {
+                if (CurrentContext.Session == null) return;
+            }
+            catch (Exception ex)
+            {
+                GlobalCommon.Logger.WriteLog(LoggerLevel.WARN, "当前session无法使用，不做session处理，错误信息：" + ex.Message);
+                return;
+            }
             lock (lockobj)
             {
                 var sessionid = ComFunc.nvl(CurrentContext.Request.Cookies["ASP.NET_SessionId"]);
@@ -394,25 +417,27 @@ namespace EFFC.Frame.Net.Module.Web.Modules
                             sessionobj.SetValue(s, ComFunc.CloneObject(p[DomainKey.SESSION, s]));
                         }
                         GlobalCommon.ApplicationCache.Set("__frame_session__" + sessionid, sessionobj, TimeSpan.FromMinutes(20));
-                    }
-                    //websocket下没有session
-                    if (CurrentContext.Session != null)
-                    {
-                        foreach (string s in keys)
+
+                        //websocket下没有session
+                        if (CurrentContext.Session != null)
                         {
-                            CurrentContext.Session.SetObject(s, ComFunc.CloneObject(p[DomainKey.SESSION, s]));
+                            foreach (string s in keys)
+                            {
+                                CurrentContext.Session.SetObject(s, ComFunc.CloneObject(p[DomainKey.SESSION, s]));
+                            }
                         }
-                    }
 
 
-                    if (!IsWebSocket)
-                    {
-                        keys = CurrentContext.Session.Keys.Cast<string>().Except(keys).ToArray();
-                        foreach (string s in keys)
+                        if (!IsWebSocket)
                         {
-                            CurrentContext.Session.Remove(s);
+                            keys = CurrentContext.Session.Keys.Cast<string>().Except(keys).ToArray();
+                            foreach (string s in keys)
+                            {
+                                CurrentContext.Session.Remove(s);
+                            }
                         }
                     }
+                    
                 }
             }
         }

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Resource.Sqlite</name>
+    </assembly>
+    <members>
+        <member name="F:EFFC.Frame.Net.Resource.Sqlite.SqliteAccess.isneedopentrans_in_open">
+            <summary>
+            需要在open的时候开启trans
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Sqlite.SqliteAccess.FillParametersToCommand(System.Data.Common.DbCommand,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            依據Dictionary填充Command物件參數集
+            </summary>
+            <param name="command">命令物件</param>
+            <param name="parameters">參數</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Resource.Sqlite.SqliteAccess.GetColumnsNameBySql(System.String,EFFC.Frame.Net.Unit.DB.Parameters.DBOParameterCollection)">
+            <summary>
+            通過sql獲得相關的欄位列表
+            </summary>
+            <param name="sql"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Resource.Sqlite.SqliteExpress">
+            <summary>
+            Sqlite的dbexpress解析器
+            </summary>
+        </member>
+    </members>
+</doc>

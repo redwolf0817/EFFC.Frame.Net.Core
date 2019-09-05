@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <PackageId>EFFC.Extends.LinqDLR2SQL</PackageId>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>YCH</Authors>
     <Company>EFFC@ItTrending</Company>
     <Product>EFFC.Extends.LinqDLR2SQL</Product>
@@ -13,18 +13,62 @@
     <PackageReleaseNotes>Efficiency Focus For Core（效率、专注为核心）框架应用于.Net Core第一版发布
 本包为扩展库包含较为独立的工具使用扩展模块
 
-1.通过dynamic技术，采用虚拟model方式将lamda表达式转化为sql的技术实现，于2017/12/28发布第一版</PackageReleaseNotes>
+1.0.0:本库用于实现将Lamda转为SQL，与Linq2SQL不同，该lib通过dynamic的虚拟方式实现lamda转为sql，不通过model的定义来实现，并且只实现转为sql但并不执行DB操作
+
+1.0.0:通过dynamic技术，采用虚拟model方式将lamda表达式转化为sql的技术实现，于2017/12/28发布第一版
+1.0.1:提供ILinqDLRSQLGenerator作为LinqDLR2SQL用于sql生成的扩展接口；新增Take、Count、Sum、Max、Min操作；
+生成的sql的参数名称由原来的根据时间生成的唯一码改为通过4位随机数来替代，从而缩短sql的长度和可读性；
+修正执行from t in DB.LamdaTable("a")  where t.id==1 select t这种单表带where情况下无法生成sql的bug
+1.0.2:新增新增对Oracle的支持
+1.0.3:LinqDLRColumn新增concat的方法支持，可用于将本栏位与参数中的对象执行字符串拼接操作
+1.0.4:OracleDLRColumn的栏位引用符号改为空，不需要栏位引用符号
+1.0.5:OracleDLRColumn修正WhereIn的处理逻辑不正确的问题
+引用库EFFC.Frame.Net.Base升级到1.0.6
+LamdaSQLObject新增toFunction的方法，用于构造sql中的function表达式
+1.1.0:升级.netcore到2.1.2
+1.1.1:
+Base库升级到1.1.1
+重整LinqDRL2SQL的基础架构，增强扩展能力
+添加Groupby的操作
+ToSql后清除prefix和pearfix增加表达式的可以再次使用
+解决join时候，多个同表名不同别名未join上的情况
+LinqDLRColumn新增avg方法,LinqDLR2Sql新增avg方法，LinqDLR2SQLGenerator新增DoAvg方法
+1.1.2:LinqDLRColumn新增ConvertToDate和ConvertToDateTime两个方法</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>EFFC.Extends.LinqDLR2SQL.key.snk</AssemblyOriginatorKeyFile>
+	<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageLicenseUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/redwolf0817/EFFC.Frame.Net.Core</PackageProjectUrl>
+    <Version>1.1.2</Version>
+    <AssemblyVersion>3.5.3.0</AssemblyVersion>
+    <FileVersion>3.5.3.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Frame.Net.Release\</OutputPath>
-    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.0\EFFC.Extends.LinqDLR2SQL.xml</DocumentationFile>
+    <DocumentationFile>..\Frame.Net.Release\netcoreapp2.1\EFFC.Extends.LinqDLR2SQL.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DaoLinqDLR2SQL.cs" />
+    <Compile Remove="DaoLinqDLRColumn.cs" />
+    <Compile Remove="DLRColumns\MysqlDLRColumn.cs" />
+    <Compile Remove="DLRColumns\OracleDLRColumn.cs" />
+    <Compile Remove="DLRColumns\PostgreSqlDLRColumn.cs" />
+    <Compile Remove="DLRColumns\SqliteDLRColumn.cs" />
+    <Compile Remove="DLRColumns\SqlServerDLRColumn.cs" />
+    <Compile Remove="ILinqDLRSQLGenerator.cs" />
+    <Compile Remove="LinqDLR2SQLGenerator - 副本.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EFFC.Frame.Net.Base\EFFC.Frame.Net.Base.csproj" />
+    <ProjectReference Include="..\EFFC.Frame.Net.Global\EFFC.Frame.Net.Global.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DLRColumns\" />
   </ItemGroup>
 
 </Project>

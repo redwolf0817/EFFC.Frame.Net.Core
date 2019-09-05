@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EBAApplication": {
+      "commandName": "Project",
+      "commandLineArgs": "-i -g so"
+    }
+  }
+}

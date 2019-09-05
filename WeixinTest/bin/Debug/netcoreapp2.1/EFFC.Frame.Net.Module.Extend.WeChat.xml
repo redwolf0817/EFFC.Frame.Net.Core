@@ -1,0 +1,1105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Module.Extend.WeChat</name>
+    </assembly>
+    <members>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.Cryptography.AES_decrypt(System.String,System.String,System.String@)">
+            <summary>
+            解密方法
+            </summary>
+            <param name="Input">密文</param>
+            <param name="EncodingAESKey"></param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.Cryptography.chr(System.Int32)">
+            将数字转化成ASCII码对应的字符，用于对明文进行补码
+            
+            @param a 需要转化的数字
+            @return 转化得到的字符
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper">
+            <summary>
+            企业微信号开发API
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            获取一个企业微信Helper的实例
+            </summary>
+            <param name="appid">微信的AppID，微信平台申请的账号</param>
+            <param name="app_secret">微信的App密钥，微信平台申请的时候生成的</param>
+            <param name="token">微信的访问Token，微信平台申请的时候生成的</param>
+            <param name="agentid">企业应用ID号</param>
+            <param name="encodingAESKey">微信加密密钥</param>
+            <param name="mch_ssl_path">微信商户的数字证书存放的物理路径，默认为空，为空的时候则无法使用微信商户的功能</param>
+            <param name="mch_ssl_pass">微信商户数字证书的密码，默认为空，为空的时候则无法使用微信商户的功能</param>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetTokenUrl">
+            <summary>
+            获取AccessToken的URL
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetJsApiTicketUrl">
+            <summary>
+            通过AccessToken获得JSDKTicket的URL
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.DownloadMediaUrl">
+            <summary>
+            通过AccessToken和MediaId下载媒体的URL
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUserTicketUrl">
+            <summary>
+            通过AccessToekn和Code获得登入用户信息和Ticket的URL
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUserDetailUrl">
+            <summary>
+            通过AccessToken和UserId得到用户详细信息
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendMsgUrl">
+            <summary>
+            通过AccessToken发送应用消息
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUsersByDeptIDUrl">
+            <summary>
+            获取部门下用户列表
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUsersDetailByDeptIDUrl">
+            <summary>
+            获取部门下用户明细列表
+            </summary>
+        </member>
+        <member name="F:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetDeptListUrl">
+            <summary>
+            获取部门列表
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.AppID">
+            <summary>
+            企业微信的CropID, 这里和微信通用AppId
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.AgentId">
+            <summary>
+            企业微信当前应用的AgentId,(微信无此概念)
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.AppSecret">
+            <summary>
+            企业微信,当前应用的Secret
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.Token">
+            <summary>
+            企业号 加密用的token
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.EncodingAESKey">
+            <summary>
+            企业微信, 加密用的EncodingAESKey
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.Weixin_Mch_Ssl_Path">
+            <summary>
+            微信商户号的数字证书的物理路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.Weixin_Mch_Ssl_Pass">
+            <summary>
+            微信商户号的数字证书的密码
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.Access_Token">
+            <summary>
+            获取微信的Access Token，用于与微信服务器进行信息交互
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.Jsapi_ticket">
+            <summary>
+            微信调用JSAPI需要用到的JSAPI_Ticket,用于做AES的数字签名
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.NewTimsStamp">
+            <summary>
+            当前新的微信时间戳
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.DownloadMedia(System.String)">
+            <summary>
+            下载临时媒体文件
+            </summary>
+            <param name="mediaid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenResponseText(System.String,System.String,System.String)">
+            <summary>
+            生成一个Text类型的回复数据
+            </summary>
+            <param name="content"></param>
+            <param name="touser">接收者的openid</param>
+            <param name="fromuser">发送微信号的id</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenJSAPISignKey(System.String,System.Int32,System.String)">
+            <summary>
+            获取JSAPI的SignKey
+            </summary>
+            <param name="noncestr">随机串，与config中的一致</param>
+            <param name="timestamp">时间戳，与config中的一致</param>
+            <param name="url">要调用jsapi的页面</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUserIdByCode(System.String,System.String@,System.String@)">
+            <summary>
+            登入时通过Code获取到登入人的UserID(一般来说这个就够了)
+            </summary>
+            <param name="code">传入, code</param>
+            <param name="userTicket">传出, ticketId可以让你在7200s之内获取更加详细的用户信息</param>
+            <param name="deviceId">传出,登入用设备ID</param>
+            <returns>userId</returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUserIdByCode(System.String,System.String@,System.String@,System.String@)">
+            <summary>
+            登入时通过Code获取到登入人的UserID
+            </summary>
+            <param name="code">传入,Code</param>
+            <param name="userTicket">传出,ticketId可以让你在7200s之内获取更加详细的用户信息</param>
+            <param name="deviceId">传出,登入用设备ID</param>
+            <param name="openId">非企业成员OpenID</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUserDetail(System.String)">
+            <summary>
+            通过userId 得到用户信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUsersByDeptID(System.String,System.Boolean)">
+            <summary>
+            获取部门下成员的列表
+            </summary>
+            <param name="deptid"></param>
+            <param name="is_fetch_child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetUsersDetailByDeptID(System.String,System.Boolean)">
+            <summary>
+            根据部门ID获取用户明细信息列表
+            </summary>
+            <param name="deptid"></param>
+            <param name="is_fetch_child"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GetDeptList(System.String)">
+            <summary>
+            获取部门列表
+            </summary>
+            <param name="deptid">部门id。获取指定部门及其下的子部门。 如果不填，默认获取全量组织架构</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendTxtMsg(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            发送文本消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="content">消息内容，最长不超过2048个字节</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendImageMsg(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            图片消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="media_id">文件id，可以调用上传临时素材接口获取</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendVoiceMsg(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            语音消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="media_id">文件id，可以调用上传临时素材接口获取</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendVideoMsg(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            视频消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="media_id">文件id，可以调用上传临时素材接口获取</param>
+            <param name="title">视频消息的标题，不超过128个字节，超过会自动截断</param>
+            <param name="description">视频消息的描述，不超过512个字节，超过会自动截断</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendFileMsg(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            文件消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="media_id">文件id，可以调用上传临时素材接口获取</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendTextCardMsg(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            文本卡片消息，卡片消息的展现形式非常灵活，支持使用br标签或者空格来进行换行处理，也支持使用div标签来使用不同的字体颜色，目前内置了3种文字颜色：灰色(gray)、高亮(highlight)、默认黑色(normal)，将其作为div标签的class属性即可
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="title">标题，不超过128个字节，超过会自动截断</param>
+            <param name="description">描述，不超过512个字节，超过会自动截断,可以内嵌html标签</param>
+            <param name="url">点击后跳转的链接。</param>
+            <param name="btntxt">按钮文字。 默认为“详情”， 不超过4个文字，超过自动截断。</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendNewsMsg(System.String,System.String,System.String,System.Collections.Generic.List{System.Object})">
+            <summary>
+            发送图文消息
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="articles">格式如下，{
+                 "title" : "中秋节礼品领取",
+                  "description" : "今年中秋节公司有豪礼相送",
+                   "url" : "URL",
+                 "picurl" : "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png",
+                  "btntxt":"更多"
+              }</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendMPNewsMsg(System.String,System.String,System.String,System.Collections.Generic.List{System.Object},System.Boolean)">
+            <summary>
+            发送图文消息，mpnews类型的图文消息，跟普通的图文消息一致，唯一的差异是图文内容存储在企业微信。多次发送mpnews，会被认为是不同的图文，阅读、点赞的统计会被分开计算。
+            </summary>
+            <param name="toUsers">成员ID列表（消息接收者，多个接收者用‘|’或','分隔，最多支持1000个）。特殊情况：指定为@all，则向该企业应用的全部成员发送</param>
+            <param name="toPartyIds">部门ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="totag">标签ID列表，多个接收者用‘|’或','分隔，最多支持100个。当touser为@all时忽略本参数</param>
+            <param name="articles">{
+                 "title": "Title", 
+                 "thumb_media_id": "MEDIA_ID",
+                  "author": "Author",
+                  "content_source_url": "URL",
+                  "content": "Content",
+                  "digest": "Digest description"
+            }</param>
+            <param name="isSafe">表示是否是保密消息，默认false</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.SendMiniMsg(System.String,System.String,System.Collections.Generic.List{System.Object},System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            小程序通知消息
+            </summary>
+            <param name="toUser">成员ID，可以是userid或者加密后的userid</param>
+            <param name="appid">小程序appid，必须是与当前小程序应用关联的小程序</param>
+            <param name="content_items">消息内容键值对，最多允许10个item，格式如下
+            {
+                  "key": "会议室",
+                   "value": "402"
+            }
+            </param>
+            <param name="page"></param>
+            <param name="title"></param>
+            <param name="description"></param>
+            <param name="emphasis_first_item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenAccess_Token(System.String,System.String)">
+            <summary>
+            根据AppID和appsecret获取对应微信号下的access_token
+            </summary>
+            <param name="appid"></param>
+            <param name="appsecret"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenJsapi_ticket(System.String)">
+            <summary>
+            生成JSDK签名所需的ticket(有效期7200)
+            </summary>
+            <param name="accesstoken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenJSAPISignKey(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            获取JSAPI的SignKey
+            </summary>
+            <param name="noncestr">随机串，与config中的一致</param>
+            <param name="timestamp">时间戳，与config中的一致</param>
+            <param name="url">要调用jsapi的页面</param>
+            <param name="jsapi_ticket">要调用的jsapi_ticket</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.GenSHASignKey(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            获取SHA算法的Sign签名,ASCII编码
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.CallWeixinServer``1(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean)">
+            <summary>
+            呼叫微信服务
+            </summary>
+            <typeparam name="RType">返回值类型，FrameDLRObject、string、stream或者指定的model</typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.CallWeixinServer(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean)">
+            <summary>
+            呼叫微信服务
+            </summary>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.CallWeixinServerAsync``1(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            异步调用微信服务
+            </summary>
+            <typeparam name="RType"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <param name="callback"></param>
+            <param name="recorddata"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.QiyeWechatHelper.CallWeixinServerAsync(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            异步调用微信服务
+            </summary>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <param name="callback"></param>
+            <param name="recorddata"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            获取一个微信Helper的实例
+            </summary>
+            <param name="appid">微信的AppID，微信平台申请的账号</param>
+            <param name="app_secret">微信的App密钥，微信平台申请的时候生成的</param>
+            <param name="token">微信的访问Token，微信平台申请的时候生成的</param>
+            <param name="mch_id">微信商户的id，默认为空，为空的时候则无法使用微信商户的功能</param>
+            <param name="mch_key">微信商户的密钥，默认为空，为空的时候则无法使用微信商户的功能</param>
+            <param name="mch_ssl_path">微信商户的数字证书存放的物理路径，默认为空，为空的时候则无法使用微信商户的功能</param>
+            <param name="mch_ssl_pass">微信商户数字证书的密码，默认为空，为空的时候则无法使用微信商户的功能</param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Mch_Key">
+            <summary>
+            主微信号商户支付秘钥
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.AppID">
+            <summary>
+            主微信号的APPID
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Mch_ID">
+            <summary>
+            主微信号商户ID
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Token">
+            <summary>
+            主微信接入时用的Token
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Access_Token">
+            <summary>
+            主微信号的访问API使用的Access Token
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.AppSecret">
+            <summary>
+            主微信号的APPSecret
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Weixin_Mch_Ssl_Path">
+            <summary>
+            微信商户号的数字证书的物理路径
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Weixin_Mch_Ssl_Pass">
+            <summary>
+            微信商户号的数字证书的密码
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenAccess_Token(System.String,System.String)">
+            <summary>
+            根据AppID和appsecret获取对应微信号下的access_token
+            </summary>
+            <param name="appid"></param>
+            <param name="appsecret"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Jsapi_ticket">
+            <summary>
+            微信调用JSAPI需要用到的JSAPI_Ticket,用于做AES的数字签名
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenJsapi_ticket(System.String)">
+            <summary>
+            获取Jsapi_ticket
+            </summary>
+            <param name="accesstoken"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.NewTimsStamp">
+            <summary>
+            当前新的微信时间戳
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenPayNotify_url(System.String)">
+            <summary>
+            生成微信支付通知的url，走wx请求时使用
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenSHASignKey(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            获取SHA算法的Sign签名,ASCII编码
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenJSAPISignKey(System.String,System.Int32,System.String)">
+            <summary>
+            获取JSAPI的SignKey
+            </summary>
+            <param name="noncestr">随机串，与config中的一致</param>
+            <param name="timestamp">时间戳，与config中的一致</param>
+            <param name="url">要调用jsapi的页面</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenJSAPISignKey(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            获取JSAPI的SignKey
+            </summary>
+            <param name="noncestr">随机串，与config中的一致</param>
+            <param name="timestamp">时间戳，与config中的一致</param>
+            <param name="url">要调用jsapi的页面</param>
+            <param name="jsapi_ticket">要调用的jsapi_ticket</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenMD5SignString(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            根据参数采用MD5算法生成数字签名
+            </summary>
+            <param name="obj">参数集，该参数集不可包含数字签名的栏位</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenJSAPIConfigParameters(System.Boolean,System.String,System.String,System.Int32,System.String,System.String[])">
+            <summary>
+            生成JSAPI的Config参数
+            </summary>
+            <param name="debug"></param>
+            <param name="appid"></param>
+            <param name="noncestr"></param>
+            <param name="timestamp"></param>
+            <param name="url"></param>
+            <param name="jsapilist"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenJSAPIConfigParameters(System.Boolean,System.String,System.Int32,System.String)">
+            <summary>
+            生成JSAPI的Config参数
+            </summary>
+            <param name="debug"></param>
+            <param name="noncestr"></param>
+            <param name="timestamp"></param>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.UnifiedOrder4JSAPI(System.String,System.String,System.String,System.Double,System.String,System.String,System.String)">
+            <summary>
+            调用统一下单接口，获取预付单信息
+            </summary>
+            <param name="notify_url">回调url</param>
+            <param name="openid">用户的openid</param>
+            <param name="orderno">订单号</param>
+            <param name="amount">金额</param>
+            <param name="body">商品描述</param>
+            <param name="attachdata">附加信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.QueryUnifiedOrder(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="transaction_id">微信的订单号，优先使用 </param>
+            <param name="out_trade_no">商户系统内部的订单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.RefundOrder(System.String,System.String,System.String,System.Decimal,System.String)">
+            <summary>
+            申请退款
+            </summary>
+            <param name="transaction_id">微信交易单号</param>
+            <param name="out_trade_no">订单号</param>
+            <param name="out_refund_no">退款单号</param>
+            <param name="amount">退款金额</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.RedPacket(System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            发放微信红包
+            </summary>
+            <param name="openid">对方openid</param>
+            <param name="minamount">最小金额</param>
+            <param name="maxamount">最大金额</param>
+            <param name="totalamount">总金额</param>
+            <param name="total_num">总人数</param>
+            <param name="wishing">祝福语</param>
+            <param name="act_name">活动名称</param>
+            <param name="remark">备注</param>
+            <param name="logo_imgurl">商户logo的url</param>
+            <param name="share_content">分享文案</param>
+            <param name="share_url">分享链接</param>
+            <param name="share_imgurl">分享的图片</param>
+            <param name="nick_name">提供方名称</param>
+            <param name="send_name">商户名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.RedPacket(System.String,System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            发放微信红包
+            </summary>
+            <param name="appid">对方所在的公众号id</param>
+            <param name="openid">对方openid</param>
+            <param name="totalamount">资金总额</param>
+            <param name="total_num">发送总量</param>
+            <param name="wishing">祝福语</param>
+            <param name="act_name">活动名称</param>
+            <param name="remark">备注</param>
+            <param name="send_name">商户名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.RedPacketAsync(System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            发放微信红包
+            </summary>
+            <param name="openid">接收人openid</param>
+            <param name="totalamount">总额度</param>
+            <param name="total_num">总数量</param>
+            <param name="wishing">红包祝福语</param>
+            <param name="act_name">活动名称</param>
+            <param name="remark">备注</param>
+            <param name="send_name">发送者名称</param>
+            <param name="callback">回调方法</param>
+            <param name="cachedata">回调时缓存用的数据</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.RedPacketAsync(System.String,System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            发放微信红包
+            </summary>
+            <param name="appid">对方所在的appid</param>
+            <param name="openid">对方openid</param>
+            <param name="totalamount">总金额</param>
+            <param name="total_num">总数</param>
+            <param name="wishing">祝福语</param>
+            <param name="act_name">活动名称</param>
+            <param name="remark">备注</param>
+            <param name="send_name">商户名称</param>
+            <param name="callback">回调的logic.action</param>
+            <param name="cachedata">回调中需要保留的数据</param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CallBackResult">
+            <summary>
+            获取异步回调结果集
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GetRedPacketCallbackResult">
+            <summary>
+            获取红包异步回调结果集
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GroupRedPacket(System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            分裂红包
+            </summary>
+            <param name="openid"></param>
+            <param name="totalamount"></param>
+            <param name="total_num"></param>
+            <param name="wishing"></param>
+            <param name="act_name"></param>
+            <param name="remark"></param>
+            <param name="send_name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Pay2Customer(System.String,System.String,System.String,System.Double,System.String,System.Boolean)">
+            <summary>
+            支付金额给用户
+            </summary>
+            <param name="appid">收款方所在的微信号</param>
+            <param name="openid">收款方所在微信的openid</param>
+            <param name="username">收款方的姓名</param>
+            <param name="amount">金额，</param>
+            <param name="desc"></param>
+            <param name="isneed_name_check"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Pay2CustomerAsync(System.String,System.String,System.String,System.Double,System.String,System.Boolean,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            付款给用户，异步调用
+            </summary>
+            <param name="appid"></param>
+            <param name="openid"></param>
+            <param name="username"></param>
+            <param name="amount"></param>
+            <param name="desc"></param>
+            <param name="isneed_name_check"></param>
+            <param name="callback"></param>
+            <param name="cachedata"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CreateTempQR(System.String,System.String)">
+            <summary>
+            生成一个临时二维码
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="scene_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.UploadMedia(System.IO.Stream,System.String,System.String)">
+            <summary>
+            向微信服务器上传素材
+            </summary>
+            <param name="stream"></param>
+            <param name="filename"></param>
+            <param name="type">媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.UploadMedia(System.String,System.String)">
+            <summary>
+            上传本地文件
+            </summary>
+            <param name="filepath"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.DownloadMedia(System.String)">
+            <summary>
+            下载临时媒体文件
+            </summary>
+            <param name="mediaid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendTemplateMsg(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+             <summary>
+             发送模板消息
+             </summary>
+             <param name="p">消息内容参数，格式件http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html#.E8.8E.B7.E5.BE.97.E6.A8.A1.E6.9D.BFID</param>
+             <returns>格式：{
+            issuccess:false,
+            error_code:'',
+            msg:'',
+            }</returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendTemplateMsg(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String[])">
+            <summary>
+            发送模板消息
+            </summary>
+            <param name="touser_openid">接收人的openid</param>
+            <param name="template_id">模板id</param>
+            <param name="url">模板点击后跳转的url</param>
+            <param name="miniprogram_appid">小程序appid，默认为空</param>
+            <param name="miniprogram_pagepath">小程序的页面，默认为空</param>
+            <param name="firstvalue">first的内容</param>
+            <param name="remarkvalue">remark的内容</param>
+            <param name="keywords">keywords的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendTemplateMsg(System.String,System.String,System.String,System.String,System.String,System.Object)">
+            <summary>
+            发送模板消息
+            </summary>
+            <param name="touser_openid">接收人的openid</param>
+            <param name="template_id">模板id</param>
+            <param name="url">模板点击后跳转的url</param>
+            <param name="miniprogram_appid">小程序appid，默认为空</param>
+            <param name="miniprogram_pagepath">小程序的页面，默认为空</param>
+            <param name="data">发送数据，格式如下：
+                {
+                      "first": {
+                          "value":"恭喜你购买成功！",
+                         "color":"#173177"
+                      },
+                     "keyword1":{
+                          "value":"巧克力",
+                         "color":"#173177"
+                      },
+                     "keyword2": {
+                         "value":"39.8元",
+                         "color":"#173177"
+                     },
+                     "keyword3": {
+                         "value":"2014年9月22日",
+                         "color":"#173177"
+                     },
+                    "remark":{
+                        "value":"欢迎再次购买！",
+                        "color":"#173177"
+                }
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            发送客服消息，用户请求48小时内可以使用
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Text(System.String,System.String)">
+            <summary>
+            客服消息接口，发送文本信息
+            </summary>
+            <param name="openid"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Text(System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送文本信息
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="openid"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Pic(System.String,System.String)">
+            <summary>
+            客服消息接口，发送图片信息
+            </summary>
+            <param name="openid"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Pic(System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送图片信息
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="openid"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Voice(System.String,System.String)">
+            <summary>
+            客服消息接口，发送语音消息
+            </summary>
+            <param name="openid"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Voice(System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送语音消息
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="openid"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Video(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送视频消息
+            </summary>
+            <param name="openid"></param>
+            <param name="title"></param>
+            <param name="desc"></param>
+            <param name="thumb_media_id"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Video(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送视频消息
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="openid"></param>
+            <param name="title"></param>
+            <param name="desc"></param>
+            <param name="thumb_media_id"></param>
+            <param name="media_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Music(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送音乐消息
+            </summary>
+            <param name="openid"></param>
+            <param name="title"></param>
+            <param name="desc"></param>
+            <param name="thumb_media_id"></param>
+            <param name="musicurl"></param>
+            <param name="hqmusicurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_Music(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            客服消息接口，发送音乐消息
+            </summary>
+            <param name="accesstoken"></param>
+            <param name="openid"></param>
+            <param name="title"></param>
+            <param name="desc"></param>
+            <param name="thumb_media_id"></param>
+            <param name="musicurl"></param>
+            <param name="hqmusicurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_News(System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject[])">
+             <summary>
+             客服消息接口，发送图文消息 图文消息条数限制在10条以内，注意，如果图文数超过10，则将会无响应。
+             </summary>
+             <param name="openid"></param>
+             <param name="items">单条消息结构如下：
+             {
+             "title":"Happy Day",
+             "description":"Is Really A Happy Day",
+             "url":"URL",
+             "picurl":"PIC_URL"
+            },
+             </param>
+             <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.SendCustomerServiceMsg_News(System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject[])">
+             <summary>
+             客服消息接口，发送图文消息 图文消息条数限制在10条以内，注意，如果图文数超过10，则将会无响应。
+             </summary>
+             <param name="accesstoken">授权token</param>
+             <param name="openid"></param>
+             <param name="items">单条消息结构如下：
+             {
+             "title":"Happy Day",
+             "description":"Is Really A Happy Day",
+             "url":"URL",
+             "picurl":"PIC_URL"
+            },
+             </param>
+             <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseText(System.String,System.String,System.String)">
+            <summary>
+            被动消息回复，生成一个Text类型的回复数据
+            </summary>
+            <param name="content"></param>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseImage(System.String,System.String,System.String)">
+            <summary>
+            被动消息回复，生成一个image类型的回复数据
+            </summary>
+            <param name="mediaid">通过素材管理接口上传多媒体文件，得到的id。</param>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseVoice(System.String,System.String,System.String)">
+            <summary>
+            被动消息回复，生成一个image类型的回复数据
+            </summary>
+            <param name="mediaid">通过素材管理接口上传多媒体文件，得到的id。</param>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseVideo(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            被动消息回复，生成一个video类型的回复数据
+            </summary>
+            <param name="mediaid">通过素材管理接口上传多媒体文件，得到的id。</param>
+            <param name="title">视频消息的标题</param>
+            <param name="description">视频消息的描述</param>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseMusic(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            被动消息回复，生成一个音乐消息类型的回复数据
+            </summary>
+            <param name="mediaid">缩略图的媒体id，通过素材管理接口上传多媒体文件，得到的id</param>
+            <param name="title">音乐标题</param>
+            <param name="description">音乐描述</param>
+            <param name="MusicUrl">音乐链接</param>
+            <param name="HQMusicUrl">高质量音乐链接，WIFI环境优先使用该链接播放音乐</param>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GenResponseNews(System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject[])">
+            <summary>
+            被动消息回复，生成一个图文消息类型的回复数据
+            </summary>
+            <param name="touser">接收消息的openid</param>
+            <param name="fromuser">开发者微信号</param>
+            <param name="items">数组，动态对象为敏感大小写
+            构成如下：
+            Title：图文消息标题
+            Description：图文消息描述
+            PicUrl：图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200
+            Url：点击图文消息跳转链接
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Long2ShortUrl(System.String,System.String)">
+            <summary>
+            长链接转短链接
+            </summary>
+            <param name="longurl"></param>
+            <param name="accesstoken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.Long2ShortUrl(System.String)">
+            <summary>
+            长链接转短链接
+            </summary>
+            <param name="longurl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.GetUserInfo(System.String)">
+            <summary>
+            获取用户的明细信息
+            </summary>
+            <param name="openid">要查询用户的openid号</param>
+            <param name="touser">接收信息方</param>
+            <param name="fromuser">发送方</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CallWeixinServer``1(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean)">
+            <summary>
+            呼叫微信服务
+            </summary>
+            <typeparam name="RType">返回值类型，FrameDLRObject、string、stream或者指定的model</typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CallWeixinServer(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean)">
+            <summary>
+            呼叫微信服务
+            </summary>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CallWeixinServerAsync``1(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            异步调用微信服务
+            </summary>
+            <typeparam name="RType"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <param name="callback"></param>
+            <param name="recorddata"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WechatHelper.CallWeixinServerAsync(System.String,System.String,System.String,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Boolean,System.Action{System.Object},EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            异步调用微信服务
+            </summary>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="contenttype"></param>
+            <param name="header"></param>
+            <param name="data"></param>
+            <param name="isneedcert"></param>
+            <param name="callbackLA"></param>
+            <param name="recorddata"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WXBizMsgCrypt.GenWeixinVisitSign(System.String,System.String,System.String)">
+            <summary>
+            生成微信服务访问用的签名，访问微信服务器或访问.wx的服务需要用到的签证
+            </summary>
+            <param name="token"></param>
+            <param name="timestamp"></param>
+            <param name="noncestr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WXBizMsgCrypt.GenSHASignKey(System.String,System.Text.Encoding)">
+            <summary>
+            返回SHA1哈希字符串
+            </summary>
+            <param name="input"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WXBizMsgCrypt.GenMD5SignString(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.String)">
+            <summary>
+            根据参数采用MD5算法生成数字签名
+            </summary>
+            <param name="obj">参数集，该参数集不可包含数字签名的栏位</param>
+            <param name="mch_key">微信商户支付秘钥</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WXBizMsgCrypt.GenSHASignKey(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject,System.Text.Encoding)">
+            <summary>
+            获取SHA算法的Sign签名
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Extend.WeChat.WXBizMsgCrypt.GenSHASignKey(EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            获取SHA算法的Sign签名,ASCII编码
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

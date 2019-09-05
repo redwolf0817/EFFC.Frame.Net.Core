@@ -12,6 +12,7 @@ namespace EFFC.Frame.Net.Module.Razor
 {
     public class RazorProxy : ModuleProxy
     {
+       
         protected override DataCollection ConvertDataCollection(ref object obj)
         {
             var rtn = new RazorData();

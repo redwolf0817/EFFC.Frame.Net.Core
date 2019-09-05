@@ -1,0 +1,10 @@
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Global.deps.json
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Global.dll
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Global.pdb
+E:\work\EFFC\3.5.2\Frame.Net.Release\netcoreapp2.0\EFFC.Frame.Net.Global.xml
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.csprojResolveAssemblyReference.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.AssemblyInfo.cs
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.dll
+E:\work\EFFC\3.5.2\EFFC.Frame.Net.Global\obj\Debug\netcoreapp2.0\EFFC.Frame.Net.Global.pdb

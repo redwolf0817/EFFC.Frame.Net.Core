@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFFC.Frame.Net.Module.Business</name>
+    </assembly>
+    <members>
+        <member name="T:EFFC.Frame.Net.Module.Business.BaseBusiModule`3">
+            <summary>
+            业务模块的基本流程定义
+            </summary>
+            <typeparam name="TLogic"></typeparam>
+            <typeparam name="TParameter"></typeparam>
+            <typeparam name="TData"></typeparam>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BaseBusiModule`3.CheckMyParametersAndConfig(`1,`2)">
+            <summary>
+            执行参数检查
+            </summary>
+            <param name="p"></param>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BaseBusiModule`3.InvokeBusiness(`1,`2)">
+            <summary>
+            根据参数集进行逻辑执行
+            </summary>
+            <param name="p"></param>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BaseBusiModule`3.AfterProcess(`1,`2)">
+            <summary>
+            执行后的参数和结果集处理
+            </summary>
+            <param name="bmp"></param>
+            <param name="d"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BaseBusiModule`3.OnLoadAssembly(EFFC.Frame.Net.Base.Module.Proxy.ProxyManager,System.Object,System.Collections.Generic.List{System.Type})">
+            <summary>
+            系统启动时加载业务逻辑模块和其他自定义加载作业
+            </summary>
+            <param name="ma"></param>
+            <param name="options"></param>
+            <param name="logics"></param>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.BusiModule`3">
+            <summary>
+            业务处理模块的基类，动态加载对应的logic并执行之
+            </summary>
+            <typeparam name="LType"></typeparam>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BusiModule`3.DoCheckMyParametersAndConfig(`1,`2)">
+            <summary>
+            执行前的参数检查
+            </summary>
+            <param name="bmp"></param>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.BusiModule`3.AfterProcess(`1,`2)">
+            <summary>
+            执行后的参数和结果集处理
+            </summary>
+            <param name="bmp"></param>
+            <param name="d"></param>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.Datas.BusiDataCollection">
+            <summary>
+            Business模块使用的数据集合
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Datas.BusiDataCollection.Result">
+            <summary>
+            逻辑处理完成后的结果
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2">
+            <summary>
+            Logic的基类
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CacheHelper">
+            <summary>
+            cache操作
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.SetCache(System.String,System.Object)">
+            <summary>
+            写入缓存,默认30分钟后超时
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.SetCache(System.String,System.Object,System.Int32)">
+            <summary>
+            写入缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expirationMinites"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.SetCache(System.String,System.Object,System.DateTime)">
+            <summary>
+            写入缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expirationtime"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.SetCache(System.String,System.Object,System.TimeSpan)">
+            <summary>
+            写入缓存（超过指定时间没用则过期）
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="slide"></param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.GetCache(System.String)">
+            <summary>
+            从缓存中获取数据
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.FrameCache.RemoveCache(System.String)">
+            <summary>
+            移除缓存
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.Configs">
+            <summary>
+            Config操作
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.Name">
+            <summary>
+            logic的名称，busi模块根据该属性来调用对应的logic
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CallContext_Parameter">
+            <summary>
+            提供call context环境下的参数资源集访问
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CallContext_DataCollection">
+            <summary>
+            提供call context环境下的数据集访问
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CallContext_CurrentToken">
+            <summary>
+            提供call context环境下的当前事务token访问
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CallContext_ResourceManage">
+            <summary>
+            提供call context环境下的当前资源管理器访问
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.BeginTrans">
+            <summary>
+            開啟事務
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CommitTrans">
+            <summary>
+            提交事務
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.RollBack">
+            <summary>
+            回滾事務
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.CreateResource``1">
+            <summary>
+            创建一个资源
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.NewResourceEntity``1">
+            <summary>
+            創建一個普通的資源對象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.NewTransResourceEntity``1">
+            <summary>
+            創建一個事務資源對象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.NewTransResourceEntity``1(EFFC.Frame.Net.Base.Token.TransactionToken)">
+            <summary>
+            創建一個事務資源對象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="token">指定的事务</param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DataConvertor">
+            <summary>
+            进行数据格式转换
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DataConvertor.ConvertTo``2(System.Object)">
+            <summary>
+            数据类型转化，将obj转化成T类型数据
+            </summary>
+            <typeparam name="Convert">转换器</typeparam>
+            <typeparam name="T">目标数据类型</typeparam>
+            <param name="obj">待转换数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DataConvertor.ConvertTo``3(``1)">
+            <summary>
+            数据类型转化，将From转化成To类型数据
+            </summary>
+            <typeparam name="Convert">转换器</typeparam>
+            <typeparam name="From">来源类型</typeparam>
+            <typeparam name="To">目标类型</typeparam>
+            <param name="obj">待转换数据</param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DOD">
+            <summary>
+            dod操作相关
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DO">
+            <summary>
+            dod操作相关-动态调用方法
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DOHelper.DO``1(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+            <summary>
+            DOD调用，param的第一个默认为instanceid
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="propertyname"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DB">
+            <summary>
+            db操作相关
+            </summary>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.NewUnitParameter``1">
+            <summary>
+            获得一个新的UnitParamter
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.NewDBUnitParameter``1">
+            <summary>
+            获得一个新的UnitParamter，默认Dao为DB类型的DBAccess
+            </summary>
+            <typeparam name="DB"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.NewDBUnitParameter">
+            <summary>
+            获得一个新的UnitParamter
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,EFFC.Frame.Net.Unit.DB.DBExpress)">
+            <summary>
+            标准化DB执行操作
+            </summary>
+            <param name="p"></param>
+            <param name="express"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,EFFC.Frame.Net.Base.Data.Base.FrameDLRObject)">
+            <summary>
+            通过json对象执行标准化DB操作
+            </summary>
+            <param name="p"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.Excute(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            通过json串执行标准化DB操作
+            </summary>
+            <param name="p"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.Query``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            查询操作
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.QueryByPage``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            翻页查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+            <returns></returns>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.NonQuery``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            非查询类的db操作
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+        </member>
+        <member name="M:EFFC.Frame.Net.Module.Business.Logic.BaseLogic`2.DBHelper.ExcuteSP``1(EFFC.Frame.Net.Unit.DB.Parameters.UnitParameter,System.String)">
+            <summary>
+            执行存储过程操作
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p"></param>
+            <param name="actionflag">动作区分标记</param>
+            <returns></returns>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.Options.BusiOptions">
+            <summary>
+            BusiModule OnUsed加载时用到的选项
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Options.BusiOptions.BusinessAssemblyName">
+            <summary>
+            Logic所在dll的AssemblyName
+            </summary>
+        </member>
+        <member name="T:EFFC.Frame.Net.Module.Business.Parameters.BusiModuleParameter">
+            <summary>
+            业务处理模块专用参数集
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Parameters.BusiModuleParameter.CallLogicName">
+            <summary>
+            要调用的logic名称
+            </summary>
+        </member>
+        <member name="P:EFFC.Frame.Net.Module.Business.Parameters.BusiModuleParameter.CallAction">
+            <summary>
+            要调用的action
+            </summary>
+        </member>
+    </members>
+</doc>

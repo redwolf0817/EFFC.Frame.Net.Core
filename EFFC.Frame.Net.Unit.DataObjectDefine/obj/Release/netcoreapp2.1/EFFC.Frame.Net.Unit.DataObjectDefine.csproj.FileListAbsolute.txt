@@ -1,0 +1,11 @@
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.deps.json
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.dll
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.pdb
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.xml
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.csprojAssemblyReference.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.AssemblyInfo.cs
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.csproj.CopyComplete
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.dll
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Unit.DataObjectDefine\obj\Release\netcoreapp2.1\EFFC.Frame.Net.Unit.DataObjectDefine.pdb

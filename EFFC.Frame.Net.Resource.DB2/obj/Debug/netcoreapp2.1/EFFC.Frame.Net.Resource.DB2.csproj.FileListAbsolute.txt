@@ -1,0 +1,11 @@
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.xml
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.deps.json
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.dll
+E:\work\EFFC\3.5.3\Frame.Net.Release\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.pdb
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.csprojAssemblyReference.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.csproj.CoreCompileInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.AssemblyInfoInputs.cache
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.AssemblyInfo.cs
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.csproj.CopyComplete
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.dll
+E:\work\EFFC\3.5.3\EFFC.Frame.Net.Resource.DB2\obj\Debug\netcoreapp2.1\EFFC.Frame.Net.Resource.DB2.pdb

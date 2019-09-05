@@ -7,7 +7,7 @@ namespace Frame.Net.Base.Interfaces.Extentions
     /// <summary>
     /// HostJs接口定义
     /// </summary>
-    interface IHostJsEngine
+    public interface IHostJsEngine
     {
         void Excute(string script, params KeyValuePair<string, object>[] kvp);
         object Evaluate(string script, params KeyValuePair<string, object>[] kvp);

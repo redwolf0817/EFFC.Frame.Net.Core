@@ -16,27 +16,27 @@ namespace WechatApp.AppFrameBuilder
         protected override bool IsValid4Invoke(WebParameter p, GoData d)
         {
             var rtn = true;
-            if (!GlobalPrepare.IsIgnoreLoginAuth(p))
-            {
-                if (p.LoginInfo == null)
-                {
-                    rtn = false;
-                    if(ComFunc.nvl(p.CurrentHttpContext.Request.Headers["x-requested-with"].FirstOrDefault()) == "XMLHttpRequest"
-                        && ComFunc.nvl(p.CurrentHttpContext.Request.Headers["x-request-async"].FirstOrDefault()) == "true")
-                    {
-                        d.ResponseData = FrameDLRObject.CreateInstance(@"{
-__isneedlogin__:true,
-__loginurl__:'/admin'
-}");
-                    }
-                    else
-                    {
-                        d.ResponseData = FrameDLRObject.CreateInstance();
-                        d.RedirectUri = "/admin";
-                    }
+//            if (!GlobalPrepare.IsIgnoreLoginAuth(p))
+//            {
+//                if (p.LoginInfo == null)
+//                {
+//                    rtn = false;
+//                    if(ComFunc.nvl(p.CurrentHttpContext.Request.Headers["x-requested-with"].FirstOrDefault()) == "XMLHttpRequest"
+//                        && ComFunc.nvl(p.CurrentHttpContext.Request.Headers["x-request-async"].FirstOrDefault()) == "true")
+//                    {
+//                        d.ResponseData = FrameDLRObject.CreateInstance(@"{
+//__isneedlogin__:true,
+//__loginurl__:'/admin'
+//}");
+//                    }
+//                    else
+//                    {
+//                        d.ResponseData = FrameDLRObject.CreateInstance();
+//                        d.RedirectUri = "/admin";
+//                    }
                     
-                }
-            }
+//                }
+//            }
             return rtn;
         }
     }

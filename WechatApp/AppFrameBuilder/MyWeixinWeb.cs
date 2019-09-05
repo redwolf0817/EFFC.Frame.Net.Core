@@ -9,7 +9,7 @@ using System.IO;
 
 namespace WechatApp.AppFrameBuilder
 {
-    public class MyWeixinWeb:WeixinWebGo
+    public class MyWeixinWeb:QiyeWxWebGo
     {
         protected override bool IsValid4Invoke(WebParameter p, GoData d)
         {

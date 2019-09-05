@@ -19,7 +19,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
     /// </summary>
     internal class EntryPointEntity
     {
-        static Regex _reg_version_ = new Regex(@"(?<=.)v\d+._\d+", RegexOptions.IgnoreCase);
+        static Regex _reg_version_ = new Regex(@"(?<=.)v\d+(._\d+){0,1}", RegexOptions.IgnoreCase);
         static Regex _reg_brace_p_ = new Regex(@"\{[A-Za-z0-9_]+\}", RegexOptions.IgnoreCase);
         static string[] _method_verbs_ = new string[] { "get", "post", "put", "patch", "delete" };
         static string _parameter_reg_express ="[^/]+";
@@ -74,12 +74,14 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
         internal List<RouteInvokeEntity> FindByRoute(string[] sarray, string verb,ref object[] parsedParams)
         {
             var paramValues = new List<object>();
-            var key = $"{verb}:{sarray.Length}:";
+            var key = $"{verb.ToLower()}:{sarray.Length}:";
             for (var i = 0; i < sarray.Length; i++)
             {
-                if (_invalid_keys_.Contains(sarray[i].ToLower()))
+                //if (_invalid_keys_.Contains(sarray[i].ToLower()))
+                if (_invalid_keys_.Contains(sarray[i]))
                 {
-                    key += $"{sarray[i].ToLower()}@{i}|";
+                    //key += $"{sarray[i].ToLower()}@{i}|";
+                    key += $"{sarray[i]}@{i}|";
                 }
                 else
                 {
@@ -138,8 +140,23 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
                 var v = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
                 v.Desc = item.Value.Last().RouteDesc;
                 v.Verb = item.Key.Split(':')[0];
-                v.Url = item.Key.Split(':')[1];
-                rtn.RouteDesc.SetValue(key, v);
+                v.Route = item.Key.Split(':')[1];
+                v.Inputs =  (from tt in item.Value.Last().InputItems
+                            select new
+                            {
+                                tt.Name,
+                                tt.Desc,
+                                tt.ValueType,
+                                tt.DefaultValue,
+                                tt.Position,
+                                tt.IsAllowEmpty
+                            }).ToList();
+                var outputitem = item.Value.Last().OutputDesc;
+                v.Output = new { outputitem.Desc, outputitem.FormatDesc, outputitem.ReturnType };
+                if (item.Value.Last().IsVisible)
+                {
+                    rtn.RouteDesc.SetValue(key, v);
+                }
 
                 index++;
             }
@@ -153,7 +170,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
                 var express = _reg_brace_p_.Replace(url, @"{p}").Substring(1);
 
                 //关键字
-                var keynames = express.Split('/');
+                var keynames = express.Split('/',StringSplitOptions.RemoveEmptyEntries);
                 list.AddRange(keynames);
 
                 var key = $"{verb}:{sary.Count()}:";
@@ -217,6 +234,33 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
                 var attrdesc = entity.InvokeMethod.GetCustomAttribute<EWRARouteDescAttribute>();
                 entity.RouteDesc = attrdesc == null ? "" : attrdesc.Desc;
                 entity.RouteRegExpress = _reg_brace_p_.Replace(entity.Route, _parameter_reg_express);
+                //是否可见
+                var attrvisible = entity.InvokeMethod.GetCustomAttribute<EWRAVisibleAttribute>();
+                if (attrvisible != null)
+                {
+                    entity.IsVisible = attrvisible.IsVisible;
+                }
+                else
+                {
+                    entity.IsVisible = true;
+                }
+                //添加参数描述
+                var attrinputs = entity.InvokeMethod.GetCustomAttributes<EWRAAddInputAttribute>();
+                if (attrinputs != null)
+                {
+                    foreach (var attr in attrinputs)
+                    {
+                        entity.AddInputItem(attr);
+                    }
+                }
+                //添加返回数据的描述
+                var attroutput = entity.InvokeMethod.GetCustomAttribute<EWRAOutputDescAttribute>();
+                if (attroutput != null)
+                {
+                    entity.OutputDesc.Desc = attroutput.Desc;
+                    entity.OutputDesc.FormatDesc = attroutput.FormatDesc;
+                    entity.OutputDesc.ReturnType = attroutput.ReturnType;
+                }
 
 
 
@@ -257,7 +301,8 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
         /// 构建next执行链接
         /// </summary>
         /// <param name="t"></param>
-        /// <param name="parentRIE"></param>
+        /// <param name="parentKey"></param>
+        /// <param name="entryRIE"></param>
         /// <param name="pointTypeList"></param>
         private void BuildNextRouteInvokeLink(Type t, string parentKey, List<RouteInvokeEntity> entryRIE, List<Type> pointTypeList)
         {
@@ -304,7 +349,33 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
                 var attrdesc = entity.InvokeMethod.GetCustomAttribute<EWRARouteDescAttribute>();
                 entity.RouteDesc = attrdesc == null ? "" : attrdesc.Desc;
                 entity.RouteRegExpress = _reg_brace_p_.Replace(entity.Route, _parameter_reg_express);
-
+                //是否可见
+                var attrvisible = entity.InvokeMethod.GetCustomAttribute<EWRAVisibleAttribute>();
+                if (attrvisible != null)
+                {
+                    entity.IsVisible = attrvisible.IsVisible;
+                }
+                else
+                {
+                    entity.IsVisible = true;
+                }
+                //添加参数描述
+                var attrinputs = entity.InvokeMethod.GetCustomAttributes<EWRAAddInputAttribute>();
+                if(attrinputs != null)
+                {
+                    foreach(var attr in attrinputs)
+                    {
+                        entity.AddInputItem(attr);
+                    }
+                }
+                //添加返回数据的描述
+                var attroutput = entity.InvokeMethod.GetCustomAttribute<EWRAOutputDescAttribute>();
+                if (attroutput != null)
+                {
+                    entity.OutputDesc.Desc = attroutput.Desc;
+                    entity.OutputDesc.FormatDesc = attroutput.FormatDesc;
+                    entity.OutputDesc.ReturnType = attroutput.ReturnType;
+                }
 
                 list.Add(entity);
                 var key = $"{entity.InvokeName}:{parentKey.Split(':')[1]}{entity.Route}";
@@ -367,6 +438,33 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
                     var attrdesc = entity.InvokeMethod.GetCustomAttribute<EWRARouteDescAttribute>();
                     entity.RouteDesc = attrdesc == null ? "" : attrdesc.Desc;
                     entity.RouteRegExpress = _reg_brace_p_.Replace(entity.Route, _parameter_reg_express);
+                    //是否可见
+                    var attrvisible = entity.InvokeMethod.GetCustomAttribute<EWRAVisibleAttribute>();
+                    if(attrvisible != null)
+                    {
+                        entity.IsVisible = attrvisible.IsVisible;
+                    }
+                    else
+                    {
+                        entity.IsVisible = true;
+                    }
+                    //添加参数描述
+                    var attrinputs = entity.InvokeMethod.GetCustomAttributes<EWRAAddInputAttribute>();
+                    if (attrinputs != null)
+                    {
+                        foreach (var attr in attrinputs)
+                        {
+                            entity.AddInputItem(attr);
+                        }
+                    }
+                    //添加返回数据的描述
+                    var attroutput = entity.InvokeMethod.GetCustomAttribute<EWRAOutputDescAttribute>();
+                    if (attroutput != null)
+                    {
+                        entity.OutputDesc.Desc = attroutput.Desc;
+                        entity.OutputDesc.FormatDesc = attroutput.FormatDesc;
+                        entity.OutputDesc.ReturnType = attroutput.ReturnType;
+                    }
 
                     list.Add(entity);
                     var key = $"{attri.MethodVerb}:{attri.Route}";
@@ -381,126 +479,5 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA
             }
         }
         
-    }
-
-    /// <summary>
-    /// 路由执行流程中的元素
-    /// </summary>
-    internal class RouteInvokeEntity
-    {
-        public RouteInvokeEntity()
-        {
-
-        }
-        /// <summary>
-        /// 执行的实例的类型
-        /// </summary>
-        public Type InstanceType
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 执行的方法
-        /// </summary>
-        public MethodInfo InvokeMethod
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 对应的路由路径
-        /// </summary>
-        public string Route
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 对应路由路径的正则表达式
-        /// </summary>
-        public string RouteRegExpress
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 对应路由描述
-        /// </summary>
-        public string RouteDesc
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 执行的名称
-        /// </summary>
-        public string InvokeName
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 排除名称为parent_开头的参数后的参数个数
-        /// </summary>
-        public int ParameterCountWithOutParent
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 判断是否有名称为parent_开头的参数
-        /// </summary>
-        public bool HasParentParameter
-        {
-            get;
-            internal protected set;
-        }
-        /// <summary>
-        /// 执行
-        /// </summary>
-        /// <param name="paramValues"></param>
-        /// <param name="ewrap"></param>
-        /// <param name="ewrad"></param>
-        /// <returns></returns>
-        //public object Invoke(object[] paramValues, EWRAParameter ewrap, EWRAData ewrad)
-        //{
-        //    var instance = Activator.CreateInstance(InstanceType);
-        //    //logic的预执行处理
-        //    instance.process(ewrap, ewrad);
-        //    if (!ewrad.IsLogicInvokeContinue) return null;
-        //    //找到正确的参数对应顺序
-        //    var parameterlist = InvokeMethod.GetParameters().Select(p => p.Name.ToLower()).ToList();
-        //    var matchs = _reg_brace_p_.Matches(Route);
-        //    var l = new List<string>();
-        //    foreach (Match m in matchs)
-        //    {
-        //        var key = m.Value.ToLower().Replace("{", "").Replace("}", "");
-        //        l.Add(key);
-        //    }
-        //    var newp = new List<object>();
-
-        //    foreach (var item in parameterlist)
-        //    {
-        //        if (l.Contains(item))
-        //            newp.Add(paramValues[l.IndexOf(item)]);
-        //    }
-        //    if (HasParentParameter)
-        //        newp.Add(paramValues.Last());
-
-        //    return InvokeMethod.Invoke(instance, newp.ToArray());
-        //}
-
-        public RouteInvokeEntity Clone()
-        {
-            var rtn = new RouteInvokeEntity();
-            rtn.InstanceType = InstanceType;
-            rtn.InvokeMethod = InvokeMethod;
-            rtn.InvokeName = InvokeName;
-            rtn.Route = Route;
-            rtn.RouteDesc = RouteDesc;
-            return rtn;
-        }
-
     }
 }

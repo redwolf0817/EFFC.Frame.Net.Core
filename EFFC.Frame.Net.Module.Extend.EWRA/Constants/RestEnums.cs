@@ -30,7 +30,7 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Constants
         /// </summary>
         NO_CONTENT = 204,
         /// <summary>
-        /// [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作
+        /// [*]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作
         /// </summary>
         INVALID_REQUEST = 400,
         /// <summary>
@@ -74,6 +74,18 @@ namespace EFFC.Frame.Net.Module.Extend.EWRA.Constants
         /// <summary>
         /// 返回文本
         /// </summary>
-        TXT
+        TXT,
+        /// <summary>
+        /// 范围二进制文件
+        /// </summary>
+        Binary,
+        /// <summary>
+        /// 返回XML
+        /// </summary>
+        XML,
+        /// <summary>
+        /// 返回HTML
+        /// </summary>
+        HTML
     }
 }

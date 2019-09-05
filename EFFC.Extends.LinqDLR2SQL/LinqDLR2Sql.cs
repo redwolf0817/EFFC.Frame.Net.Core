@@ -1,6 +1,9 @@
 ﻿using EFFC.Frame.Net.Base.Common;
+using EFFC.Frame.Net.Base.Constants;
+using EFFC.Frame.Net.Base.Data.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -14,40 +17,53 @@ namespace EFFC.Extends.LinqDLR2SQL
         /// <summary>
         /// 无操作
         /// </summary>
-        None,
+        None=0,
         /// <summary>
         /// 执行了select操作
         /// </summary>
-        Select,
+        Select=1,
         /// <summary>
         /// 执行了select many操作（from多个表)
         /// </summary>
-        SelectMany,
+        SelectMany=2,
         /// <summary>
         /// 执行了join操作
         /// </summary>
-        SelectJoin,
+        SelectJoin=4,
         /// <summary>
         /// 执行了delete操作
         /// </summary>
-        Delete,
+        Delete=8,
         /// <summary>
         /// 执行了update操作
         /// </summary>
-        Update,
+        Update=16,
         /// <summary>
         /// 执行了insert操作
         /// </summary>
-        Insert
+        Insert=32,
+        /// <summary>
+        /// 执行了Where操作
+        /// </summary>
+        Where=64,
+        /// <summary>
+        /// 执行了OrderBy操作
+        /// </summary>
+        OrderBy = 128,
+        /// <summary>
+        /// 执行了GroupBy操作
+        /// </summary>
+        GroupBy = 256
     }
+
     
     /// <summary>
     /// LinqDLR2Sql的基类，定义了LinqDLR2Sql的基本结构和已经实现的sql转化操作
     /// </summary>
     /// <typeparam name="TSource">lamda表达式执行时的动态识别类型，要想使用lamda表达式，此属性必备</typeparam>
-    public class LinqDLR2Sql<TSource>
+    public class LinqDLR2Sql<TSource>: IDisposable
     {
-        LinqDLR2SQLGenerator _generator = new LinqDLR2SQLGenerator();
+        LinqDLR2SQLGenerator _generator = null;
 
         /// <summary>
         /// LinqDLR2Sql下的元素对象
@@ -63,20 +79,12 @@ namespace EFFC.Extends.LinqDLR2SQL
         public string Table
         {
             get;
-            private set;
+            protected set;
         }
         /// <summary>
         /// 别名
         /// </summary>
         public string AliasName
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// 自己对象的引用
-        /// </summary>
-        public object Me
         {
             get;
             protected set;
@@ -86,13 +94,16 @@ namespace EFFC.Extends.LinqDLR2SQL
         /// </summary>
         public LinqDLR2SQLGenerator SQLGenerator
         {
+            get;set;
+        }
+        /// <summary>
+        /// 当前的操作类型
+        /// </summary>
+        public LinqDLR2SQLOperation CurrentOperationType
+        {
             get
             {
-                return _generator;
-            }
-            set
-            {
-                _generator = value;
+                return SQLGenerator.CurrentOperation;
             }
         }
         /// <summary>
@@ -102,60 +113,16 @@ namespace EFFC.Extends.LinqDLR2SQL
         /// <param name="item"></param>
         /// <param name="table"></param>
         /// <param name="aliasName"></param>
+        /// <param name="generator"></param>
         /// <returns></returns>
-        public static T New<T>(TSource item, string table = "", string aliasName = "") where T : LinqDLR2Sql<TSource>
+        public static T New<T>(TSource item, string table = "", string aliasName = "", LinqDLR2SQLGenerator generator = null) where T : LinqDLR2Sql<TSource>
         {
             var rtn = (T)Activator.CreateInstance(typeof(T), true);//new LinqTable<TSource>();
             rtn.Item = item;
             rtn.Table = table;
             rtn.AliasName = string.IsNullOrEmpty(aliasName) ? rtn.Table : aliasName;
-            rtn.Me = rtn;
+            rtn.SQLGenerator = generator == null ? new GeneralLinqDLR2SQLGenerator(null) : generator;
             return rtn;
-        }
-        /// <summary>
-        /// 执行select many的自定义处理
-        /// </summary>
-        /// <typeparam name="TLastItem"></typeparam>
-        /// <param name="pretable"></param>
-        public void DoSelectMany<TLastItem>(LinqDLR2Sql<TLastItem> pretable)
-        {
-            SQLGenerator.DoSelectMany(this, pretable);
-        }
-        /// <summary>
-        /// 执行select的自定义处理
-        /// </summary>
-        /// <typeparam name="TLastItem"></typeparam>
-        /// <param name="pretable"></param>
-        public void DoSelect<TLastItem>(LinqDLR2Sql<TLastItem> pretable)
-        {
-            SQLGenerator.DoSelect(this, pretable);
-        }
-        /// <summary>
-        /// 执行join操作
-        /// </summary>
-        /// <typeparam name="TOuterItem"></typeparam>
-        /// <typeparam name="TInnerItem"></typeparam>
-        /// <param name="outer"></param>
-        /// <param name="inner"></param>
-        public void DoJoin<TOuterItem,TInnerItem>(LinqDLR2Sql<TOuterItem> outer,LinqDLR2Sql<TInnerItem> inner,object outerkey,object innerkey)
-        {
-            SQLGenerator.DoJoin(this, outer, inner, outerkey, innerkey);
-        }
-        public void DoOrderBy(object key)
-        {
-            SQLGenerator.DoOrderBy(this, key);
-        }
-        public void DoOrderByDescending(object key)
-        {
-            SQLGenerator.DoOrderByDescending(this, key);
-        }
-        /// <summary>
-        /// 执行where的自定义处理
-        /// </summary>
-        /// <param name="where"></param>
-        public void DoWhere(LinqDLR2SqlWhereOperator where)
-        {
-            SQLGenerator.DoWhere(this,where);
         }
         /// <summary>
         /// 转为sql语句
@@ -165,6 +132,7 @@ namespace EFFC.Extends.LinqDLR2SQL
         {
             return SQLGenerator.ToSql();
         }
+        
         /// <summary>
         /// 本表join的时候使用left方式
         /// </summary>
@@ -181,33 +149,19 @@ namespace EFFC.Extends.LinqDLR2SQL
             SQLGenerator.DoRightJoin(this);
             return this;
         }
-        private string GetColumnsSql()
+
+        public virtual void Dispose()
         {
-            var dt = DateTime.Now;
-            var columns = "";
-            if (Item is LinqDLRColumn)
+            if(_generator != null && _generator is IDisposable)
             {
-                columns += ((LinqDLRColumn)(object)Item).ColumnExpress;
+                ((IDisposable)_generator).Dispose();
             }
-            else if (Item.GetType().Name.IndexOf("LamdaSQLObject`1")>= 0)
-            {
-                var tn = ComFunc.nvl(Item.GetType().GetTypeInfo().GetDeclaredProperty("BelongToTable").GetValue(Item));
-                columns += string.IsNullOrEmpty(tn) ? $"*" : $"{tn}.*";
-            }
-            else
-            {
-                var fields = Item.GetType().GetTypeInfo().DeclaredFields;
-                foreach (var f in fields)
-                {
-                    var v = f.GetValue(Item);
-                    if (v is LinqDLRColumn)
-                    {
-                        columns += ((LinqDLRColumn)v).ColumnExpress + ",";
-                    }
-                }
-            }
-            if (columns.EndsWith(",")) columns = columns.Substring(0, columns.Length - 1);
-            return columns;
+
+            _generator = null;
+        }
+        public override string ToString()
+        {
+            return ToSql();
         }
     }
     /// <summary>
@@ -237,9 +191,17 @@ namespace EFFC.Extends.LinqDLR2SQL
         {
             //第一轮from
             var fromtable = from.Invoke(source.Item);
-            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(resultSelector.Invoke(source.Item, fromtable.Item));
-            rtn.DoSelectMany<TSource>(source);
-            rtn.DoSelectMany<TCollector>(fromtable);
+            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(resultSelector.Invoke(source.Item, fromtable.Item),"","",source.SQLGenerator);
+            using (source)
+            {
+                rtn.SQLGenerator.DoSelectMany(rtn, source);
+                //source的SQLGenerator被rtn共用
+                source.SQLGenerator = null;
+            }
+            using (fromtable)
+            {
+                rtn.SQLGenerator.DoSelectMany(rtn, fromtable);
+            }
 
             return rtn;
         }
@@ -255,8 +217,13 @@ namespace EFFC.Extends.LinqDLR2SQL
         {
             var dt = DateTime.Now;
             var v = selector.Invoke(source.Item);
-            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(v, source.Table, source.AliasName);
-            rtn.DoSelect<TSource>(source);
+            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(v, source.Table, source.AliasName, source.SQLGenerator);
+            using (source)
+            {
+                rtn.SQLGenerator.DoSelect(rtn);
+                //SQLGenerator共用一个
+                source.SQLGenerator = null;
+            }
             return rtn;
         }
 
@@ -265,8 +232,16 @@ namespace EFFC.Extends.LinqDLR2SQL
             var v1 = outerKeySelector.Invoke(outer.Item);
             var v2 = innerKeySelector.Invoke(inner.Item);
             var re = resultSelector.Invoke(outer.Item, inner.Item);
-            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(re);
-            rtn.DoJoin<TOuter, TInner>(outer, inner, v1, v2);
+            var rtn = LinqDLR2Sql<TResult>.New<LinqDLR2Sql<TResult>>(re, "", "", outer.SQLGenerator);
+            using (outer)
+            {
+                using (inner)
+                {
+                    rtn.SQLGenerator.DoJoin(rtn, outer, inner, v1, v2);
+                    //SQLGenerator共用一个
+                    outer.SQLGenerator = null;
+                }
+            }
             return rtn;
         }
         /// <summary>
@@ -279,7 +254,7 @@ namespace EFFC.Extends.LinqDLR2SQL
         public static LinqDLR2Sql<TSource> Where<TSource>(this LinqDLR2Sql<TSource> source, Func<TSource, LinqDLR2SqlWhereOperator> predicate)
         {
             LinqDLR2SqlWhereOperator op = predicate.Invoke(source.Item);
-            source.DoWhere(op);
+            source.SQLGenerator.DoWhere(source, op);
             return source;
         }
         /// <summary>
@@ -293,7 +268,7 @@ namespace EFFC.Extends.LinqDLR2SQL
         public static LinqDLR2Sql<TSource> OrderBy<TSource, TKey>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector)
         {
             var key = keySelector.Invoke(source.Item);
-            source.DoOrderBy(key);
+            source.SQLGenerator.DoOrderBy(source,key);
             return source;
         }
         /// <summary>
@@ -307,7 +282,7 @@ namespace EFFC.Extends.LinqDLR2SQL
         public static LinqDLR2Sql<TSource> ThenBy<TSource, TKey>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector)
         {
             var key = keySelector.Invoke(source.Item);
-            source.DoOrderBy(key);
+            source.SQLGenerator.DoOrderBy(source, key);
             return source;
         }
         /// <summary>
@@ -321,7 +296,7 @@ namespace EFFC.Extends.LinqDLR2SQL
         public static LinqDLR2Sql<TSource> OrderByDescending<TSource, TKey>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector)
         {
             var key = keySelector.Invoke(source.Item);
-            source.DoOrderByDescending(key);
+            source.SQLGenerator.DoOrderByDescending(source,key);
             return source;
         }
         /// <summary>
@@ -334,9 +309,202 @@ namespace EFFC.Extends.LinqDLR2SQL
         /// <returns></returns>
         public static LinqDLR2Sql<TSource> ThenByDescending<TSource, TKey>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector)
         {
+            var ss = (from t in new List<object>()
+                      group t by t.GetType() into g
+                      select g
+                     );
             var key = keySelector.Invoke(source.Item);
-            source.DoOrderByDescending(key);
+            source.SQLGenerator.DoOrderByDescending(source,key);
             return source;
+        }
+        /// <summary>
+        /// 执行Take操作，相当于sql的top
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Take<TSource>(this LinqDLR2Sql<TSource> source, int count)
+        {
+            source.SQLGenerator.DoTake(source,count);
+            return source;
+        }
+        /// <summary>
+        /// 执行count操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Count<TSource>(this LinqDLR2Sql<TSource> source)
+        {
+            source.SQLGenerator.DoCount(source);
+            return source;
+        }
+        /// <summary>
+        /// 执行max操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Max<TSource, TResult>(this LinqDLR2Sql<TSource> source, Func<TSource, TResult> selector)
+        {
+            var re = selector(source.Item);
+            source.SQLGenerator.DoMax(source,re);
+            return source;
+        }
+        /// <summary>
+        /// 执行max操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Max<TSource>(this LinqDLR2Sql<TSource> source, string column)
+        {
+            source.SQLGenerator.DoMax(source,column);
+            return source;
+        }
+        /// <summary>
+        /// 执行Min操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Min<TSource, TResult>(this LinqDLR2Sql<TSource> source, Func<TSource, TResult> selector)
+        {
+            var re = selector(source.Item);
+            source.SQLGenerator.DoMin(source,re);
+            return source;
+        }
+        /// <summary>
+        /// 执行Min操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Min<TSource>(this LinqDLR2Sql<TSource> source, string column)
+        {
+            source.SQLGenerator.DoMin(source,column);
+            return source;
+        }
+        /// <summary>
+        /// 执行Sum操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Sum<TSource, TResult>(this LinqDLR2Sql<TSource> source, Func<TSource, TResult> selector)
+        {
+            var re = selector(source.Item);
+            source.SQLGenerator.DoSum(source,re);
+            return source;
+        }
+        /// <summary>
+        /// 执行Sum操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Sum<TSource>(this LinqDLR2Sql<TSource> source, string column)
+        {
+            source.SQLGenerator.DoSum(source,column);
+            return source;
+        }
+        /// <summary>
+        /// 执行Sum操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Avg<TSource, TResult>(this LinqDLR2Sql<TSource> source, Func<TSource, TResult> selector)
+        {
+            var re = selector(source.Item);
+            source.SQLGenerator.DoAvg(source, re);
+            return source;
+        }
+        /// <summary>
+        /// 执行Sum操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Avg<TSource>(this LinqDLR2Sql<TSource> source, string column)
+        {
+            source.SQLGenerator.DoAvg(source, column);
+            return source;
+        }
+        /// <summary>
+        /// 执行Distinct操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> Distinct<TSource>(this LinqDLR2Sql<TSource> source)
+        {
+            source.SQLGenerator.DoDistinct(source);
+            return source;
+        }
+
+        /// <summary>
+        /// 执行GroupBy操作，单表操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TSource> GroupBy<TSource, TKey>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            //var l = new List<string>();
+            //var s = from t in l
+            //        group t by t into ss
+            //        select new
+            //        {
+            //            a = ss.First()
+            //        };
+            var tmp = keySelector(source.Item);
+            source.SQLGenerator.DoGroupBy(source, tmp);
+            return source;
+        }
+        /// <summary>
+        /// 执行GroupBy操作,join表操作
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <param name="elementSelector"></param>
+        /// <returns></returns>
+        public static LinqDLR2Sql<TElement> GroupBy<TSource, TKey, TElement>(this LinqDLR2Sql<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            /*对应的group by语句为
+             * group <TElement> by  <TKey> into g
+             * 其中linq会根据return类型来推断g的结构
+            */
+            var tmp = keySelector(source.Item);
+            //element
+            var tmp2 = elementSelector(source.Item);
+            using (source)
+            {
+                var rtn = LinqDLR2Sql<TElement>.New<LinqDLR2Sql<TElement>>(tmp2, source.Table, source.AliasName, source.SQLGenerator);
+
+                rtn.SQLGenerator.DoGroupBy(rtn, source, tmp);
+                //与source共用一个SQLGenerator
+                source.SQLGenerator = null;
+                return rtn;
+            }
         }
     }
 }

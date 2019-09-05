@@ -6,7 +6,6 @@ using EFFC.Frame.Net.Base.Common;
 using EFFC.Frame.Net.Base.Constants;
 using EFFC.Frame.Net.Base.Interfaces.DataConvert;
 using Frame.Net.Base.Interfaces.DataConvert;
-using Frame.Net.Base.ResouceManage.JsEngine;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -15,6 +14,8 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Collections;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EFFC.Frame.Net.Base.Data.Base
 {
@@ -24,7 +25,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
     [Serializable]
     public class FrameDLRObject : MyDynamicMetaProvider, IJSONable, IDisposable, ICloneable
     {
-        static HostJs jse = null;
         static object lockobj = new object();
         static int jseexpire_min = 30;
         static DateTime createTime = DateTime.Now;
@@ -57,14 +57,15 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <summary>
         /// 获取规范格式化的json定义串
         /// </summary>
+        [Obsolete("暂时取消，不再使用", false)]
         public string OriJsonString
         {
             get
             {
-                if (ori_jsongstring == "")
-                {
-                    ori_jsongstring = ToJSON_Structure();
-                }
+                //if (ori_jsongstring == "")
+                //{
+                //    ori_jsongstring = ToJSON_Structure();
+                //}
                 return ori_jsongstring;
             }
         }
@@ -78,32 +79,35 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 return _valuelist;
             }
         }
+
         /// <summary>
         /// 对象定义唯一标示码，该码源自定义时使用的json串，用于标示本对象的最原始定义的唯一性
         /// </summary>
+        [Obsolete("暂时取消，不再使用", false)]
         public string DUID
         {
             get
             {
-                if (_duid == "")
-                {
-                    _duid = ComFunc.getMD5_String(OriJsonString, Encoding.UTF8);
-                }
+                //if (_duid == "")
+                //{
+                //    _duid = ComFunc.getMD5_String(OriJsonString, Encoding.UTF8);
+                //}
                 return _duid;
             }
         }
         /// <summary>
         /// 获取结构唯一标示码，该码源自结构化定义json，用于标示本对象的结构定义唯一性
         /// </summary>
+        [Obsolete("暂时取消，不再使用", false)]
         public string CUID
         {
             get
             {
-                if (_cuid == "")
-                {
-                    var s = ToJSON_Structure();
-                    _cuid = ComFunc.getMD5_String(s, Encoding.UTF8);
-                }
+                //if (_cuid == "")
+                //{
+                //    var s = ToJSON_Structure();
+                //    _cuid = ComFunc.getMD5_String(s, Encoding.UTF8);
+                //}
                 return _cuid;
             }
         }
@@ -115,40 +119,73 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="arrjsonstring"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static object[] CreateArray(string arrjsonstring, params KeyValuePair<string, object>[] context)
+        public static object[] CreateArray(string arrjsonstring, FrameDLRFlags flag = FrameDLRFlags.None, params KeyValuePair<string, object>[] context)
         {
             if (!string.IsNullOrEmpty(arrjsonstring))
             {
-                lock (lockobj)
+                //采用js引擎存在跨平台环境兼容的问题，暂时屏蔽，改采用newtonjson的技术
+                //lock (lockobj)
+                //{
+                //    CreateJSE();
+                //    try
+                //    {
+
+                //        string js = "var out=" + arrjsonstring;
+                //        if (context != null)
+                //        {
+                //            jse.Evaluate(js, context);
+                //        }
+                //        else
+                //        {
+                //            jse.Evaluate(js);
+                //        }
+                //        var d = jse.GetOutObject("out");
+                //        if (d is object[])
+                //        {
+                //            return (object[])d;
+                //        }
+                //        else
+                //        {
+                //            return null;
+                //        }
+
+                //    }
+                //    finally
+                //    {
+                //        ReleaseJSE();
+                //    }
+                //}
+                var newjson = arrjsonstring;
+                if (context != null)
                 {
-                    CreateJSE();
-                    try
+                    foreach (var item in context)
                     {
-
-                        string js = "var out=" + arrjsonstring;
-                        if (context != null)
+                        if (item.Value is string)
                         {
-                            jse.Evaluate(js, context);
+                            newjson = newjson.Replace(item.Key, "\"" + item.Value + "\"");
                         }
                         else
                         {
-                            jse.Evaluate(js);
+                            newjson = newjson.Replace(item.Key, "\"$context:" + item.Key + "\"");
                         }
-                        var d = jse.GetOutObject("out");
-                        if (d is object[])
-                        {
-                            return (object[])d;
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                    }
+                }
 
-                    }
-                    finally
+                var d = JsonConvert.DeserializeObject(newjson);
+                if (d is JArray)
+                {
+                    var ja = (JArray)d;
+                    var list = ja.ToObject<List<object>>();
+                    var rtn = new List<object>();
+                    foreach (var item in list)
                     {
-                        ReleaseJSE();
+                        rtn.Add(ConvertObjectFrom(item, flag));
                     }
+                    return rtn.ToArray();
+                }
+                else
+                {
+                    return null;
                 }
 
             }
@@ -162,9 +199,9 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// </summary>
         /// <param name="arrjsonstring"></param>
         /// <returns></returns>
-        public static object[] CreateArray(string arrjsonstring)
+        public static object[] CreateArray(string arrjsonstring, FrameDLRFlags flag = FrameDLRFlags.None)
         {
-            return CreateArray(arrjsonstring, null);
+            return CreateArray(arrjsonstring, flag, null);
         }
         /// <summary>
         /// 根据格式化的json串创建数组对象
@@ -172,7 +209,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="formatjson"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static object[] CreateArrayFormat(string formatjson, params object[] values)
+        public static object[] CreateArrayFormat(string formatjson, FrameDLRFlags flag = FrameDLRFlags.None, params object[] values)
         {
             var context = new List<KeyValuePair<string, object>>();
             var json = formatjson;
@@ -185,7 +222,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 context.Add(new KeyValuePair<string, object>("fdo_p_" + i, values[i]));
             }
 
-            return CreateArray(json, context.ToArray());
+            return CreateArray(json, flag, context.ToArray());
         }
         /// <summary>
         /// 根据格式化的json串创建动态对象
@@ -358,17 +395,21 @@ namespace EFFC.Frame.Net.Base.Data.Base
                         rtn.SetValue(item.Key, item.Value);
                     }
                 }
-                else if (model is Dictionary<string, object>)
+                else if (model is IDictionary<string, object>)
                 {
-                    rtn = BuildLoopDics((Dictionary<string, object>)model, flags);
+                    rtn = BuildLoopDics((IDictionary<string, object>)model, flags);
                 }
-                else if (model is Dictionary<string, FrameDLRObject>)
+                else if (model is IDictionary<string, string>)
                 {
-                    rtn = BuildLoopDics((Dictionary<string, FrameDLRObject>)model, flags);
+                    rtn = BuildLoopDics(((IDictionary<string, string>)model).ToDictionary(k => k.Key, v => (object)v.Value), flags);
+                }
+                else if (model is IDictionary<string, FrameDLRObject>)
+                {
+                    rtn = BuildLoopDics((IDictionary<string, FrameDLRObject>)model, flags);
                 }
                 else if (model is XmlDocument)
                 {
-                    rtn = BuildLoopXml(((XmlDocument)model).FirstChild.ChildNodes, flags);
+                    BuildLoopXml(((XmlDocument)model).ChildNodes, rtn);
                 }
                 else if (model is FrameDLRObject)
                 {
@@ -380,124 +421,245 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     if (str != "")
                     {
                         XmlDocument xd = null;
-                        if (str.Trim().StartsWith("<") && TryParseXml(ComFunc.nvl(str), out xd))
+                        if (str.ToLower().Trim().StartsWith("<?xml") || str.ToLower().Trim().StartsWith("<xml"))
                         {
-                            if (xd.FirstChild.NodeType == XmlNodeType.XmlDeclaration)
+                            if (TryParseXml(ComFunc.nvl(str), out xd))
                             {
-                                if (xd.ChildNodes.Count == 2)
-                                {
-                                    rtn = BuildLoopXml(xd.ChildNodes[1].ChildNodes, flags);
-                                }
-                                else
-                                {
-                                    rtn = BuildLoopXml(xd.ChildNodes, flags);
-                                }
+                                BuildLoopXml(xd.ChildNodes, rtn);
                             }
                             else
                             {
-                                if (xd.ChildNodes.Count == 1)
-                                {
-                                    rtn = BuildLoopXml(xd.FirstChild.ChildNodes, flags);
-                                }
-                                else
-                                {
-                                    rtn = BuildLoopXml(xd.ChildNodes, flags);
-                                }
+                                rtn = null;
                             }
                         }
                         else
                         {
-                            lock (lockobj)
+                            //采用js引擎存在跨平台环境兼容的问题，暂时屏蔽，改采用newtonjson的技术
+                            //lock (lockobj)
+                            //{
+                            //    try
+                            //    {
+                            //        CreateJSE();
+                            //        string js = "var out=" + str;
+                            //        if (context != null)
+                            //        {
+                            //            jse.Evaluate(js, context);
+                            //        }
+                            //        else
+                            //        {
+                            //            jse.Evaluate(js);
+                            //        }
+                            //        var d = (Dictionary<string, object>)jse.GetOutObject("out");
+                            //        rtn = BuildLoopDics(d, flags);
+                            //    }
+                            //    finally
+                            //    {
+                            //        ReleaseJSE();
+                            //    }
+                            //}
+                            var newjson = str;
+                            if (context != null)
                             {
-                                try
+                                foreach (var item in context)
                                 {
-                                    CreateJSE();
-                                    string js = "var out=" + str;
-                                    if (context != null)
+                                    if (item.Value is string)
                                     {
-                                        jse.Evaluate(js, context);
+                                        newjson = newjson.Replace(item.Key, "\"" + item.Value + "\"");
                                     }
                                     else
                                     {
-                                        jse.Evaluate(js);
+                                        newjson = newjson.Replace(item.Key, "\"$context:" + item.Key + "\"");
                                     }
-                                    var d = (Dictionary<string, object>)jse.GetOutObject("out");
-                                    rtn = BuildLoopDics(d, flags);
-                                }
-                                finally
-                                {
-                                    ReleaseJSE();
                                 }
                             }
+
+                            var d = JsonConvert.DeserializeObject<Dictionary<string, object>>(newjson);
+                            rtn = BuildLoopDics(d, flags, new Dictionary<string, object>(context));
                         }
                     }
                 }
                 else
                 {
-                    var t = model.GetType();
-                    rtn.ignorecase = flags == FrameDLRFlags.SensitiveCase ? false : true;
-                    foreach (var p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
-                    {
-                        rtn.SetValue(p.Name, p.GetValue(model));
-                    }
-                    foreach (var p in t.GetFields(BindingFlags.Instance | BindingFlags.Public))
-                    {
-                        rtn.SetValue(p.Name, p.GetValue(model));
-                    }
+                    //var t = model.GetType();
+                    //rtn.ignorecase = flags == FrameDLRFlags.SensitiveCase ? false : true;
+                    //foreach (var p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                    //{
+                    //    rtn.SetValue(p.Name, p.GetValue(model));
+                    //}
+                    //foreach (var p in t.GetFields(BindingFlags.Instance | BindingFlags.Public))
+                    //{
+                    //    rtn.SetValue(p.Name, p.GetValue(model));
+                    //}
+                    BuildAnonymousType(model, rtn);
                 }
             }
             return rtn;
         }
-        /// <summary>
-        /// 通过xml建立动态对象，最简单的xml结构，如下：
-        /// <xxx>
-        ///     <n1></n1>
-        ///     <n2></n2>
-        ///     <nodes>
-        ///         <nn1></nn1>
-        ///         <nnn></nnn>
-        ///     </nodes>
-        ///     <nn></nn>
-        /// </xxx>
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="flags"></param>
-        /// <returns></returns>
-        private static dynamic BuildLoopXml(XmlNodeList nodelist, FrameDLRFlags flags)
+        private static void BuildAnonymousType(object model, FrameDLRObject parent)
         {
-            FrameDLRObject rtn = new FrameDLRObject();
-            if ((flags & FrameDLRFlags.SensitiveCase) != 0)
+            var t = model.GetType();
+            if (t.Name.StartsWith("<>f__AnonymousType"))
             {
-                rtn.ignorecase = false;
-            }
-            else
-            {
-                rtn.ignorecase = true;
-            }
-
-            foreach (XmlNode item in nodelist)
-            {
-                if (item.HasChildNodes && item.FirstChild.NodeType == XmlNodeType.Element)
+                var dobj = FrameDLRObject.CreateInstance(parent.Flags);
+                foreach (var p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
                 {
-                    FrameDLRObject rtnloop = BuildLoopXml(item.ChildNodes, flags);
-                    rtn.SetValue(item.Name, rtnloop);
-                }
-                else
-                {
-                    if (DateTimeStd.IsDateTime(item.InnerText))
+                    var v = p.GetValue(model);
+                    if (v == null || v == DBNull.Value)
                     {
-                        rtn.SetValue(item.Name, DateTimeStd.ParseStd(item.InnerText).Value);
+                        parent.SetValue(p.Name, v);
+                    }
+                    else if (v.GetType().Name.StartsWith("<>f__AnonymousType"))
+                    {
+                        BuildAnonymousType(v, dobj);
+                        parent.SetValue(p.Name, dobj);
+                    }
+                    else if (v is IEnumerable<string>)
+                    {
+                        parent.SetValue(p.Name, v);
+                    }
+                    else if (v is IEnumerable<object>)
+                    {
+                        var l = ((IEnumerable<object>)v);
+                        var list = new List<object>();
+                        foreach (var item in l)
+                        {
+                            if (item.GetType().IsValueType)
+                            {
+                                list.Add(item);
+                            }
+                            else if (item is string)
+                            {
+                                list.Add(item);
+                            }
+                            else
+                            {
+                                list.Add(CreateInstance(item, parent.Flags));
+                            }
+                        }
+                        parent.SetValue(p.Name, list);
                     }
                     else
                     {
-                        rtn.SetValue(item.Name, item.InnerText);
+                        parent.SetValue(p.Name, v);
                     }
+                }
+            }
+            else
+            {
+                foreach (var p in t.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    parent.SetValue(p.Name, p.GetValue(model));
+                }
+                foreach (var p in t.GetFields(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    parent.SetValue(p.Name, p.GetValue(model));
+                }
+            }
+        }
+        /// <summary>
+        /// 通过xml建立动态对象
+        /// </summary>
+        /// <param name="nodelist"></param>
+        /// <param name="parent"></param>
+        private static void BuildLoopXml(XmlNodeList nodelist, FrameDLRObject parent)
+        {
+            //根据每个节点的名称进行计数
+            var namecount = new Dictionary<string, int>();
+            foreach (XmlNode sub in nodelist)
+            {
+                if (sub.NodeType != XmlNodeType.Element) continue;
+                if (namecount.ContainsKey(sub.Name))
+                {
+                    namecount[sub.Name] += 1;
+                }
+                else
+                {
+                    namecount.Add(sub.Name, 1);
+                }
+            }
+            foreach (XmlNode node in nodelist)
+            {
+                if (!namecount.ContainsKey(node.Name)) continue;
 
+                if (namecount[node.Name] > 1)
+                {
+                    if (parent.GetValue(node.Name) == null) parent.SetValue(node.Name, new List<object>());
+
+                    var list = (List<object>)parent.GetValue(node.Name);
+                    BuildLoopXmlNode(node, list, parent.Flags);
+                }
+                else
+                {
+                    BuildLoopXmlNode(node, parent, parent.Flags);
+                }
+            }
+        }
+        /// <summary>
+        /// 通过xml建立动态对象
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="parent"></param>
+        private static void BuildLoopXmlNode(XmlNode node, object parent, FrameDLRFlags flags)
+        {
+            if (node.NodeType != XmlNodeType.Element) return;
+
+            if (parent is List<object>)
+            {
+                var list = (List<object>)parent;
+                FrameDLRObject obj = FrameDLRObject.CreateInstance(flags);
+                foreach (XmlAttribute attr in node.Attributes)
+                {
+                    obj.SetValue(attr.Name, ConvertObjectFromXml(attr.Value));
+                }
+                foreach (XmlNode sub in node.ChildNodes)
+                {
+                    if (sub.HasChildNodes && sub.FirstChild.NodeType == XmlNodeType.Element)
+                    {
+                        //BuildLoopXml(sub.ChildNodes, obj);
+                        var pitem = FrameDLRObject.CreateInstance(flags);
+                        obj.SetValue(sub.Name, pitem);
+                        BuildLoopXml(sub.ChildNodes, pitem);
+                    }
+                    else
+                    {
+                        obj.SetValue(sub.Name, ConvertObjectFromXml(sub.InnerText));
+                    }
+                }
+
+                list.Add(obj);
+            }
+            else
+            {
+                var dparent = (FrameDLRObject)parent;
+                if (node.HasChildNodes && node.FirstChild.NodeType == XmlNodeType.Element)
+                {
+                    FrameDLRObject obj = FrameDLRObject.CreateInstance(flags);
+                    foreach (XmlAttribute attr in node.Attributes)
+                    {
+                        obj.SetValue(attr.Name, ConvertObjectFromXml(attr.Value));
+                    }
+                    BuildLoopXml(node.ChildNodes, obj);
+
+                    dparent.SetValue(node.Name, obj);
+                }
+                else
+                {
+                    if (node.Attributes.Count > 0)
+                    {
+                        FrameDLRObject obj = FrameDLRObject.CreateInstance(flags);
+                        foreach (XmlAttribute attr in node.Attributes)
+                        {
+                            obj.SetValue(attr.Name, ConvertObjectFromXml(attr.Value));
+                        }
+                        dparent.SetValue(node.Name, obj);
+                    }
+                    else
+                    {
+                        dparent.SetValue(node.Name, ConvertObjectFromXml(node.InnerText));
+                    }
                 }
             }
 
-
-            return rtn;
         }
 
         /// <summary>
@@ -506,7 +668,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="d"></param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        private static dynamic BuildLoopDics(Dictionary<string, object> d, FrameDLRFlags flags)
+        private static dynamic BuildLoopDics(IDictionary<string, object> d, FrameDLRFlags flags, Dictionary<string, object> context = null)
         {
             FrameDLRObject rtn = new FrameDLRObject();
             if ((flags & FrameDLRFlags.SensitiveCase) != 0)
@@ -520,48 +682,25 @@ namespace EFFC.Frame.Net.Base.Data.Base
 
             foreach (var item in d)
             {
-                if (item.Value is Dictionary<string, object>)
+                if (item.Value is string && item.Value.ToString().StartsWith("$context:"))
                 {
-                    FrameDLRObject rtnloop = BuildLoopDics((Dictionary<string, object>)item.Value, flags);
-                    rtn.SetValue(item.Key, (object)rtnloop);
-                }
-                else if (item.Value is object[])
-                {
-                    List<object> list = new List<object>();
-                    foreach (var m in (object[])item.Value)
+                    object contextvalue = null;
+                    var contextkey = item.Value.ToString().Replace("$context:", "");
+                    if (context != null)
                     {
-                        if (m is Dictionary<string, object>)
-                        {
-                            list.Add(BuildLoopDics((Dictionary<string, object>)m, flags));
-                        }
-                        else
-                        {
-                            list.Add(m);
-                        }
+                        contextvalue = context.ContainsKey(contextkey) ? context[contextkey] : null;
                     }
-                    rtn.SetValue(item.Key, list.ToArray());
-                }
-                else if (item.Value is DateTime)
-                {
-                    var dt = (DateTime)item.Value;
-                    if (dt == DateTime.MinValue.ToLocalTime())
-                    {
-                        rtn.SetValue(item.Key, DateTime.MinValue);
-                    }
-                    else
-                    {
-                        rtn.SetValue(item.Key, item.Value);
-                    }
+                    rtn.SetValue(item.Key, ConvertObjectFrom(contextvalue, flags));
                 }
                 else
                 {
-                    rtn.SetValue(item.Key, item.Value);
+                    rtn.SetValue(item.Key, ConvertObjectFrom(item.Value, flags));
                 }
             }
 
             return rtn;
         }
-        private static dynamic BuildLoopDics(Dictionary<string, FrameDLRObject> d, FrameDLRFlags flags)
+        private static dynamic BuildLoopDics(IDictionary<string, FrameDLRObject> d, FrameDLRFlags flags)
         {
             FrameDLRObject rtn = new FrameDLRObject();
             if ((flags & FrameDLRFlags.SensitiveCase) != 0)
@@ -579,6 +718,83 @@ namespace EFFC.Frame.Net.Base.Data.Base
             }
 
             return rtn;
+        }
+        /// <summary>
+        /// 将xml中的值进行转化
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private static object ConvertObjectFromXml(object obj)
+        {
+            return obj;
+        }
+        /// <summary>
+        /// 递归解析原始对象，将dictionary解析成FrameDLRObject，其它对象解析成标准数据对象
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        private static object ConvertObjectFrom(object obj, FrameDLRFlags flags)
+        {
+            if (obj is JArray)
+            {
+                var jv = (JArray)obj;
+                var list = jv.ToObject<List<object>>();
+                var rtn = new List<object>();
+                foreach (var item in list)
+                {
+                    rtn.Add(ConvertObjectFrom(item, flags));
+                }
+                return rtn;
+            }
+            else if (obj is JObject)
+            {
+                var jo = (JObject)obj;
+                return ConvertObjectFrom(jo.ToObject<Dictionary<string, object>>(), flags);
+            }
+            else if (obj is JValue)
+            {
+                var jv = (JValue)obj;
+                return ConvertObjectFrom(jv.Value, flags);
+            }
+            else if (obj is Dictionary<string, object>)
+            {
+                return BuildLoopDics((Dictionary<string, object>)obj, flags);
+            }
+            else if (obj is List<object>)
+            {
+                List<object> list = new List<object>();
+                foreach (var m in (List<object>)obj)
+                {
+                    list.Add(ConvertObjectFrom(m, flags));
+                }
+                return list.ToArray();
+            }
+            else if (obj is object[])
+            {
+                List<object> list = new List<object>();
+                foreach (var m in (object[])obj)
+                {
+                    list.Add(ConvertObjectFrom(m, flags));
+                }
+                return list.ToArray();
+            }
+            else if (obj is DateTime)
+            {
+                var dt = (DateTime)obj;
+                if (dt == DateTime.MinValue.ToLocalTime())
+                {
+                    return DateTime.MinValue;
+                }
+                else
+                {
+                    return dt;
+                }
+            }
+            else
+            {
+                return obj;
+            }
         }
         /// <summary>
         /// 所有参数的key
@@ -646,9 +862,27 @@ namespace EFFC.Frame.Net.Base.Data.Base
             }
             else
             {
-                if (_d.ContainsKey(key))
+
+                //if (_d.ContainsKey(key))
+                //{
+                //    result = _d[key];
+                //}
+                //先采用模糊（忽略大小写）搜索方式找出数据，如果有多个则采用精确查找，如果未找到则自动返回第一个
+                var tmp = _d.Where(p => p.Key.ToLower() == key.ToLower());
+                if (tmp.Count() == 1)
                 {
-                    result = _d[key];
+                    result = tmp.First().Value;
+                }
+                else if (tmp.Count() > 1)
+                {
+                    if (_d.ContainsKey(key))
+                    {
+                        result = _d[key];
+                    }
+                    else
+                    {
+                        result = tmp.First().Value;
+                    }
                 }
             }
 
@@ -707,14 +941,38 @@ namespace EFFC.Frame.Net.Base.Data.Base
             }
             else if (methodInfo.ToLower() == "tojsonstring")
             {
-                if (args.Length <= 0)
-                    return this.ToJSONString();
-                else
-                    return this.ToJSONString((Encoding)args[0]);
+                var encoding = Encoding.UTF8;
+                var ispack = false;
+
+                if (args.Length == 1)
+                {
+                    if (args[0] is Encoding)
+                        encoding = (Encoding)args[0];
+                    if (args[0] is bool)
+                        ispack = (bool)args[0];
+
+                }
+                else if (args.Length > 1)
+                {
+                    if (args[0] is Encoding)
+                        encoding = (Encoding)args[0];
+                    if (args[1] is bool)
+                        ispack = (bool)args[0];
+                }
+                return this.ToJSONString(encoding, ispack);
             }
             else if (methodInfo.ToLower() == "tojsonobject")
             {
                 return this.ToJSONObject();
+            }
+            else if (methodInfo.ToLower() == "toxml")
+            {
+                return this.ToXml();
+            }
+            else if (methodInfo.ToLower() == "load")
+            {
+                this.Load(args[0]);
+                return this;
             }
             else
             {
@@ -742,6 +1000,26 @@ namespace EFFC.Frame.Net.Base.Data.Base
             try
             {
                 var v = FrameDLRObject.CreateInstance(json);
+                if (v != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 判定是否为json array对象
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static bool IsJsonArray(string json)
+        {
+            try
+            {
+                var v = FrameDLRObject.CreateArray(json);
                 return true;
             }
             catch (Exception ex)
@@ -749,6 +1027,74 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 return false;
             }
         }
+        /// <summary>
+        /// 判断是否为xml
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsXml(string str)
+        {
+            XmlDocument xd = null;
+            return TryParseXml(str, out xd);
+        }
+        /// <summary>
+        /// 判断是否为json，如果是则直接返回转换后的对象，否则返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultvalue">默认值，默认为null</param>
+        /// <param name="flag">默认为FrameDLRFlags.None</param>
+        /// <returns></returns>
+        public static FrameDLRObject IsJsonThen(string str, FrameDLRObject defaultvalue = null, FrameDLRFlags flag = FrameDLRFlags.None)
+        {
+            try
+            {
+                var v = FrameDLRObject.CreateInstance(str, flag);
+                return v;
+            }
+            catch (Exception ex)
+            {
+                return defaultvalue;
+            }
+        }
+        /// <summary>
+        /// 判断是否为xml，如果是则直接返回转换后的对象，否则返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultvalue"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+        public static FrameDLRObject IsXmlThen(string str, FrameDLRObject defaultvalue = null, FrameDLRFlags flag = FrameDLRFlags.None)
+        {
+            XmlDocument xd = null;
+            if(TryParseXml(str,out xd))
+            {
+                return FrameDLRObject.CreateInstance(xd, flag);
+            }
+            else
+            {
+                return defaultvalue;
+            }
+        }
+        /// <summary>
+        /// 判断是否为json array，如果是则直接返回转换后的对象，否则返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultvalue">默认值，默认为null</param>
+        /// <param name="flag">默认为FrameDLRFlags.None</param>
+        /// <returns></returns>
+        public static object[] IsJsonArrayThen(string str, object[] defaultvalue = null, FrameDLRFlags flag = FrameDLRFlags.None)
+        {
+            try
+            {
+                var v = FrameDLRObject.CreateArray(str, flag);
+                return v;
+            }
+            catch (Exception ex)
+            {
+                return defaultvalue;
+            }
+        }
+       
         /// <summary>
         /// 判定是否为Xml
         /// </summary>
@@ -758,7 +1104,8 @@ namespace EFFC.Frame.Net.Base.Data.Base
         {
             try
             {
-                var x = new XmlDocument();
+                //防xxe攻击
+                var x = ComFunc.GetSafeXmlInstance();
                 x.LoadXml(xml);
                 xd = x;
                 return true;
@@ -806,18 +1153,19 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// 转成Json串,string或byte类型默认采用utf-8进行编码
         /// </summary>
         /// <returns></returns>
-        public string ToJSONString()
+        public string ToJSONString(bool ispack = false)
         {
-            return ToJSON(this, 0);
+            return ToJSON(this, 0, ispack);
         }
         /// <summary>
         /// 转成Json串
         /// </summary>
         /// <param name="encode">对于string或byte类型的编码方式</param>
+        /// <param name="ispack">是否做压缩</param>
         /// <returns></returns>
-        public string ToJSONString(Encoding encode)
+        public string ToJSONString(Encoding encode, bool ispack = false)
         {
-            return ToJSON(this, 0, encode);
+            return ToJSON(this, 0, encode, ispack);
         }
         /// <summary>
         /// 转化为dictionary
@@ -826,6 +1174,32 @@ namespace EFFC.Frame.Net.Base.Data.Base
         public Dictionary<string, object> ToDictionary()
         {
             return ToDics(this);
+        }
+        /// <summary>
+        /// 将Key都转为大写，然后返回一个新的对象
+        /// </summary>
+        /// <returns></returns>
+        public FrameDLRObject KeyToUpperCase()
+        {
+            FrameDLRObject rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            foreach (var item in Items)
+            {
+                rtn.SetValue(item.Key.ToUpper(), item.Value);
+            }
+            return rtn;
+        }
+        /// <summary>
+        /// 将Key都转为小写，然后返回一个新的对象
+        /// </summary>
+        /// <returns></returns>
+        public FrameDLRObject KeyToLowerCase()
+        {
+            FrameDLRObject rtn = FrameDLRObject.CreateInstance(FrameDLRFlags.SensitiveCase);
+            foreach (var item in Items)
+            {
+                rtn.SetValue(item.Key.ToLower(), item.Value);
+            }
+            return rtn;
         }
         /// <summary>
         /// 移除数据项
@@ -1002,94 +1376,120 @@ namespace EFFC.Frame.Net.Base.Data.Base
             return rtn.ToString();
         }
 
-        private string ToJSON(FrameDLRObject obj, int level)
+        private string ToJSON(FrameDLRObject obj, int level, bool ispack = false)
         {
-            return ToJSON(obj._d, level, Encoding.UTF8);
+            return ToJSON(obj._d, level, Encoding.UTF8, ispack);
         }
-        private string ToJSON(FrameDLRObject obj, int level, Encoding encode)
+        private string ToJSON(FrameDLRObject obj, int level, Encoding encode, bool ispack = false)
         {
-            return ToJSON(obj._d, level, encode);
+            return ToJSON(obj._d, level, encode, ispack);
         }
-        private string GetTabs(int level)
+        private string GetTabs(int level, bool ispack = false)
         {
             string rtn = "";
-            for (int i = 0; i < level; i++)
+            if (!ispack)
             {
-                rtn += tabflag;
+                for (int i = 0; i < level; i++)
+                {
+                    rtn += tabflag;
+                }
             }
             return rtn;
         }
-        private string ToJSON(Dictionary<string, object> d, int level, Encoding encode)
+        private string ToJSON(Dictionary<string, object> d, int level, Encoding encode, bool ispack = false)
         {
             StringBuilder rtn = new StringBuilder();
-            string template = GetTabs(level + 1) + @"""{0}"":{1},";
-            rtn.AppendLine("{");
+            string template = GetTabs(level + 1, ispack) + @"""{0}"":{1},";
+            if (ispack) rtn.Append("{");
+            else rtn.AppendLine("{");
             foreach (var item in d)
             {
-                if (item.Value is int)
+                if (item.Value is int
+                    || item.Value is uint
+                    || item.Value is short
+                    || item.Value is ushort
+                    || item.Value is long
+                    || item.Value is ulong
+                    || item.Value is Int16
+                    || item.Value is UInt16
+                    || item.Value is Int32
+                    || item.Value is UInt32
+                    || item.Value is Int64
+                    || item.Value is UInt64
+                    || item.Value is byte
+                    || item.Value is sbyte)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, item.Value));
+                    rtn.Append(string.Format(template, item.Key, item.Value));
+                    if (!ispack) rtn.AppendLine("");
+                }
+                else if (item.Value is uint)
+                {
+                    rtn.Append(string.Format(template, item.Key, item.Value));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value != null && item.Value.GetType().FullName == typeof(double).FullName)
                 {
                     var val = (double)item.Value;
                     if (double.IsInfinity(val))
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, "\"" + item.Value + "\""));
+                        rtn.Append(string.Format(template, item.Key, "\"" + item.Value + "\""));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, item.Value));
+                        rtn.Append(string.Format(template, item.Key, item.Value));
                     }
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value != null && item.Value.GetType().FullName == typeof(decimal).FullName)
                 {
                     var val = (decimal)item.Value;
-                    rtn.AppendLine(string.Format(template, item.Key, item.Value));
+                    rtn.Append(string.Format(template, item.Key, item.Value));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is float)
                 {
                     var val = (float)item.Value;
                     if (float.IsInfinity(val))
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, "\"" + item.Value + "\""));
+                        rtn.Append(string.Format(template, item.Key, "\"" + item.Value + "\""));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, item.Value));
+                        rtn.Append(string.Format(template, item.Key, item.Value));
                     }
-
-                }
-                else if (item.Value is long)
-                {
-                    rtn.AppendLine(string.Format(template, item.Key, item.Value));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is Dictionary<string, object>)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, ToJSON((Dictionary<string, object>)item.Value, level + 1, encode)));
+                    rtn.Append(string.Format(template, item.Key, ToJSON((Dictionary<string, object>)item.Value, level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is object[])
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, ToJSON((object[])item.Value, level + 1, encode)));
+                    rtn.Append(string.Format(template, item.Key, ToJSON((object[])item.Value, level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is IEnumerable<FrameDLRObject>)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, ToJSON(((IEnumerable<FrameDLRObject>)item.Value).ToArray(), level + 1, encode)));
+                    rtn.Append(string.Format(template, item.Key, ToJSON(((IEnumerable<FrameDLRObject>)item.Value).ToArray(), level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is IEnumerable<Object>)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, ToJSON(((IEnumerable<Object>)item.Value).ToArray(), level + 1, encode)));
+                    rtn.Append(string.Format(template, item.Key, ToJSON(((IEnumerable<Object>)item.Value).ToArray(), level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is IJSONable)
                 {
                     if (item.Value is FrameDLRObject)
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, ToJSON((FrameDLRObject)item.Value, level + 1)));
+                        rtn.Append(string.Format(template, item.Key, ToJSON((FrameDLRObject)item.Value, level + 1, ispack)));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, ((IJSONable)item.Value).ToJSONString()));
+                        rtn.Append(string.Format(template, item.Key, ((IJSONable)item.Value).ToJSONString(ispack)));
                     }
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is DateTime)
                 {
@@ -1097,83 +1497,117 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     var dt = ((DateTime)item.Value);
                     if (dt == DateTime.MinValue)
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, string.Format("new Date('0001-01-01')")));
+                        rtn.Append(string.Format(template, item.Key, string.Format("new Date('0001-01-01')")));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, item.Key, string.Format("new Date({0},{1},{2},{3},{4},{5})", dt.Year, dt.Month - 1, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                        rtn.Append(string.Format(template, item.Key, string.Format("new Date({0},{1},{2},{3},{4},{5})", dt.Year, dt.Month - 1, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
                     }
-
+                    if (!ispack) rtn.AppendLine("");
+                }
+                else if (item.Value is DateTimeStd)
+                {
+                    //rtn.AppendLine(string.Format(template, item.Key, "\"" + ((DateTime)item.Value).ToString("yyyy/MM/dd HH:mm:ss fff") + "\""));
+                    var dt = ((DateTimeStd)item.Value);
+                    if (dt == null || dt.Value == DateTime.MinValue)
+                    {
+                        rtn.Append(string.Format(template, item.Key, string.Format("new Date('0001-01-01')")));
+                    }
+                    else
+                    {
+                        rtn.Append(string.Format(template, item.Key, string.Format("new Date({0},{1},{2},{3},{4},{5})", dt.Value.Year, dt.Value.Month - 1, dt.Value.Day, dt.Value.Hour, dt.Value.Minute, dt.Value.Second, dt.Value.Millisecond)));
+                    }
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is bool)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, item.Value.ToString().ToLower()));
+                    rtn.Append(string.Format(template, item.Key, item.Value.ToString().ToLower()));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is string)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, "\"" + item.Value.ToString().Replace("\r", "").Replace("\n", "#n#").Replace(@"\", @"\\").Replace("#n#", "\\n").Replace("\"", @"\""") + "\""));
+                    rtn.Append(string.Format(template, item.Key, "\"" + item.Value.ToString().Replace("\r", "").Replace("\n", "#n#").Replace(@"\", @"\\").Replace("#n#", "\\n").Replace("\"", @"\""") + "\""));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value is byte[])
                 {
                     //byte可以直接转化成base64，不需要中间转一次
                     //rtn.AppendLine(string.Format(template, item.Key, "\"" + ComFunc.Base64Code(ComFunc.ByteToString((byte[])item.Value, encode), encode) + "\""));
-                    rtn.AppendLine(string.Format(template, item.Key, "\"" + ComFunc.Base64Code((byte[])item.Value) + "\""));
+                    rtn.Append(string.Format(template, item.Key, "\"" + ComFunc.Base64Code((byte[])item.Value) + "\""));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (item.Value == null || item.Value == DBNull.Value)
                 {
-                    rtn.AppendLine(string.Format(template, item.Key, "\"\""));
+                    rtn.Append(string.Format(template, item.Key, "\"\""));
+                    if (!ispack) rtn.AppendLine("");
                 }
 
             }
 
             var str = rtn.ToString().Trim();
             rtn = new StringBuilder(str.Length > 1 ? str.Substring(0, str.Length - 1) : str);
-            rtn.AppendLine("");
-            rtn.Append(GetTabs(level) + "}");
+            if (!ispack) rtn.AppendLine("");
+            rtn.Append(GetTabs(level, ispack) + "}");
             return rtn.ToString();
         }
 
-        private string ToJSON(Object[] arr, int level, Encoding encode)
+        private string ToJSON(Object[] arr, int level, Encoding encode, bool ispack = false)
         {
             StringBuilder rtn = new StringBuilder();
-            string template = GetTabs(level + 1) + "{0},";
-            rtn.AppendLine("[");
+            string template = GetTabs(level + 1, ispack) + "{0},";
+            if (!ispack) rtn.AppendLine("[");
+            else rtn.Append("[");
             foreach (var obj in arr)
             {
-                if (obj is int)
+                if (obj is int
+                    || obj is uint
+                    || obj is short
+                    || obj is ushort
+                    || obj is long
+                    || obj is ulong
+                    || obj is Int16
+                    || obj is UInt16
+                    || obj is Int32
+                    || obj is UInt32
+                    || obj is Int64
+                    || obj is UInt64
+                    || obj is byte
+                    || obj is sbyte)
                 {
-                    rtn.AppendLine(string.Format(template, obj));
+                    rtn.Append(string.Format(template, obj));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is double)
                 {
-                    rtn.AppendLine(string.Format(template, obj));
+                    rtn.Append(string.Format(template, obj));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is float)
                 {
-                    rtn.AppendLine(string.Format(template, obj));
-                }
-                else if (obj is long)
-                {
-                    rtn.AppendLine(string.Format(template, obj));
+                    rtn.Append(string.Format(template, obj));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is Dictionary<string, object>)
                 {
-                    rtn.AppendLine(string.Format(template, ToJSON((Dictionary<string, object>)obj, level + 1, encode)));
+                    rtn.Append(string.Format(template, ToJSON((Dictionary<string, object>)obj, level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is object[])
                 {
-                    rtn.AppendLine(string.Format(template, ToJSON((object[])obj, level + 1, encode)));
+                    rtn.AppendLine(string.Format(template, ToJSON((object[])obj, level + 1, encode, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is IJSONable)
                 {
                     if (obj is FrameDLRObject)
                     {
-                        rtn.AppendLine(string.Format(template, ToJSON((FrameDLRObject)obj, level + 1)));
+                        rtn.Append(string.Format(template, ToJSON((FrameDLRObject)obj, level + 1, ispack)));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, ((IJSONable)obj).ToJSONString()));
+                        rtn.Append(string.Format(template, ((IJSONable)obj).ToJSONString(), ispack));
                     }
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is DateTime)
                 {
@@ -1181,37 +1615,46 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     var dt = ((DateTime)obj);
                     if (dt == DateTime.MinValue)
                     {
-                        rtn.AppendLine(string.Format(template, string.Format("new Date('0001-01-01')")));
+                        rtn.Append(string.Format(template, string.Format("new Date('0001-01-01')")));
                     }
                     else
                     {
-                        rtn.AppendLine(string.Format(template, string.Format("new Date({0},{1},{2},{3},{4},{5},{6})", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
+                        rtn.Append(string.Format(template, string.Format("new Date({0},{1},{2},{3},{4},{5},{6})", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond)));
                     }
-
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is bool)
                 {
-                    rtn.AppendLine(string.Format(template, obj.ToString().ToLower()));
+                    rtn.Append(string.Format(template, obj.ToString().ToLower()));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is string)
                 {
-                    rtn.AppendLine(string.Format(template, "\"" + obj.ToString().Replace("\r", "").Replace("\n", "#n#").Replace(@"\", @"\\").Replace("#n#", "\\n") + "\""));
+                    rtn.Append(string.Format(template, "\"" + obj.ToString().Replace("\r", "").Replace("\n", "#n#").Replace(@"\", @"\\").Replace("#n#", "\\n") + "\""));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj is byte[])
                 {
                     //byte可以直接转化成base64，不需要中间转一次
                     //rtn.AppendLine(string.Format(template, "\"" + ComFunc.Base64Code(ComFunc.ByteToString((byte[])obj, encode), encode) + "\""));
-                    rtn.AppendLine(string.Format(template, "\"" + ComFunc.Base64Code((byte[])obj)));
+                    rtn.Append(string.Format(template, "\"" + ComFunc.Base64Code((byte[])obj)));
+                    if (!ispack) rtn.AppendLine("");
+                }
+                else if (obj.GetType().Name.StartsWith("<>f__AnonymousType"))
+                {
+                    rtn.Append(string.Format(template, ToJSON(((FrameDLRObject)CreateInstance(obj, FrameDLRFlags.SensitiveCase)), level + 1, ispack)));
+                    if (!ispack) rtn.AppendLine("");
                 }
                 else if (obj == null || obj == DBNull.Value)
                 {
-                    rtn.AppendLine(string.Format(template, "\"\""));
+                    rtn.Append(string.Format(template, "\"\""));
+                    if (!ispack) rtn.AppendLine("");
                 }
             }
             var str = rtn.ToString().Trim();
             rtn = new StringBuilder(str.Length > 1 ? str.Substring(0, str.Length - 1) : str);
-            rtn.AppendLine("");
-            rtn.Append(GetTabs(level) + "]");
+            if (!ispack) rtn.AppendLine("");
+            rtn.Append(GetTabs(level, ispack) + "]");
             return rtn.ToString();
         }
         /// <summary>
@@ -1236,7 +1679,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
                     {
                         if (v is string)
                         {
-                            if(ComFunc.nvl(v) == "")
+                            if (ComFunc.nvl(v) == "")
                             {
                                 return null;
                             }
@@ -1435,6 +1878,52 @@ namespace EFFC.Frame.Net.Base.Data.Base
                 }
                 parent.AppendChild(elem);
             }
+            else if (obj is IEnumerable<FrameDLRObject>)
+            {
+                var arr = (IEnumerable<FrameDLRObject>)obj;
+                foreach (var item in arr)
+                {
+                    var elemitem = doc.CreateElement(name);
+                    var dobj = item;
+                    foreach (var k in dobj.Keys)
+                    {
+                        ToXmlElem(doc, elemitem, k, dobj.GetValue(k));
+                    }
+
+                    parent.AppendChild(elemitem);
+                }
+
+            }
+            else if (obj is IEnumerable<object>)
+            {
+                var arr = (IEnumerable<object>)obj;
+                foreach (var item in arr)
+                {
+                    var elemitem = doc.CreateElement(name);
+                    if (item is FrameDLRObject)
+                    {
+                        var dobj = (FrameDLRObject)item;
+                        foreach (var k in dobj.Keys)
+                        {
+                            ToXmlElem(doc, elemitem, k, dobj.GetValue(k));
+                        }
+                    }
+                    else if (item is Dictionary<string, object>)
+                    {
+                        var dobj = (Dictionary<string, object>)item;
+                        foreach (var k in dobj)
+                        {
+                            ToXmlElem(doc, elemitem, k.Key, k.Value);
+                        }
+                    }
+                    else
+                    {
+                        elemitem.AppendChild(doc.CreateCDataSection(ComFunc.nvl(item)));
+                    }
+                    parent.AppendChild(elemitem);
+                }
+
+            }
             else if (obj is object[])
             {
                 var arr = (object[])obj;
@@ -1475,7 +1964,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
 
         public void Dispose()
         {
-            if(this._d != null)
+            if (this._d != null)
             {
                 foreach (var item in _d)
                 {
@@ -1497,9 +1986,6 @@ namespace EFFC.Frame.Net.Base.Data.Base
             {
                 string log = "出现多线程重复删除资料";
             }
-            
-
-            
         }
 
         public object Clone()
@@ -1523,33 +2009,9 @@ namespace EFFC.Frame.Net.Base.Data.Base
 
             return rtn;
         }
-        /// <summary>
-        /// 通过公共创建js引擎以加快DLR对象创建时的速度
-        /// </summary>
-        private static void CreateJSE()
-        {
-            lock (lockobj)
-            {
-                if (jse == null) jse = HostJs.NewInstance();
-                createTime = DateTime.Now;
-            }
-        }
-        /// <summary>
-        /// 采用定时释放的机制
-        /// </summary>
-        private static async void ReleaseJSE()
-        {
-            lock (lockobj)
-            {
-                if ((DateTime.Now - createTime).TotalMinutes > jseexpire_min)
-                {
-                    jse.Dispose();
-                }
-            }
-        }
     }
     /// <summary>
-    /// FrameDLRObject的相关扩展
+    /// FrameDLRObject的相关扩展，针对linq表达式只做部分扩展，其他的不要实现
     /// </summary>
     public static class FrameDLRExtentds
     {
@@ -1584,7 +2046,8 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <returns></returns>
         public static IEnumerable<FrameDLRObject> Select(this IEnumerable<FrameDLRObject> obj, Func<dynamic, object> s)
         {
-            return obj.Select<FrameDLRObject, FrameDLRObject>(p => (FrameDLRObject)FrameDLRObject.CreateInstance(s.Invoke(p), p.Flags));
+            //转为list可以使列表内容固定住，否则会导致无法直接进行操作
+            return obj.Select<FrameDLRObject, FrameDLRObject>(p => (FrameDLRObject)FrameDLRObject.CreateInstance(s.Invoke(p), p.Flags)).ToList();
         }
 
         /// <summary>
@@ -1595,7 +2058,8 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <returns></returns>
         public static IEnumerable<FrameDLRObject> Where(this IEnumerable<FrameDLRObject> obj, Func<dynamic, bool> s)
         {
-            return obj.Where<FrameDLRObject>(p => s.Invoke(p));
+            //转为list可以使列表内容固定住，否则会导致无法直接进行操作
+            return obj.Where<FrameDLRObject>(p => s.Invoke(p)).ToList();
         }
         /// <summary>
         /// 扩展的linq的OrderBy操作
@@ -1604,7 +2068,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="obj"></param>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static IEnumerable<FrameDLRObject> OrderBy<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s)
+        public static IOrderedEnumerable<FrameDLRObject> OrderBy<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s)
         {
             return obj.OrderBy<FrameDLRObject, TKey>(p => s.Invoke(p));
         }
@@ -1616,9 +2080,9 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="s"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
-        public static IEnumerable<FrameDLRObject> OrderBy<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s, IComparer<TKey> comparer)
+        public static IOrderedEnumerable<FrameDLRObject> OrderBy<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s, IComparer<TKey> comparer)
         {
-            return obj.OrderBy<FrameDLRObject, TKey>(p => s.Invoke(p));
+            return obj.OrderBy<FrameDLRObject, TKey>(p => s.Invoke(p), comparer);
         }
         /// <summary>
         /// 扩展的linq的OrderByDescending操作
@@ -1627,7 +2091,7 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="obj"></param>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static IEnumerable<FrameDLRObject> OrderByDescending<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s)
+        public static IOrderedEnumerable<FrameDLRObject> OrderByDescending<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s)
         {
             return obj.OrderByDescending<FrameDLRObject, TKey>(p => s.Invoke(p));
         }
@@ -1639,9 +2103,31 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <param name="s"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
-        public static IEnumerable<FrameDLRObject> OrderByDescending<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s, IComparer<TKey> comparer)
+        public static IOrderedEnumerable<FrameDLRObject> OrderByDescending<TKey>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> s, IComparer<TKey> comparer)
         {
-            return obj.OrderByDescending<FrameDLRObject, TKey>(p => s.Invoke(p));
+            return obj.OrderByDescending<FrameDLRObject, TKey>(p => s.Invoke(p), comparer);
+        }
+        /// <summary>
+        /// 扩展的linq的ThenBy操作
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static IOrderedEnumerable<FrameDLRObject> ThenBy<TKey>(this IOrderedEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> keySelector)
+        {
+            return obj.ThenBy<FrameDLRObject, TKey>(p => keySelector.Invoke(p));
+        }
+        /// <summary>
+        /// 扩展的linq的ThenByDescending操作
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static IOrderedEnumerable<FrameDLRObject> ThenByDescending<TKey>(this IOrderedEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> keySelector)
+        {
+            return obj.ThenByDescending<FrameDLRObject, TKey>(p => keySelector.Invoke(p));
         }
         /// <summary>
         /// 扩展的linq的tolist操作
@@ -1653,6 +2139,31 @@ namespace EFFC.Frame.Net.Base.Data.Base
         {
             return obj.ToList<FrameDLRObject>();
         }
+
+        /// <summary>
+        /// 扩展的linq的todictionry操作
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TElement"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="keySelector"></param>
+        /// <param name="elementSelector"></param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TElement> ToDictionary<TKey, TElement>(this IEnumerable<FrameDLRObject> obj, Func<dynamic, TKey> keySelector, Func<dynamic, TElement> elementSelector)
+        {
+            var rtn = new Dictionary<TKey, TElement>();
+            foreach (var item in obj)
+            {
+                var key = keySelector.Invoke(item);
+                var value = elementSelector.Invoke(item);
+                if (!rtn.ContainsKey(key))
+                {
+                    rtn.Add(key, value);
+                }
+            }
+            //return obj.ToDictionary(k => (TKey)keySelector.Invoke(k), v => (TElement)elementSelector.Invoke(v));
+            return rtn;
+        }
         /// <summary>
         /// 扩展的linq的Any操作
         /// </summary>
@@ -1661,7 +2172,87 @@ namespace EFFC.Frame.Net.Base.Data.Base
         /// <returns></returns>
         public static bool Any(this IEnumerable<FrameDLRObject> obj, Func<dynamic, bool> a)
         {
+            //转为list可以使列表内容固定住，否则会导致无法直接进行操作
             return obj.Any<FrameDLRObject>((p => a.Invoke(p)));
+        }
+        /// <summary>
+        /// 执行join操作
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="outer"></param>
+        /// <param name="inner"></param>
+        /// <param name="outerKeySelector"></param>
+        /// <param name="innerKeySelector"></param>
+        /// <param name="resultSelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TResult> Join<TKey, TResult>(this IEnumerable<FrameDLRObject> outer, IEnumerable<FrameDLRObject> inner, Func<dynamic, TKey> outerKeySelector, Func<dynamic, TKey> innerKeySelector, Func<dynamic, dynamic, TResult> resultSelector)
+        {
+            var rtn = new List<TResult>();
+            foreach (dynamic o in outer)
+            {
+                TKey okey = outerKeySelector.Invoke(o);
+                foreach (dynamic i in inner)
+                {
+                    TKey ikey = innerKeySelector.Invoke(i);
+                    if (okey.Equals(ikey))
+                        rtn.Add(resultSelector.Invoke(((FrameDLRObject)o).Clone(), ((FrameDLRObject)i).Clone()));
+                }
+            }
+            return rtn;
+        }
+        /// <summary>
+        /// 执行多重join操作
+        /// </summary>
+        /// <typeparam name="TOuter"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="outer"></param>
+        /// <param name="inner"></param>
+        /// <param name="outerKeySelector"></param>
+        /// <param name="innerKeySelector"></param>
+        /// <param name="resultSelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TResult> Join<TOuter, TKey, TResult>(this IEnumerable<TOuter> outer, IEnumerable<FrameDLRObject> inner, Func<TOuter, TKey> outerKeySelector, Func<dynamic, TKey> innerKeySelector, Func<TOuter, dynamic, TResult> resultSelector)
+        {
+            var rtn = new List<TResult>();
+            foreach (TOuter o in outer)
+            {
+                TKey okey = outerKeySelector.Invoke(o);
+                foreach (dynamic i in inner)
+                {
+                    TKey ikey = innerKeySelector.Invoke(i);
+                    if (okey.Equals(ikey))
+                    {
+                        rtn.Add(resultSelector.Invoke((TOuter)ComFunc.CloneObject(o), ((FrameDLRObject)i).Clone()));
+                    }
+                }
+            }
+            return rtn;
+        }
+        /// <summary>
+        /// 数组转json
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static string ToJsonString(this IEnumerable<object> list)
+        {
+            if (list == null) return "";
+            var slist = new List<string>();
+            foreach(var item in list)
+            {
+                if(item is IJSONable)
+                {
+                    slist.Add(((IJSONable)item).ToJSONString());
+                }
+                else
+                {
+                    FrameDLRObject dobj = FrameDLRObject.CreateInstance(item, FrameDLRFlags.SensitiveCase);
+                    slist.Add(dobj.ToJSONString()+",");
+                }
+            }
+            var tmp = string.Concat(slist);
+            return $"[{(tmp.Length > 0?tmp.Substring(0,tmp.Length-1):tmp)}]";
         }
     }
 }
