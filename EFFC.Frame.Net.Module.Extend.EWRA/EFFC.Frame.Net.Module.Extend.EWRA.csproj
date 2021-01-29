@@ -55,7 +55,7 @@ Allow_Origin,Allow_Methods,Allow_Headers,X_Frame_Options,X_Content_Type_Options,
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net" Version="2.0.10" />
     <PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />
   </ItemGroup>
 
